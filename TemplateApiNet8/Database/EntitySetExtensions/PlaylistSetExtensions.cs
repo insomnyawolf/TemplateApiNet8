@@ -1,12 +1,11 @@
 ﻿using TemplateApiNet6.Database.Models;
 
-namespace TemplateApiNet6.Database.EntitySetExtensions
+namespace TemplateApiNet6.Database.EntitySetExtensions;
+
+public static class PlaylistSetExtensions
 {
-    public static class PlaylistSetExtensions
+    public static IQueryable<Playlist> FilterById(this IQueryable<Playlist> source, int id)
     {
-        public static IQueryable<Playlist> FilterById(this IQueryable<Playlist> source, int id)
-        {
-            return source.Where(item => item.PlaylistId == id);
-        }
+        return source.Where(item => item.PlaylistId == id);
     }
 }

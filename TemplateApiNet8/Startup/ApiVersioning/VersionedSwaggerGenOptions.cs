@@ -5,45 +5,44 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace TemplateApiNet6.Startup.ApiVersioning
+namespace TemplateApiNet6.Startup.ApiVersioning;
+
+public class VersionedSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOptions>
 {
-    public class VersionedSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOptions>
+    private readonly IApiVersionDescriptionProvider ApiVersionProvider;
+
+    public VersionedSwaggerGenOptions(IApiVersionDescriptionProvider provider)
     {
-        private readonly IApiVersionDescriptionProvider ApiVersionProvider;
+        ApiVersionProvider = provider;
+    }
 
-        public VersionedSwaggerGenOptions(IApiVersionDescriptionProvider provider)
+    public void Configure(string? name, SwaggerGenOptions options)
+    {
+        Configure(options);
+    }
+
+    public void Configure(SwaggerGenOptions options)
+    {
+        // add swagger document for every API version discovered
+        foreach (var description in ApiVersionProvider.ApiVersionDescriptions)
         {
-            ApiVersionProvider = provider;
+            options.SwaggerDoc(name: description.GroupName, info: CreateVersionInfo(description));
+        }
+    }
+
+    private static OpenApiInfo CreateVersionInfo(ApiVersionDescription desc)
+    {
+        var info = new OpenApiInfo()
+        {
+            Title = $"Template API",
+            Version = desc.ApiVersion.ToString(),
+        };
+
+        if (desc.IsDeprecated)
+        {
+            info.Description += " This API version has been deprecated. Please use one of the new APIs available from the explorer.";
         }
 
-        public void Configure(string? name, SwaggerGenOptions options)
-        {
-            Configure(options);
-        }
-
-        public void Configure(SwaggerGenOptions options)
-        {
-            // add swagger document for every API version discovered
-            foreach (var description in ApiVersionProvider.ApiVersionDescriptions)
-            {
-                options.SwaggerDoc(name: description.GroupName, info: CreateVersionInfo(description));
-            }
-        }
-
-        private static OpenApiInfo CreateVersionInfo(ApiVersionDescription desc)
-        {
-            var info = new OpenApiInfo()
-            {
-                Title = $"Template API",
-                Version = desc.ApiVersion.ToString(),
-            };
-
-            if (desc.IsDeprecated)
-            {
-                info.Description += " This API version has been deprecated. Please use one of the new APIs available from the explorer.";
-            }
-
-            return info;
-        }
+        return info;
     }
 }

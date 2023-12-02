@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 using TemplateApiNet6.Api.Shared;
 using TemplateApiNet6.Database;
-using TemplateApiNet6.Database.EntitySetExtensions;
 using TemplateApiNet6.Database.Models;
 using TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
 
-namespace TemplateApiNet6.Api.v2.Controllers.Default;
+namespace TemplateApiNet6.Api.v0.Controllers.Default;
 
-[ApiV2]
+[ApiV0]
 [ApiController]
 public class PlaylistController : BaseController<PlaylistController>
 {
@@ -22,7 +21,6 @@ public class PlaylistController : BaseController<PlaylistController>
     }
 
     [HttpGet]
-    [AllowAnonymous]
     [SwaggerOperation(Summary = "Sample Summary", Description = "Sample Description")]
     public IQueryable<Playlist> Get(int? PlaylistId = null)
     {
@@ -30,25 +28,9 @@ public class PlaylistController : BaseController<PlaylistController>
 
         if (PlaylistId.HasValue)
         {
-            playlist = playlist.FilterById(PlaylistId.Value);
+            playlist = playlist.Where(item => item.PlaylistId == PlaylistId);
         }
 
         return playlist;
-    }
-
-    [HttpDelete]
-    [AllowAnonymous]
-    [SwaggerOperation(Summary = "Sample Summary", Description = "Sample Description")]
-    public void Test()
-    {
-        var customer = DatabaseContext.Customers.AsQueryable();
-
-        customer = customer.Where(c => c.Email == "asodhasojdhasodfheuioaghwercviuawgcweicvgsduiocasd");
-
-        var test = DatabaseContext.Invoices.Where(i => customer.Any(c => c.CustomerId == i.CustomerId));
-
-        test.ExecuteDeleteAsync();
-
-        test.ExecuteUpdate()
     }
 }

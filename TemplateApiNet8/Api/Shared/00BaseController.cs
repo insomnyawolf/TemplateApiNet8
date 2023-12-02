@@ -9,9 +9,6 @@ namespace TemplateApiNet6.Api.Shared;
 // services.AddHttpContextAccessor();
 // var ctx = IServiceProvider.GetRequiredService<IHttpContextAccessor>();
 
-// This won't work
-// https://stackoverflow.com/questions/72935856/net-6-concatenate-routes-of-base-classes
-// [Route("api/v{version:apiVersion}")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ServiceFilter(typeof(DatabaseContextConfigurationFilter))]
 public abstract class BaseController<TController> : ControllerBase where TController : BaseController<TController>
