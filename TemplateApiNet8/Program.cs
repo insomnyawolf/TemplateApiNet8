@@ -48,6 +48,12 @@ public class Program
 
         services.AddSwaggerConfigured();
 
+#if DEBUG
+        services.AddHttpLogging((options) =>
+        {
+        });
+#endif
+
         var app = builder.Build();
         // Configure the HTTP request pipeline.
 

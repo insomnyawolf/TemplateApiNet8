@@ -20,7 +20,5 @@ public static class Database
             // Change this as needed
             dbContextOptionsBuilder.UseSqlite(connectionString);
         });
-
-        services.AddTransient<DatabaseContextConfigurationFilter>();
     }
 }

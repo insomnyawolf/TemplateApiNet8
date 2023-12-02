@@ -8,7 +8,6 @@ namespace TemplateApiNet6.Database;
 public partial class DatabaseContext : DbContext
 {
     public bool IncludeSoftDeleted { get; set; }
-    public int? TenantId { get; set; }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
@@ -34,15 +33,6 @@ public partial class DatabaseContext : DbContext
 
                 var includeSoftDeleted = Expression.OrElse(includeSoftDeletedValues, equalityExpression);
                 expressionList.Add(includeSoftDeleted);
-            }
-
-            if (clrType.IsAssignableTo(typeof(IMultiTenant)))
-            {
-                var nullableWrapper = Expression.Property(thisInstance, nameof(TenantId));
-                var filterValue = Expression.Property(nullableWrapper, "Value");
-                var dbValue = Expression.Property(dbItem, nameof(IMultiTenant.TenantId));
-                var equalityExpression = Expression.Equal(dbValue, filterValue);
-                expressionList.Add(equalityExpression);
             }
 
             if (expressionList.Count < 1)

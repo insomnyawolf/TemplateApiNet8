@@ -8,7 +8,6 @@ using TemplateApiNet6.Database.Infraestructure;
 namespace TemplateApiNet6.Api.Shared;
 
 [Route("api/v{version:apiVersion}/[controller]")]
-[ServiceFilter(typeof(DatabaseContextConfigurationFilter))]
 public class BaseODataController<TEntity> : ODataController where TEntity : class
 {
     public DbContext DbContext { get; set; }

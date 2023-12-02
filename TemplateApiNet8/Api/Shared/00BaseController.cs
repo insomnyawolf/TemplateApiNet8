@@ -10,7 +10,6 @@ namespace TemplateApiNet6.Api.Shared;
 // var ctx = IServiceProvider.GetRequiredService<IHttpContextAccessor>();
 
 [Route("api/v{version:apiVersion}/[controller]")]
-[ServiceFilter(typeof(DatabaseContextConfigurationFilter))]
 public abstract class BaseController<TController> : ControllerBase where TController : BaseController<TController>
 {
     protected readonly ILogger<TController> Logger;
