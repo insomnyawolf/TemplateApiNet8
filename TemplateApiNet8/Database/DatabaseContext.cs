@@ -1,4 +1,4 @@
-﻿//using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using TemplateApiNet8.Database.Models;
@@ -26,6 +26,8 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<Image> Images { get; set; }
 
+    public virtual DbSet<Kind> Kinds { get; set; }
+
     public virtual DbSet<Language> Languages { get; set; }
 
     public virtual DbSet<Link> Links { get; set; }
@@ -42,17 +44,15 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<ShowGenere> ShowGeneres { get; set; }
 
+    public virtual DbSet<ShowKind> ShowKinds { get; set; }
+
     public virtual DbSet<ShowLanguage> ShowLanguages { get; set; }
 
     public virtual DbSet<ShowNetwork> ShowNetworks { get; set; }
 
     public virtual DbSet<ShowStatus> ShowStatuses { get; set; }
 
-    public virtual DbSet<ShowType> ShowTypes { get; set; }
-
     public virtual DbSet<Status> Statuses { get; set; }
-
-    public virtual DbSet<Models.Type> Types { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -92,6 +92,13 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Show).WithMany(p => p.ShowGeneres).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
+        modelBuilder.Entity<ShowKind>(entity =>
+        {
+            entity.HasOne(d => d.Kind).WithMany(p => p.ShowKinds).OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.Show).WithMany(p => p.ShowKinds).OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
         modelBuilder.Entity<ShowLanguage>(entity =>
         {
             entity.HasOne(d => d.Language).WithMany(p => p.ShowLanguages).OnDelete(DeleteBehavior.ClientSetNull);
@@ -111,13 +118,6 @@ public partial class DatabaseContext : DbContext
             entity.HasOne(d => d.Show).WithMany(p => p.ShowStatuses).OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Status).WithMany(p => p.ShowStatuses).OnDelete(DeleteBehavior.ClientSetNull);
-        });
-
-        modelBuilder.Entity<ShowType>(entity =>
-        {
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowTypes).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Type).WithMany(p => p.ShowTypes).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         OnModelCreatingPartial(modelBuilder);

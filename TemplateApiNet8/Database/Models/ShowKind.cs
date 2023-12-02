@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[Table("ShowType")]
+[Table("ShowKind")]
 [Index("Id", IsUnique = true)]
-public partial class ShowType
+public partial class ShowKind
 {
     [Key]
     public int Id { get; set; }
 
     public int ShowId { get; set; }
 
-    public int TypeId { get; set; }
+    public int KindId { get; set; }
+
+    [ForeignKey("KindId")]
+    [InverseProperty("ShowKinds")]
+    public virtual Kind Kind { get; set; } = null!;
 
     [ForeignKey("ShowId")]
-    [InverseProperty("ShowTypes")]
+    [InverseProperty("ShowKinds")]
     public virtual Show Show { get; set; } = null!;
-
-    [ForeignKey("TypeId")]
-    [InverseProperty("ShowTypes")]
-    public virtual Type Type { get; set; } = null!;
 }

@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[Table("Type")]
+[Table("Kind")]
 [Index("Id", IsUnique = true)]
-public partial class Type
+public partial class Kind
 {
     [Key]
     public int Id { get; set; }
 
     public string? Name { get; set; }
 
-    [InverseProperty("Type")]
-    public virtual ICollection<ShowType> ShowTypes { get; set; } = new List<ShowType>();
+    [InverseProperty("Kind")]
+    public virtual ICollection<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
 }

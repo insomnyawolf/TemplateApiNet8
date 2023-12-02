@@ -43,6 +43,9 @@ public partial class Show
     public virtual ICollection<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();
 
     [InverseProperty("Show")]
+    public virtual ICollection<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
+
+    [InverseProperty("Show")]
     public virtual ICollection<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
 
     [InverseProperty("Show")]
@@ -50,7 +53,4 @@ public partial class Show
 
     [InverseProperty("Show")]
     public virtual ICollection<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();
-
-    [InverseProperty("Show")]
-    public virtual ICollection<ShowType> ShowTypes { get; set; } = new List<ShowType>();
 }
