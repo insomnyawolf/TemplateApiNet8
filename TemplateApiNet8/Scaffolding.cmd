@@ -10,6 +10,8 @@ IF '%errorlevel%' NEQ '0' (
     echo "could not restore the needed tools"
     pause
     goto end
+) ELSE (
+    rmdir /s /q "Database\ModelsTemp"
 )
 
 REM Try creating an updated version of the models that exist in the database

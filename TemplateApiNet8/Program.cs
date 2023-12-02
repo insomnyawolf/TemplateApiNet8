@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using TemplateApiNet8.Startup;
@@ -88,7 +89,7 @@ public class Program
             app.UseSwaggerConfigured();
         }
 #endif
-
+        
         app.Run();
     }
 }

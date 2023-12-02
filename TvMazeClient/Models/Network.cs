@@ -6,7 +6,7 @@ namespace TvMazeClient.Models;
 public partial class Network
 {
     [JsonPropertyName("id")]
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -15,5 +15,5 @@ public partial class Network
     public Country Country { get; set; }
 
     [JsonPropertyName("officialSite")]
-    public Uri OfficialSite { get; set; }
+    public string OfficialSite { get; set; }
 }

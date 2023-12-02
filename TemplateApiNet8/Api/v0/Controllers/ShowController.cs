@@ -13,10 +13,10 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
 [ApiV0]
 [ApiController]
-public class PlaylistController : BaseController<PlaylistController>
+public class ShowController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
-    public PlaylistController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
+    public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
     }
@@ -26,14 +26,14 @@ public class PlaylistController : BaseController<PlaylistController>
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     public IQueryable<Show> Get(string? showName = null)
     {
-        var playlist = DatabaseContext.Shows.AsQueryable();
+        var dbShows = DatabaseContext.Shows.AsQueryable();
 
         if (!string.IsNullOrEmpty(showName))
         {
-            playlist = playlist.Where(item => item.Name == showName);
+            dbShows = dbShows.Where(item => item.Name == showName);
         }
 
-        return playlist;
+        return dbShows;
     }
 
     [HttpPost("update")]
@@ -44,9 +44,30 @@ public class PlaylistController : BaseController<PlaylistController>
 
         for (int showId = startingIdInclusive; showId < endingIdExclusive; showId++)
         {
-            var show = await apiClient.GetShow(showId, cancellationToken);
+            var apiShow = await apiClient.GetShow(showId, cancellationToken);
 
+            var dbShows = DatabaseContext.Shows.AsQueryable();
 
+            var dbShow = dbShows.SingleOrDefault(dbi => dbi.Name == apiShow.Name);
+
+            if (dbShow is null)
+            {
+                dbShow = new Show();
+                DatabaseContext.Add(dbShow);
+            }
+
+            dbShow.Url = apiShow.Url;
+            dbShow.Name = apiShow.Name;
+            dbShow.Runtime = apiShow.Runtime;
+            dbShow.AverageRuntime = apiShow.AverageRuntime;
+            dbShow.Premiered = apiShow.Premiered;
+            dbShow.Ended = apiShow.Ended;
+            dbShow.OfficialSite = apiShow.OfficialSite;
+            dbShow.Weight = apiShow.Weight;
+            dbShow.Summary = apiShow.Summary;
+            dbShow.Updated = apiShow.Updated;
         }
+
+        await DatabaseContext.SaveChangesAsync();
     }
 }

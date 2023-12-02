@@ -5,10 +5,10 @@ namespace TvMazeClient.Models;
 public partial class Show
 {
     [JsonPropertyName("id")]
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     [JsonPropertyName("url")]
-    public Uri Url { get; set; }
+    public string Url { get; set; }
 
     [JsonPropertyName("name")]
     public string Name { get; set; }
@@ -26,10 +26,10 @@ public partial class Show
     public string Status { get; set; }
 
     [JsonPropertyName("runtime")]
-    public long Runtime { get; set; }
+    public int Runtime { get; set; }
 
     [JsonPropertyName("averageRuntime")]
-    public long AverageRuntime { get; set; }
+    public int AverageRuntime { get; set; }
 
     [JsonPropertyName("premiered")]
     public string Premiered { get; set; }
@@ -38,7 +38,7 @@ public partial class Show
     public string Ended { get; set; }
 
     [JsonPropertyName("officialSite")]
-    public Uri OfficialSite { get; set; }
+    public string OfficialSite { get; set; }
 
     [JsonPropertyName("schedule")]
     public Schedule Schedule { get; set; }
@@ -47,7 +47,7 @@ public partial class Show
     public Rating Rating { get; set; }
 
     [JsonPropertyName("weight")]
-    public long Weight { get; set; }
+    public int Weight { get; set; }
 
     [JsonPropertyName("network")]
     public Network Network { get; set; }
@@ -68,7 +68,7 @@ public partial class Show
     public string Summary { get; set; }
 
     [JsonPropertyName("updated")]
-    public long Updated { get; set; }
+    public int Updated { get; set; }
 
     [JsonPropertyName("_links")]
     public Links Links { get; set; }

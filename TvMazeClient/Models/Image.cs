@@ -5,8 +5,8 @@ namespace TvMazeClient.Models;
 public partial class Image
 {
     [JsonPropertyName("medium")]
-    public Uri Medium { get; set; }
+    public string Medium { get; set; }
 
     [JsonPropertyName("original")]
-    public Uri Original { get; set; }
+    public string Original { get; set; }
 }

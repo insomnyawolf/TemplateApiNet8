@@ -5,5 +5,5 @@ namespace TvMazeClient.Models;
 public partial class Episode
 {
     [JsonPropertyName("href")]
-    public Uri Href { get; set; }
+    public string Href { get; set; }
 }

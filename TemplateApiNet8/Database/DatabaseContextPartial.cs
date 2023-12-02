@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.Linq.Expressions;
+using System.Reflection.Emit;
 using TemplateApiNet8.Database.Infraestructure;
 
 namespace TemplateApiNet8.Database;
@@ -11,6 +12,8 @@ public partial class DatabaseContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
+        modelBuilder.Hilo("DBSequenceHiLo");
+
         var models = modelBuilder.Model.GetEntityTypes();
 
         var thisInstance = Expression.Constant(this);
