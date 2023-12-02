@@ -13,9 +13,11 @@ namespace TemplateApiNet8.Api.Shared;
 public abstract class BaseController<TController> : ControllerBase where TController : BaseController<TController>
 {
     protected readonly ILogger<TController> Logger;
+    protected readonly IServiceProvider IServiceProvider;
 
     public BaseController(IServiceProvider IServiceProvider)
     {
-        Logger = IServiceProvider.GetRequiredService<ILogger<TController>>();
+        this.IServiceProvider = IServiceProvider;
+        this.Logger = IServiceProvider.GetRequiredService<ILogger<TController>>();
     }
 }

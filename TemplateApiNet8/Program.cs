@@ -6,6 +6,7 @@ using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 using TemplateApiNet8.Startup.HealthCheck;
 using TemplateApiNet8.Startup.OData;
 using TemplateApiNet8.Startup.Swagger;
+using TvMazeClient;
 
 namespace TemplateApiNet8;
 
@@ -53,6 +54,12 @@ public class Program
         {
         });
 #endif
+
+        services.AddTransient<TvMazeApiClient>((IServiceProvider) =>
+        {
+            var httpClientFactory = IServiceProvider.GetRequiredService<IHttpClientFactory>();
+            return new TvMazeApiClient(httpClientFactory);
+        });
 
         var app = builder.Build();
         // Configure the HTTP request pipeline.

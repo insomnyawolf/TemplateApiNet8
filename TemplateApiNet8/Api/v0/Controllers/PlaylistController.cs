@@ -7,6 +7,7 @@ using TemplateApiNet8.Api.Shared;
 using TemplateApiNet8.Database;
 using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 using TemplateApiNet8.Database.Models;
+using TvMazeClient;
 
 namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
@@ -20,17 +21,32 @@ public class PlaylistController : BaseController<PlaylistController>
         this.DatabaseContext = DatabaseContext;
     }
 
-    //[HttpGet]
-    //[SwaggerOperation(Summary = "Sample Summary", Description = "Sample Description")]
-    //public IQueryable<Show> Get(int? PlaylistId = null)
-    //{
-    //    var playlist = DatabaseContext.Playlists.AsQueryable();
+    [HttpGet]
+    [AllowAnonymous]
+    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
+    public IQueryable<Show> Get(string? showName = null)
+    {
+        var playlist = DatabaseContext.Shows.AsQueryable();
 
-    //    if (PlaylistId.HasValue)
-    //    {
-    //        playlist = playlist.Where(item => item.PlaylistId == PlaylistId);
-    //    }
+        if (!string.IsNullOrEmpty(showName))
+        {
+            playlist = playlist.Where(item => item.Name == showName);
+        }
 
-    //    return playlist;
-    //}
+        return playlist;
+    }
+
+    [HttpPost("update")]
+    [SwaggerOperation(Summary = "UpdateAvailableShows", Description = "Sample Description")]
+    public async Task Update(int startingIdInclusive = 0, int endingIdExclusive = 250, CancellationToken cancellationToken = default)
+    {
+        var apiClient = IServiceProvider.GetRequiredService<TvMazeApiClient>();
+
+        for (int showId = startingIdInclusive; showId < endingIdExclusive; showId++)
+        {
+            var show = await apiClient.GetShow(showId, cancellationToken);
+
+
+        }
+    }
 }

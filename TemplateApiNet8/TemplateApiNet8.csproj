@@ -50,4 +50,8 @@
     <Folder Include="Database\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TvMazeClient\TvMazeClient.csproj" />
+  </ItemGroup>
+
 </Project>
