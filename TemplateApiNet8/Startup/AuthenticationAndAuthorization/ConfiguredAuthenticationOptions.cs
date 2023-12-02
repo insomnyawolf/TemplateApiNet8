@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public class ConfiguredAuthenticationOptions : IConfigureNamedOptions<AuthenticationOptions>
 {

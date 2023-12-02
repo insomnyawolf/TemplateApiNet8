@@ -1,4 +1,4 @@
-﻿namespace TemplateApiNet6.Database.Infraestructure;
+﻿namespace TemplateApiNet8.Database.Infraestructure;
 
 public interface ISoftDeleted
 {

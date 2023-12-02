@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
-namespace TemplateApiNet6.Startup.Swagger;
+namespace TemplateApiNet8.Startup.Swagger;
 
 public class SecurityRequirementsOperationFilter : IOperationFilter
 {

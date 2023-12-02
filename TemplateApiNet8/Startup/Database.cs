@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TemplateApiNet6.Database;
-using TemplateApiNet6.Database.Infraestructure;
+using TemplateApiNet8.Database;
+using TemplateApiNet8.Database.Infraestructure;
 
-namespace TemplateApiNet6.Startup;
+namespace TemplateApiNet8.Startup;
 
 public static class Database
 {

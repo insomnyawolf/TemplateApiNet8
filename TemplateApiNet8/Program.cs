@@ -1,13 +1,13 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using TemplateApiNet6.Startup;
-using TemplateApiNet6.Startup.ApiVersioning;
-using TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
-using TemplateApiNet6.Startup.HealthCheck;
-using TemplateApiNet6.Startup.OData;
-using TemplateApiNet6.Startup.Swagger;
+using TemplateApiNet8.Startup;
+using TemplateApiNet8.Startup.ApiVersioning;
+using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
+using TemplateApiNet8.Startup.HealthCheck;
+using TemplateApiNet8.Startup.OData;
+using TemplateApiNet8.Startup.Swagger;
 
-namespace TemplateApiNet6;
+namespace TemplateApiNet8;
 
 public class Program
 {

@@ -3,9 +3,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using TemplateApiNet6.Startup.Swagger;
+using TemplateApiNet8.Startup.Swagger;
 
-namespace TemplateApiNet6.Startup.OData;
+namespace TemplateApiNet8.Startup.OData;
 
 public static class OData
 {

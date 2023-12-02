@@ -1,7 +1,7 @@
 ﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-namespace TemplateApiNet6.Startup.HealthCheck;
+namespace TemplateApiNet8.Startup.HealthCheck;
 
 // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0
 public static class HealthCheck

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace TemplateApiNet6.Startup.Swagger;
+namespace TemplateApiNet8.Startup.Swagger;
 
 public class ConfiguredSwaggerUIOptions : IConfigureNamedOptions<SwaggerUIOptions>
 {

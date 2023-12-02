@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using TemplateApiNet6.Database;
+using TemplateApiNet8.Database;
 
-namespace TemplateApiNet6.Startup.HealthCheck;
+namespace TemplateApiNet8.Startup.HealthCheck;
 
 public class DatabaseHealthCheck : IHealthCheck
 {

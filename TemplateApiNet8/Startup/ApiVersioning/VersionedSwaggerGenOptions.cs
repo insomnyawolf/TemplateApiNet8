@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace TemplateApiNet6.Startup.ApiVersioning;
+namespace TemplateApiNet8.Startup.ApiVersioning;
 
 public class VersionedSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOptions>
 {

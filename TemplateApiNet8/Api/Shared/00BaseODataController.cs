@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using TemplateApiNet6.Database;
-using TemplateApiNet6.Database.Infraestructure;
+using TemplateApiNet8.Database;
+using TemplateApiNet8.Database.Infraestructure;
 
-namespace TemplateApiNet6.Api.Shared;
+namespace TemplateApiNet8.Api.Shared;
 
 [Route("api/v{version:apiVersion}/[controller]")]
 public class BaseODataController<TEntity> : ODataController where TEntity : class

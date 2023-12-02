@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
-namespace TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public class ConfigureDefaultAuthorizationFilterOptions : IConfigureNamedOptions<MvcOptions>
 {

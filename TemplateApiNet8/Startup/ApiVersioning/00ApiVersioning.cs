@@ -3,9 +3,9 @@ using Asp.Versioning.OData;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OData.ModelBuilder;
-using TemplateApiNet6.Api.v0;
+using TemplateApiNet8.Api.v0;
 
-namespace TemplateApiNet6.Startup.ApiVersioning;
+namespace TemplateApiNet8.Startup.ApiVersioning;
 
 // https://github.com/dotnet/aspnet-api-versioning/wiki/
 public static class ApiVersioning

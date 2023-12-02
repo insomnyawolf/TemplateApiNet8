@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
-using TemplateApiNet6.Api.Shared;
-using TemplateApiNet6.Database;
-using TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+using TemplateApiNet8.Api.Shared;
+using TemplateApiNet8.Database;
+using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
+using TemplateApiNet8.Database.Models;
 
-namespace TemplateApiNet6.Api.v0.Controllers.Default;
+namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
 [ApiV0]
 [ApiController]
@@ -21,7 +22,7 @@ public class PlaylistController : BaseController<PlaylistController>
 
     //[HttpGet]
     //[SwaggerOperation(Summary = "Sample Summary", Description = "Sample Description")]
-    //public IQueryable<Playlist> Get(int? PlaylistId = null)
+    //public IQueryable<Show> Get(int? PlaylistId = null)
     //{
     //    var playlist = DatabaseContext.Playlists.AsQueryable();
 

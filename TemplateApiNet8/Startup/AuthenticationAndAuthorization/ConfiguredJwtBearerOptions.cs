@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
-namespace TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public class ConfiguredJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
 {

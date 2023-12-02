@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace TemplateApiNet6.Startup;
+namespace TemplateApiNet8.Startup;
 
 public static class Shared
 {

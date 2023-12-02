@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text.Json.Serialization;
-using TemplateApiNet6.Startup.OData;
+using TemplateApiNet8.Startup.OData;
 
-namespace TemplateApiNet6.Startup;
+namespace TemplateApiNet8.Startup;
 
 public static class Json
 {

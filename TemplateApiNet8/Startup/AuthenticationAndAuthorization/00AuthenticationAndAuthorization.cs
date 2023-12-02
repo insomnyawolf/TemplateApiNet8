@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using TemplateApiNet6.Startup.Swagger;
+using TemplateApiNet8.Startup.Swagger;
 
-namespace TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public static class AuthenticationAndAuthorization
 {

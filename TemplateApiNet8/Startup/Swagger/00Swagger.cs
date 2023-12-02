@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace TemplateApiNet6.Startup.Swagger;
+namespace TemplateApiNet8.Startup.Swagger;
 
 public static class Swagger
 {

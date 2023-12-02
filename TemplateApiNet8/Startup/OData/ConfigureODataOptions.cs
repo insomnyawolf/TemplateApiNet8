@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using TemplateApiNet6.Startup.AuthenticationAndAuthorizationOptions;
+using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData;
 
-namespace TemplateApiNet6.Startup.Swagger;
+namespace TemplateApiNet8.Startup.Swagger;
 
 public class ConfigureODataOptions : IConfigureNamedOptions<ODataOptions>
 {

@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 
-namespace TemplateApiNet6.Api.v0;
+namespace TemplateApiNet8.Api.v0;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
 public sealed class ApiV0Attribute : ApiVersionAttribute

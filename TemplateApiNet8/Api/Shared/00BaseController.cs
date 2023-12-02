@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TemplateApiNet6.Database.Infraestructure;
+using TemplateApiNet8.Database.Infraestructure;
 
-namespace TemplateApiNet6.Api.Shared;
+namespace TemplateApiNet8.Api.Shared;
 
 // "Light Controller" May not extend Controller base
 // Check Performance Implications

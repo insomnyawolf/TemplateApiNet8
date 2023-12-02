@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.Extensions.Options;
 
-namespace TemplateApiNet6.Startup.ApiVersioning;
+namespace TemplateApiNet8.Startup.ApiVersioning;
 
 public class ConfiguredApiVersioningOptions : IConfigureNamedOptions<ApiVersioningOptions>
 {

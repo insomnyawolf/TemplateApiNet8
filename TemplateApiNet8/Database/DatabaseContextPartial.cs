@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.Linq.Expressions;
-using TemplateApiNet6.Database.Infraestructure;
+using TemplateApiNet8.Database.Infraestructure;
 
-namespace TemplateApiNet6.Database;
+namespace TemplateApiNet8.Database;
 
 public partial class DatabaseContext : DbContext
 {
