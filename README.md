@@ -1,4 +1,6 @@
-# Templeate API ASP.NET core using dotnet 6
+# Templeate API ASP.NET core using dotnet 8
+
+Disclaimer, to following doccument is fulled with ideas trying to improve what i found in my previous workplaces, there may be a bit of trauma causing it but i really thing that keeping things simple is the best way to go about solving a problem, if you don't need something just don't use it.
 
 ## Goals & Intentions
 

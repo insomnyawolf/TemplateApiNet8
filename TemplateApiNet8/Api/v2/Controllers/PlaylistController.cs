@@ -35,4 +35,20 @@ public class PlaylistController : BaseController<PlaylistController>
 
         return playlist;
     }
+
+    [HttpDelete]
+    [AllowAnonymous]
+    [SwaggerOperation(Summary = "Sample Summary", Description = "Sample Description")]
+    public void Test()
+    {
+        var customer = DatabaseContext.Customers.AsQueryable();
+
+        customer = customer.Where(c => c.Email == "asodhasojdhasodfheuioaghwercviuawgcweicvgsduiocasd");
+
+        var test = DatabaseContext.Invoices.Where(i => customer.Any(c => c.CustomerId == i.CustomerId));
+
+        test.ExecuteDeleteAsync();
+
+        test.ExecuteUpdate()
+    }
 }
