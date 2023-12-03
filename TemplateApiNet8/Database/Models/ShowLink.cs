@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-public partial class ShowLink
+public partial class ShowLink: BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]
-    public Guid Id { get; set; }
+    public override Guid Id { get; set; }
 
     [Column(TypeName = "GUID")]
     public Guid ShowId { get; set; }

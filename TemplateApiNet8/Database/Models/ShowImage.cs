@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ShowImage")]
-public partial class ShowImage
+public partial class ShowImage: BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]
-    public Guid Id { get; set; }
+    public override Guid Id { get; set; }
 
     [Column(TypeName = "GUID")]
     public Guid ShowId { get; set; }

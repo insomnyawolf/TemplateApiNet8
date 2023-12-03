@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ScheduleDay")]
-public partial class ScheduleDay
+public partial class ScheduleDay: BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]
-    public Guid Id { get; set; }
+    public override Guid Id { get; set; }
 
     [Column(TypeName = "GUID")]
     public Guid ShowScheduleId { get; set; }

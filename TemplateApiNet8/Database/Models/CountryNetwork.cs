@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("CountryNetwork")]
-public partial class CountryNetwork
+public partial class CountryNetwork: BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]
-    public Guid Id { get; set; }
+    public override Guid Id { get; set; }
 
     [Column(TypeName = "GUID")]
     public Guid NetworkId { get; set; }
