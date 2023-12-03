@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("Show")]
-[Index("Id", IsUnique = true)]
 public partial class Show
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
     public string? Url { get; set; }
 
@@ -38,6 +38,9 @@ public partial class Show
 
     [InverseProperty("Show")]
     public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
+    [InverseProperty("Show")]
+    public virtual ICollection<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
 
     [InverseProperty("Show")]
     public virtual ICollection<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();

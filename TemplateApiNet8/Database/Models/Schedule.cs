@@ -7,13 +7,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("Schedule")]
-[Index("Id", IsUnique = true)]
 public partial class Schedule
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ShowId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ShowId { get; set; }
 
     public string? Time { get; set; }
 

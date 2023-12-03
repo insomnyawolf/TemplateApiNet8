@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("Language")]
-[Index("Id", IsUnique = true)]
 public partial class Language
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
     public string? Name { get; set; }
 

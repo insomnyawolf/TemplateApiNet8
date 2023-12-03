@@ -7,15 +7,17 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("CountryNetwork")]
-[Index("Id", IsUnique = true)]
 public partial class CountryNetwork
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int NetworkId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid NetworkId { get; set; }
 
-    public int CountryId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid CountryId { get; set; }
 
     [ForeignKey("CountryId")]
     [InverseProperty("CountryNetworks")]

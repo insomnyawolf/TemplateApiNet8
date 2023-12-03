@@ -6,17 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[Index("Id", IsUnique = true)]
 public partial class Link
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ShowId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ShowId { get; set; }
 
-    public int? SelfId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid? SelfId { get; set; }
 
-    public int? PreviousId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid? PreviousId { get; set; }
 
     [ForeignKey("PreviousId")]
     [InverseProperty("LinkPrevious")]

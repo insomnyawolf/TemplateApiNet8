@@ -7,13 +7,14 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("Image")]
-[Index("Id", IsUnique = true)]
 public partial class Image
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ShowId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ShowId { get; set; }
 
     public string? Medium { get; set; }
 

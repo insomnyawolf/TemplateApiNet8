@@ -7,15 +7,17 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ShowLanguage")]
-[Index("Id", IsUnique = true)]
 public partial class ShowLanguage
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ShowId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ShowId { get; set; }
 
-    public int LanguageId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid LanguageId { get; set; }
 
     [ForeignKey("LanguageId")]
     [InverseProperty("ShowLanguages")]

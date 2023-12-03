@@ -6,11 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[Index("Id", IsUnique = true)]
+[Table("External")]
 public partial class External
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
     public string? Name { get; set; }
+
+    [InverseProperty("External")]
+    public virtual ICollection<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
 }

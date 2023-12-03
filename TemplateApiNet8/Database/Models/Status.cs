@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("Status")]
-[Index("Id", IsUnique = true)]
 public partial class Status
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
     public string? Name { get; set; }
 

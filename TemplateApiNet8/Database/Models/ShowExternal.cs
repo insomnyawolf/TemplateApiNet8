@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[Table("ShowKind")]
-public partial class ShowKind
+[Table("ShowExternal")]
+public partial class ShowExternal
 {
     [Key]
     [Column(TypeName = "GUID")]
@@ -17,13 +17,15 @@ public partial class ShowKind
     public Guid ShowId { get; set; }
 
     [Column(TypeName = "GUID")]
-    public Guid KindId { get; set; }
+    public Guid ExternalId { get; set; }
 
-    [ForeignKey("KindId")]
-    [InverseProperty("ShowKinds")]
-    public virtual Kind Kind { get; set; } = null!;
+    public double? Value { get; set; }
+
+    [ForeignKey("ExternalId")]
+    [InverseProperty("ShowExternals")]
+    public virtual External External { get; set; } = null!;
 
     [ForeignKey("ShowId")]
-    [InverseProperty("ShowKinds")]
+    [InverseProperty("ShowExternals")]
     public virtual Show Show { get; set; } = null!;
 }

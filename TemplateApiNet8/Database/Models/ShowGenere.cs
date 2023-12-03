@@ -7,15 +7,17 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ShowGenere")]
-[Index("Id", IsUnique = true)]
 public partial class ShowGenere
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ShowId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ShowId { get; set; }
 
-    public int GenereId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid GenereId { get; set; }
 
     [ForeignKey("GenereId")]
     [InverseProperty("ShowGeneres")]

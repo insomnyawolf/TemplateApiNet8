@@ -7,15 +7,17 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ShowStatus")]
-[Index("Id", IsUnique = true)]
 public partial class ShowStatus
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ShowId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ShowId { get; set; }
 
-    public int StatusId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid StatusId { get; set; }
 
     [ForeignKey("ShowId")]
     [InverseProperty("ShowStatuses")]

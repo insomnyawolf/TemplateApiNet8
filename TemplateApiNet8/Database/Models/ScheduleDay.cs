@@ -7,15 +7,17 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ScheduleDay")]
-[Index("Id", IsUnique = true)]
 public partial class ScheduleDay
 {
     [Key]
-    public int Id { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid Id { get; set; }
 
-    public int ScheduleId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid ScheduleId { get; set; }
 
-    public int DayId { get; set; }
+    [Column(TypeName = "GUID")]
+    public Guid DayId { get; set; }
 
     [ForeignKey("DayId")]
     [InverseProperty("ScheduleDays")]

@@ -12,8 +12,6 @@ public partial class DatabaseContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
-        modelBuilder.Hilo("DBSequenceHiLo");
-
         var models = modelBuilder.Model.GetEntityTypes();
 
         var thisInstance = Expression.Constant(this);
