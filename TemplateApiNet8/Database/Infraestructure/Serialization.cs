@@ -5,6 +5,7 @@ using System.Text.Json.Serialization.Metadata;
 
 namespace TemplateApiNet8.Database.Infraestructure;
 
+// Experimental, does what it should but probably it's not the best solution
 public class DatabaseModelsSerialization
 {
     private static readonly Type ExcludedAttributeCache = typeof(ForeignKeyAttribute);
@@ -42,5 +43,3 @@ public class DatabaseModelsSerialization
         }
     }
 }
-
-
