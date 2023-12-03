@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-public partial class Link
+[Table("ShowImage")]
+public partial class ShowImage
 {
     [Key]
     [Column(TypeName = "GUID")]
@@ -16,16 +17,13 @@ public partial class Link
     public Guid ShowId { get; set; }
 
     [Column(TypeName = "GUID")]
-    public Guid? SelfId { get; set; }
+    public Guid ImageId { get; set; }
 
-    [Column(TypeName = "GUID")]
-    public Guid? PreviousId { get; set; }
+    [ForeignKey("ImageId")]
+    [InverseProperty("ShowImages")]
+    public virtual Image Image { get; set; } = null!;
 
-    [ForeignKey("PreviousId")]
-    [InverseProperty("LinkPrevious")]
-    public virtual Episode? Previous { get; set; }
-
-    [ForeignKey("SelfId")]
-    [InverseProperty("LinkSelves")]
-    public virtual Episode? Self { get; set; }
+    [ForeignKey("ShowId")]
+    [InverseProperty("ShowImages")]
+    public virtual Show Show { get; set; } = null!;
 }

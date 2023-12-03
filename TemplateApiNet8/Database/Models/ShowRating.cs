@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[Table("Schedule")]
-public partial class Schedule
+[Table("ShowRating")]
+public partial class ShowRating
 {
     [Key]
     [Column(TypeName = "GUID")]
@@ -16,12 +16,9 @@ public partial class Schedule
     [Column(TypeName = "GUID")]
     public Guid ShowId { get; set; }
 
-    public string? Time { get; set; }
-
-    [InverseProperty("Schedule")]
-    public virtual ICollection<ScheduleDay> ScheduleDays { get; set; } = new List<ScheduleDay>();
+    public double Average { get; set; }
 
     [ForeignKey("ShowId")]
-    [InverseProperty("Schedules")]
+    [InverseProperty("ShowRatings")]
     public virtual Show Show { get; set; } = null!;
 }

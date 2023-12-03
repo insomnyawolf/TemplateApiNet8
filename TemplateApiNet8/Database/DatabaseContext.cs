@@ -30,13 +30,7 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<Language> Languages { get; set; }
 
-    public virtual DbSet<Link> Links { get; set; }
-
     public virtual DbSet<Network> Networks { get; set; }
-
-    public virtual DbSet<Rating> Ratings { get; set; }
-
-    public virtual DbSet<Schedule> Schedules { get; set; }
 
     public virtual DbSet<ScheduleDay> ScheduleDays { get; set; }
 
@@ -46,11 +40,19 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<ShowGenere> ShowGeneres { get; set; }
 
+    public virtual DbSet<ShowImage> ShowImages { get; set; }
+
     public virtual DbSet<ShowKind> ShowKinds { get; set; }
 
     public virtual DbSet<ShowLanguage> ShowLanguages { get; set; }
 
+    public virtual DbSet<ShowLink> ShowLinks { get; set; }
+
     public virtual DbSet<ShowNetwork> ShowNetworks { get; set; }
+
+    public virtual DbSet<ShowRating> ShowRatings { get; set; }
+
+    public virtual DbSet<ShowSchedule> ShowSchedules { get; set; }
 
     public virtual DbSet<ShowStatus> ShowStatuses { get; set; }
 
@@ -66,10 +68,6 @@ public partial class DatabaseContext : DbContext
         modelBuilder.Entity<CountryNetwork>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Country).WithMany(p => p.CountryNetworks).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Network).WithMany(p => p.CountryNetworks).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Day>(entity =>
@@ -107,37 +105,14 @@ public partial class DatabaseContext : DbContext
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
-        modelBuilder.Entity<Link>(entity =>
-        {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-        });
-
         modelBuilder.Entity<Network>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
-        modelBuilder.Entity<Rating>(entity =>
-        {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Show).WithMany(p => p.Ratings).OnDelete(DeleteBehavior.ClientSetNull);
-        });
-
-        modelBuilder.Entity<Schedule>(entity =>
-        {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Show).WithMany(p => p.Schedules).OnDelete(DeleteBehavior.ClientSetNull);
-        });
-
         modelBuilder.Entity<ScheduleDay>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Day).WithMany(p => p.ScheduleDays).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Schedule).WithMany(p => p.ScheduleDays).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Show>(entity =>
@@ -148,55 +123,55 @@ public partial class DatabaseContext : DbContext
         modelBuilder.Entity<ShowExternal>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.External).WithMany(p => p.ShowExternals).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowExternals).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<ShowGenere>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+        });
 
-            entity.HasOne(d => d.Genere).WithMany(p => p.ShowGeneres).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowGeneres).OnDelete(DeleteBehavior.ClientSetNull);
+        modelBuilder.Entity<ShowImage>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<ShowKind>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Kind).WithMany(p => p.ShowKinds).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowKinds).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<ShowLanguage>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+        });
 
-            entity.HasOne(d => d.Language).WithMany(p => p.ShowLanguages).OnDelete(DeleteBehavior.ClientSetNull);
+        modelBuilder.Entity<ShowLink>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowLanguages).OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.Previous).WithMany(p => p.ShowLinkPrevious).OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.Self).WithMany(p => p.ShowLinkSelves).OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ShowNetwork>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+        });
 
-            entity.HasOne(d => d.Network).WithMany(p => p.ShowNetworks).OnDelete(DeleteBehavior.ClientSetNull);
+        modelBuilder.Entity<ShowRating>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
 
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowNetworks).OnDelete(DeleteBehavior.ClientSetNull);
+        modelBuilder.Entity<ShowSchedule>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<ShowStatus>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Show).WithMany(p => p.ShowStatuses).OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Status).WithMany(p => p.ShowStatuses).OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Status>(entity =>

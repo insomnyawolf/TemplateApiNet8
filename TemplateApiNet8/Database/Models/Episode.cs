@@ -19,8 +19,8 @@ public partial class Episode
     public string? Href { get; set; }
 
     [InverseProperty("Previous")]
-    public virtual ICollection<Link> LinkPrevious { get; set; } = new List<Link>();
+    public virtual ICollection<ShowLink> ShowLinkPrevious { get; set; } = new List<ShowLink>();
 
     [InverseProperty("Self")]
-    public virtual ICollection<Link> LinkSelves { get; set; } = new List<Link>();
+    public virtual ICollection<ShowLink> ShowLinkSelves { get; set; } = new List<ShowLink>();
 }

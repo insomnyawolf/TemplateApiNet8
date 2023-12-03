@@ -34,16 +34,13 @@ public partial class Show
     public int? Updated { get; set; }
 
     [InverseProperty("Show")]
-    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-
-    [InverseProperty("Show")]
-    public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
-
-    [InverseProperty("Show")]
     public virtual ICollection<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
 
     [InverseProperty("Show")]
     public virtual ICollection<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();
+
+    [InverseProperty("Show")]
+    public virtual ICollection<ShowImage> ShowImages { get; set; } = new List<ShowImage>();
 
     [InverseProperty("Show")]
     public virtual ICollection<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
@@ -53,6 +50,12 @@ public partial class Show
 
     [InverseProperty("Show")]
     public virtual ICollection<ShowNetwork> ShowNetworks { get; set; } = new List<ShowNetwork>();
+
+    [InverseProperty("Show")]
+    public virtual ICollection<ShowRating> ShowRatings { get; set; } = new List<ShowRating>();
+
+    [InverseProperty("Show")]
+    public virtual ICollection<ShowSchedule> ShowSchedules { get; set; } = new List<ShowSchedule>();
 
     [InverseProperty("Show")]
     public virtual ICollection<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();

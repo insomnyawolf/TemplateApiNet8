@@ -19,4 +19,7 @@ public partial class Image
     public string? Medium { get; set; }
 
     public string? Original { get; set; }
+
+    [InverseProperty("Image")]
+    public virtual ICollection<ShowImage> ShowImages { get; set; } = new List<ShowImage>();
 }

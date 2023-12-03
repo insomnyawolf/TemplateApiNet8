@@ -14,7 +14,7 @@ public partial class ScheduleDay
     public Guid Id { get; set; }
 
     [Column(TypeName = "GUID")]
-    public Guid ScheduleId { get; set; }
+    public Guid ShowScheduleId { get; set; }
 
     [Column(TypeName = "GUID")]
     public Guid DayId { get; set; }
@@ -23,7 +23,7 @@ public partial class ScheduleDay
     [InverseProperty("ScheduleDays")]
     public virtual Day Day { get; set; } = null!;
 
-    [ForeignKey("ScheduleId")]
+    [ForeignKey("ShowScheduleId")]
     [InverseProperty("ScheduleDays")]
-    public virtual Schedule Schedule { get; set; } = null!;
+    public virtual ShowSchedule ShowSchedule { get; set; } = null!;
 }

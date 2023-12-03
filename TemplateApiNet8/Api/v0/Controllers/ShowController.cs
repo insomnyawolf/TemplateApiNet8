@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Threading;
 using TemplateApiNet8.Api.Shared;
 using TemplateApiNet8.Database;
 using TemplateApiNet8.Database.Models;
+using TemplateApiNet8.Extensions;
 using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 using TvMazeClient;
+using TvMazeClient.Models;
 
 namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
@@ -22,28 +25,29 @@ public class ShowController : BaseController<ShowController>
         this.DatabaseContext = DatabaseContext;
     }
 
-    private IQueryable<Show> GetQueryableWithIncludes()
+    private IQueryable<Database.Models.Show> GetQueryableWithIncludes()
     {
         var dbShows = DatabaseContext.Shows.AsQueryable();
 
         dbShows = dbShows.Include(i => i.ShowGeneres)
             .ThenInclude(i => i.Genere);
 
-        dbShows = dbShows.Include(i => i.Schedules)
+        dbShows = dbShows.Include(i => i.ShowSchedules)
             .ThenInclude(i => i.ScheduleDays)
             .ThenInclude(i => i.Day);
 
-        dbShows = dbShows.Include(i => i.Ratings);
+        dbShows = dbShows.Include(i => i.ShowRatings);
 
         dbShows = dbShows.Include(i => i.ShowNetworks)
             .ThenInclude(i => i.Network)
             .ThenInclude(i => i.CountryNetworks)
             .ThenInclude(i => i.Country);
 
-        //dbShows = dbShows.Include(i => i.)
-        //    .ThenInclude(i => i.Network)
-        //    .ThenInclude(i => i.CountryNetworks)
-        //    .ThenInclude(i => i.Country);
+        dbShows = dbShows.Include(i => i.ShowExternals)
+            .ThenInclude(i => i.External);
+
+        //dbShows = dbShows.Include(i => i.S)
+        //    .ThenInclude(i => i.External);
 
         return dbShows;
     }
@@ -51,7 +55,7 @@ public class ShowController : BaseController<ShowController>
     [HttpGet]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    public IQueryable<Show> Get(string? showName = null)
+    public IQueryable<Database.Models.Show> Get(string? showName = null)
     {
         var dbShows = GetQueryableWithIncludes();
 
@@ -79,7 +83,7 @@ public class ShowController : BaseController<ShowController>
 
             if (dbShow is null)
             {
-                dbShow = new Show()
+                dbShow = new Database.Models.Show()
                 {
                     Id = Guid.NewGuid(),
                 };
@@ -97,51 +101,115 @@ public class ShowController : BaseController<ShowController>
             dbShow.Summary = apiShow.Summary;
             dbShow.Updated = apiShow.Updated;
 
-            var dbGeneres = DatabaseContext.Generes.AsQueryable();
+            await UpdateGeneres(dbShow, apiShow, cancellationToken);
 
-            dbGeneres = dbGeneres.Where(dbg => apiShow.Genres.Any(g => g == dbg.Name));
+            await UpdateSchedules(dbShow, apiShow, cancellationToken);
 
-            var dbGeneresList = await dbGeneres.ToListAsync(cancellationToken);
-
-            var generesNotIndatabase = apiShow.Genres.Where(g => !dbGeneresList.Any(dg => g == dg.Name));
-
-            foreach (var genere in generesNotIndatabase)
-            {
-                var newGenere = new Genere()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = genere,
-                };
-                DatabaseContext.Add(newGenere);
-                dbGeneresList.Add(newGenere);
-            }
-
-            var delta = FindChanges(dbShow.ShowGeneres, dbGeneresList, i => i.GenereId, i => i.Id);
-
-            foreach (var genere in delta.Deleted)
-            {
-                dbShow.ShowGeneres.Remove(genere);
-            }
-
-            foreach (var genere in delta.Added)
-            {
-                dbShow.ShowGeneres.Add(new ShowGenere()
-                {
-                    Id = Guid.NewGuid(),
-                    GenereId = genere.Id,
-                    ShowId = dbShow.Id,
-                });
-            }
+            #region NewReg
+            #endregion NewReg
         }
 
         await DatabaseContext.SaveChangesAsync();
     }
 
-    private static (IEnumerable<Y> Added, IEnumerable<T> Deleted) FindChanges<T, Y, Z>(ICollection<T> baseList, List<Y> newList, Func<T, Z> baseSelector, Func<Y, Z> newSelector) where Z : IEquatable<Z>
+    private async Task UpdateGeneres(Database.Models.Show dbShow, TvMazeClient.Models.Show apiShow, CancellationToken cancellationToken)
     {
-        var comparer = EqualityComparer<Z>.Default;
-        var newGeneres = newList.Where(@new => !baseList.Any(bas => comparer.Equals(newSelector(@new), baseSelector(bas))));
-        var deletedGeneres = baseList.Where(bas => !newList.Any(@new => comparer.Equals(baseSelector(bas), newSelector(@new))));
-        return (newGeneres, deletedGeneres);
+        var dbGeneres = DatabaseContext.Generes.AsQueryable();
+
+        dbGeneres = dbGeneres.Where(db => apiShow.Genres.Any(g => g == db.Name));
+
+        var dbGeneresList = await dbGeneres.ToListAsync(cancellationToken);
+
+        var generesNotIndatabase = apiShow.Genres.Where(g => !dbGeneresList.Any(db => g == db.Name));
+
+        foreach (var genere in generesNotIndatabase)
+        {
+            var newGenere = new Genere()
+            {
+                Id = Guid.NewGuid(),
+                Name = genere,
+            };
+            DatabaseContext.Add(newGenere);
+            dbGeneresList.Add(newGenere);
+        }
+
+        var dbCollection = dbShow.ShowGeneres;
+
+        var delta = dbCollection.FindChanges(dbGeneresList, i => i.GenereId, i => i.Id);
+
+
+        foreach (var genere in delta.Deleted)
+        {
+            dbCollection.Remove(genere);
+        }
+
+        foreach (var genere in delta.Added)
+        {
+            dbCollection.Add(new ShowGenere()
+            {
+                Id = Guid.NewGuid(),
+                GenereId = genere.Id,
+                ShowId = dbShow.Id,
+            });
+        }
+    }
+
+    private async Task UpdateSchedules(Database.Models.Show dbShow, TvMazeClient.Models.Show apiShow, CancellationToken cancellationToken)
+    {
+        var dbSchedules = DatabaseContext.ShowSchedules.AsQueryable();
+
+        var apiSchedule = apiShow.Schedule;
+
+        dbSchedules = dbSchedules.Where(db => apiSchedule.Time == db.Time && db.ShowId == dbShow.Id);
+
+        var dbSchedule = await dbSchedules.SingleOrDefaultAsync(cancellationToken);
+
+        if (dbSchedule is null)
+        {
+            dbSchedule = new Database.Models.ShowSchedule()
+            {
+                Id = Guid.NewGuid(),
+            };
+            DatabaseContext.Add(dbSchedule);
+        }
+
+        var dbDays = DatabaseContext.Days.AsQueryable();
+
+        dbDays = dbDays.Where(db => apiSchedule.Days.Any(i => i == db.Name));
+
+        var dbDaysList = await dbDays.ToListAsync(cancellationToken);
+
+        var daysNotInDatabase = apiSchedule.Days.Where(g => !dbDaysList.Any(db => g == db.Name));
+
+        foreach (var day in daysNotInDatabase)
+        {
+            var newGenere = new Day()
+            {
+                Id = Guid.NewGuid(),
+                Name = day,
+            };
+            DatabaseContext.Add(newGenere);
+            dbDaysList.Add(newGenere);
+        }
+
+        var dbCollection = dbSchedule.ScheduleDays;
+
+        var delta = dbCollection.FindChanges(dbDaysList, i => i.DayId, i => i.Id);
+
+        // Can schedules be deleted?
+        //foreach (var day in delta.Deleted)
+        //{
+        //    dbCollection.Remove(day);
+        //}
+
+        foreach (var day in delta.Added)
+        {
+            dbCollection.Add(new ScheduleDay()
+            {
+                Id = Guid.NewGuid(),
+                ShowScheduleId = dbSchedule.Id,
+                DayId = day.Id,
+            });
+        }
     }
 }
