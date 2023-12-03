@@ -1,6 +1,15 @@
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Design.Internal;
+using Microsoft.EntityFrameworkCore.Scaffolding;
 using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
+using Microsoft.EntityFrameworkCore.Sqlite.Design.Internal;
+using Microsoft.EntityFrameworkCore.Sqlite.Scaffolding.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Buffers;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using TemplateApiNet8.Database.Design;
 using TemplateApiNet8.Startup;
 using TemplateApiNet8.Startup.ApiVersioning;
 using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
@@ -31,16 +40,16 @@ public class Program
         // Add services to the container.
         var services = builder.Services;
 
+        services.AddControllers();
+
+        services.ConfigureJson();
+
         services.AddHealthCheckConfigured();
 
         // https://learn.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
         services.AddHttpClient();
 
         services.AddDatabaseContext();
-
-        var mvcBuilder = services.AddControllers();
-
-        services.ConfigureJson();
 
         services.AddODataConfigured();
 
@@ -49,11 +58,8 @@ public class Program
         services.AddAuthenticationAndAuthorization();
 
         services.AddSwaggerConfigured();
-
 #if DEBUG
-        services.AddHttpLogging((options) =>
-        {
-        });
+        services.AddHttpLogging((options) => { });
 #endif
 
         services.AddTransient<TvMazeApiClient>((IServiceProvider) =>
@@ -63,6 +69,7 @@ public class Program
         });
 
         var app = builder.Build();
+
         // Configure the HTTP request pipeline.
 
         app.UseCors(options =>
@@ -89,7 +96,7 @@ public class Program
             app.UseSwaggerConfigured();
         }
 #endif
-        
+
         app.Run();
     }
 }

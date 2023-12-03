@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json;
 using System.Threading;
 using TemplateApiNet8.Api.Shared;
 using TemplateApiNet8.Database;
@@ -20,7 +22,7 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 public class ShowController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
-    public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
+    public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider, IOptions<JsonOptions> test) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
     }
@@ -55,7 +57,7 @@ public class ShowController : BaseController<ShowController>
     [HttpGet]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    public IQueryable<Database.Models.Show> Get(string? showName = null)
+    public async Task<IEnumerable<Database.Models.Show>> Get(string? showName = null, CancellationToken cancellationToken = default)
     {
         var dbShows = GetQueryableWithIncludes();
 
@@ -64,7 +66,26 @@ public class ShowController : BaseController<ShowController>
             dbShows = dbShows.Where(item => item.Name == showName);
         }
 
-        return dbShows;
+        var data = await dbShows.ToListAsync();
+
+        //var option = new JsonSerializerOptions()
+        //{
+        //    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+        //};
+
+        //var str = JsonSerializer.Serialize(data, option);
+
+        return data;
+    }
+
+    [HttpGet("single")]
+    [AllowAnonymous]
+    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
+    public async Task<Database.Models.Show> GetSingle(string? showName = null, CancellationToken cancellationToken = default)
+    {
+        var data = await Get(showName, cancellationToken);
+        var f = data.First();
+        return f;
     }
 
     [HttpPost("update")]
@@ -169,6 +190,8 @@ public class ShowController : BaseController<ShowController>
             dbSchedule = new Database.Models.ShowSchedule()
             {
                 Id = Guid.NewGuid(),
+                ShowId = dbShow.Id,
+                Time = apiSchedule.Time,
             };
             DatabaseContext.Add(dbSchedule);
         }

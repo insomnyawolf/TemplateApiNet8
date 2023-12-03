@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using TemplateApiNet8.Startup.OData;
 
@@ -25,7 +26,35 @@ public class ConfigureJsonOptions : IConfigureNamedOptions<JsonOptions>
     public void Configure(JsonOptions options)
     {
         var so = options.JsonSerializerOptions;
-        // This allows using includes and returning it's data in EntityFrameworkQueries
+        // Sane Defaults
         so.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        so.MaxDepth = 32;
+    }
+}
+public sealed class CustomIgnoreReferenceHandler : ReferenceHandler
+{
+    public CustomIgnoreReferenceHandler()
+    {
+
+    }
+
+    public override ReferenceResolver CreateResolver() => new CustomIgnoreReferenceResolver();
+}
+
+public sealed class CustomIgnoreReferenceResolver : ReferenceResolver
+{
+    public override void AddReference(string referenceId, object value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override string GetReference(object value, out bool alreadyExists)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override object ResolveReference(string referenceId)
+    {
+        throw new NotImplementedException();
     }
 }
