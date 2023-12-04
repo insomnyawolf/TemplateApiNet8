@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using System.Xml;
 
 namespace TemplateApiNet8.Database.Infraestructure;
 
 // Experimental, does what it should but probably it's not the best solution
-public class DatabaseModelsSerialization
+public class DatabaseModelsSerializationRemoveForeignKeyProperties
 {
     private static readonly Type ExcludedAttributeCache = typeof(ForeignKeyAttribute);
     private static readonly Type ForceIncludeAttributeCache = typeof(JsonIncludeAttribute);

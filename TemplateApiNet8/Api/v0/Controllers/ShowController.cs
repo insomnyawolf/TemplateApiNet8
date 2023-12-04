@@ -75,7 +75,7 @@ public class ShowController : BaseController<ShowController>
 
         //var str = JsonSerializer.Serialize(data, option);
 
-        return data;
+        return data.CleanEntityFrameworkReferenceLoops();
     }
 
     [HttpGet("single")]

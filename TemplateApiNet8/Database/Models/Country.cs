@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("Country")]
-public partial class Country: BaseEntity
+public partial class Country : BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]

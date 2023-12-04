@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvMazeClient", "TvMazeClient\TvMazeClient.csproj", "{BD501710-5A26-4ED2-9CE4-077913AA54FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvMazeClient", "TvMazeClient\TvMazeClient.csproj", "{BD501710-5A26-4ED2-9CE4-077913AA54FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseRestClient", "BaseRestClient\BaseRestClient.csproj", "{C6FE8657-3FA3-4593-BC2A-C6D2667A4DA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseRestClient", "BaseRestClient\BaseRestClient.csproj", "{C6FE8657-3FA3-4593-BC2A-C6D2667A4DA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvMazeClientTests", "TvMazeClientTests\TvMazeClientTests.csproj", "{CBBB5BEA-E959-4C51-A4B0-D8B67F241895}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvMazeClientTests", "TvMazeClientTests\TvMazeClientTests.csproj", "{CBBB5BEA-E959-4C51-A4B0-D8B67F241895}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanEntityFrameworkReferenceLoopsSourceGenerator", "CleanEntityFrameworkReferenceLoopsSourceGenerator\CleanEntityFrameworkReferenceLoopsSourceGenerator.csproj", "{6626C6DF-5A3D-4719-9A08-740E2B0B4933}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CBBB5BEA-E959-4C51-A4B0-D8B67F241895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBBB5BEA-E959-4C51-A4B0-D8B67F241895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBBB5BEA-E959-4C51-A4B0-D8B67F241895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6626C6DF-5A3D-4719-9A08-740E2B0B4933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6626C6DF-5A3D-4719-9A08-740E2B0B4933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6626C6DF-5A3D-4719-9A08-740E2B0B4933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6626C6DF-5A3D-4719-9A08-740E2B0B4933}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

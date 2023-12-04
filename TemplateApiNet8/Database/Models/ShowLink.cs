@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-public partial class ShowLink: BaseEntity
+public partial class ShowLink : BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]

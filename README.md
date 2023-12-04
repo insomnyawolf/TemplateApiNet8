@@ -2,6 +2,12 @@
 
 Disclaimer, to following doccument is fulled with ideas trying to improve what i found in my previous workplaces, there may be a bit of trauma causing it but i really thing that keeping things simple is the best way to go about solving a problem, if you don't need something just don't use it.
 
+## To do
+
+*Better ReferenceHandling For EntityFramework Objects
+
+*Finishing the sync logic
+
 ## Goals & Intentions
 
 The goal of this repo is to create a base experience that can be extended for any possible uses that we may need while keeping simplicity in mind.

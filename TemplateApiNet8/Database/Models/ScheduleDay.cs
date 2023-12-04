@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ScheduleDay")]
-public partial class ScheduleDay: BaseEntity
+public partial class ScheduleDay : BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]

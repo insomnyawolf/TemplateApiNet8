@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace TemplateApiNet8.Database.Models;
 
 [Table("ShowLanguage")]
-public partial class ShowLanguage: BaseEntity
+public partial class ShowLanguage : BaseEntity
 {
     [Key]
     [Column(TypeName = "GUID")]
