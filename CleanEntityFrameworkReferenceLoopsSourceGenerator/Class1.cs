@@ -179,8 +179,14 @@ public class Class1 : IIncrementalGenerator
                 sb.Indent(3).AppendLine($"for (int i = {property.Name}.Count - 1; i > 0; i--)");
                 sb.Indent(3).AppendLine($"{{");
                 sb.Indent(4).AppendLine($"var current = {property.Name}[i];");
-                sb.Indent(4).AppendLine($"if (existing.Add(current.Id)) {{ current.CleanEntityFrameworkReferenceLoops(existing); }} else {{ {property.Name}.RemoveAt(i); }}");
+                sb.Indent(4).AppendLine($"if(!existing.Add(current.Id)){{{property.Name}.RemoveAt(i);}}");
                 sb.Indent(3).AppendLine($"}}");
+                sb.Indent(3).AppendLine($"for (int i = {property.Name}.Count - 1; i > 0; i--)");
+                sb.Indent(3).AppendLine($"{{");
+                sb.Indent(4).AppendLine($"var current = {property.Name}[i];");
+                sb.Indent(4).AppendLine($"current.CleanEntityFrameworkReferenceLoops(existing);");
+                sb.Indent(3).AppendLine($"}}");
+                //;
             }
         }
 
