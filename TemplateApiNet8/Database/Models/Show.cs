@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
@@ -34,29 +35,29 @@ public partial class Show : BaseEntity
     public int? Updated { get; set; }
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
+    public virtual IList<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();
+    public virtual IList<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowImage> ShowImages { get; set; } = new List<ShowImage>();
+    public virtual IList<ShowImage> ShowImages { get; set; } = new List<ShowImage>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
+    public virtual IList<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
+    public virtual IList<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowNetwork> ShowNetworks { get; set; } = new List<ShowNetwork>();
+    public virtual IList<ShowNetwork> ShowNetworks { get; set; } = new List<ShowNetwork>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowRating> ShowRatings { get; set; } = new List<ShowRating>();
+    public virtual IList<ShowRating> ShowRatings { get; set; } = new List<ShowRating>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowSchedule> ShowSchedules { get; set; } = new List<ShowSchedule>();
+    public virtual IList<ShowSchedule> ShowSchedules { get; set; } = new List<ShowSchedule>();
 
     [InverseProperty("Show")]
-    public virtual ICollection<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();
+    public virtual IList<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();
 }

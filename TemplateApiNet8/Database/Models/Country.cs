@@ -20,5 +20,5 @@ public partial class Country : BaseEntity
     public string? Timezone { get; set; }
 
     [InverseProperty("Country")]
-    public virtual ICollection<CountryNetwork> CountryNetworks { get; set; } = new List<CountryNetwork>();
+    public virtual IList<CountryNetwork> CountryNetworks { get; set; } = new List<CountryNetwork>();
 }

@@ -16,5 +16,5 @@ public partial class External : BaseEntity
     public string? Name { get; set; }
 
     [InverseProperty("External")]
-    public virtual ICollection<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
+    public virtual IList<ShowExternal> ShowExternals { get; set; } = new List<ShowExternal>();
 }

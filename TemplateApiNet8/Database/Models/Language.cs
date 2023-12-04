@@ -16,5 +16,5 @@ public partial class Language : BaseEntity
     public string? Name { get; set; }
 
     [InverseProperty("Language")]
-    public virtual ICollection<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
+    public virtual IList<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
 }

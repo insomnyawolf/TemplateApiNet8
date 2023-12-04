@@ -18,8 +18,8 @@ public partial class Network : BaseEntity
     public string? OfficialSite { get; set; }
 
     [InverseProperty("Network")]
-    public virtual ICollection<CountryNetwork> CountryNetworks { get; set; } = new List<CountryNetwork>();
+    public virtual IList<CountryNetwork> CountryNetworks { get; set; } = new List<CountryNetwork>();
 
     [InverseProperty("Network")]
-    public virtual ICollection<ShowNetwork> ShowNetworks { get; set; } = new List<ShowNetwork>();
+    public virtual IList<ShowNetwork> ShowNetworks { get; set; } = new List<ShowNetwork>();
 }

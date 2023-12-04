@@ -5,6 +5,7 @@ using System;
 using System.Collections.Immutable;
 using System.Text;
 using System.Reflection.Metadata;
+using System.Linq;
 
 namespace CleanEntityFrameworkReferenceLoopsSourceGenerator;
 
@@ -88,7 +89,6 @@ public class Class1 : IIncrementalGenerator
     private const string MethodName = "CleanEntityFrameworkReferenceLoops";
     private const string ParameterName = "existing";
     private const string ParameterType = "HashSet<Guid>";
-    private const string Indent = "\t\t";
 
     public static void SharedCode(SourceProductionContext context, INamedTypeSymbol envInfo)
     {
@@ -102,7 +102,8 @@ public class Class1 : IIncrementalGenerator
             { "Namespace", @namespace },
             { "Class", MethodName+"Extensions" },
             { "MethodName", MethodName },
-            { "ParameterType", classType },
+            { "BaseClass", classType },
+            { "ParameterType", ParameterType },
             { "ParameterName", ParameterName },
         });
     }
@@ -130,8 +131,13 @@ public class Class1 : IIncrementalGenerator
 
         var sb = new StringBuilder();
 
-        sb.AppendLine($"{ParameterName} ??= new {ParameterType}();");
-        sb.Append(Indent).AppendLine($"{ParameterName}.Add(this.Id);");
+        sb.AppendLine();
+        sb.Indent(2).AppendLine($"if ({ParameterName} is null)");
+        sb.Indent(3).AppendLine($"{ParameterName} = new {ParameterType}();");
+        sb.Indent(2).AppendLine($"else");
+        sb.Indent(3).AppendLine($"{ParameterName} = new {ParameterType}({ParameterName});");
+
+        sb.Indent(2).AppendLine($"{ParameterName}.Add(this.Id);");
 
         foreach (var member in members)
         {
@@ -154,13 +160,28 @@ public class Class1 : IIncrementalGenerator
 
             if (available.Contains(type))
             {
-                sb.Append(Indent).AppendLine($"if ({ParameterName}.Add({property.Name}.Id)){{{property.Name}.{MethodName}({ParameterName});}}else{{{property.Name} = null;}}");
+                sb.Indent(2).AppendLine($"if ({property.Name} is not null)");
+                sb.Indent(3).AppendLine($"if ({ParameterName}.Add({property.Name}.Id)){{{property.Name}.{MethodName}({ParameterName});}}else{{{property.Name} = null;}}");
             }
-            // Add Collection Support
-            //else if ()
-            //{
+            else if (type is INamedTypeSymbol named && type.IsEnumerable() && type.GetFullyQualifiedName() != "System.String")
+            {
+                var args = named.TypeArguments;
+                if (args.Length != 1)
+                {
+                    continue;
+                }
 
-            //}
+                if (!available.Contains(args[0]))
+                {
+                    continue;
+                }
+                sb.Indent(2).AppendLine($"if ({property.Name} is not null)");
+                sb.Indent(3).AppendLine($"for (int i = {property.Name}.Count - 1; i > 0; i--)");
+                sb.Indent(3).AppendLine($"{{");
+                sb.Indent(4).AppendLine($"var current = {property.Name}[i];");
+                sb.Indent(4).AppendLine($"if (existing.Add(current.Id)) {{ current.CleanEntityFrameworkReferenceLoops(existing); }} else {{ {property.Name}.RemoveAt(i); }}");
+                sb.Indent(3).AppendLine($"}}");
+            }
         }
 
         var content = sb.ToString();

@@ -26,15 +26,16 @@ public class CustomCSharpModelGenerator : CSharpModelGenerator
     // (public partial class \w+)
     // |
     // (public Guid Id { get; set; })
-    private static readonly Regex Regex = new Regex(@"(public partial class \w+)|(public Guid Id { get; set; })|(namespace .*;)", RegexOptions.Compiled);
+    private static readonly Regex Regex = new Regex(@"(public partial class \w+)|(public Guid Id { get; set; })|(namespace .*;)|(ICollection<)", RegexOptions.Compiled);
     private static readonly string BaseClassName = "BaseEntity";
     private static readonly string BaseClassInheritance = $" : {BaseClassName}";
     private static readonly string BaseClass = $"public abstract partial class {BaseClassName} {{ public abstract Guid Id {{ get; set; }} }}";
 
     public CustomCSharpModelGenerator(ModelCodeGeneratorDependencies dependencies, IOperationReporter reporter, IServiceProvider serviceProvider) : base(dependencies, reporter, serviceProvider)
     {
+        
     }
-    
+
     public override ScaffoldedModel GenerateModel(IModel model, ModelCodeGenerationOptions options)
     {
         ScaffoldedModel? defaultModel = base.GenerateModel(model, options);
@@ -61,12 +62,17 @@ public class CustomCSharpModelGenerator : CSharpModelGenerator
                         return value;
                     }
 
+                    if (evaluator.Value.StartsWith("ICollection<"))
+                    {
+                        return "IList<";
+                    }
+
                     if (evaluator.Value.StartsWith("namespace"))
                     {
                         detectedNamespace = evaluator.Value;
                         return evaluator.Value;
                     }
-
+                    
                     throw new Exception("This Shouldn't Have Happened, You Should Review The Custom Scaffolding Code Generator");
                 });
 

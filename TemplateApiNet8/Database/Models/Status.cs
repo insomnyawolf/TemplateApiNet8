@@ -16,5 +16,5 @@ public partial class Status : BaseEntity
     public string? Name { get; set; }
 
     [InverseProperty("Status")]
-    public virtual ICollection<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();
+    public virtual IList<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();
 }

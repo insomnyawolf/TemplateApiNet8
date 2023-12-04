@@ -128,9 +128,9 @@ public class ShowController : BaseController<ShowController>
 
             #region NewReg
             #endregion NewReg
-        }
 
-        await DatabaseContext.SaveChangesAsync();
+            await DatabaseContext.SaveChangesAsync();
+        }
     }
 
     private async Task UpdateGeneres(Database.Models.Show dbShow, TvMazeClient.Models.Show apiShow, CancellationToken cancellationToken)

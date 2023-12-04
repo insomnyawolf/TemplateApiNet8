@@ -19,7 +19,7 @@ public partial class ShowSchedule : BaseEntity
     public string? Time { get; set; }
 
     [InverseProperty("ShowSchedule")]
-    public virtual ICollection<ScheduleDay> ScheduleDays { get; set; } = new List<ScheduleDay>();
+    public virtual IList<ScheduleDay> ScheduleDays { get; set; } = new List<ScheduleDay>();
 
     [ForeignKey("ShowId")]
     [InverseProperty("ShowSchedules")]

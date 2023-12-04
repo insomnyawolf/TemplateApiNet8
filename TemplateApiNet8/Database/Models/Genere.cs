@@ -16,5 +16,5 @@ public partial class Genere : BaseEntity
     public string Name { get; set; } = null!;
 
     [InverseProperty("Genere")]
-    public virtual ICollection<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();
+    public virtual IList<ShowGenere> ShowGeneres { get; set; } = new List<ShowGenere>();
 }

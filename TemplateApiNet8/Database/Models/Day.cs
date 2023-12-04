@@ -16,5 +16,5 @@ public partial class Day : BaseEntity
     public string Name { get; set; } = null!;
 
     [InverseProperty("Day")]
-    public virtual ICollection<ScheduleDay> ScheduleDays { get; set; } = new List<ScheduleDay>();
+    public virtual IList<ScheduleDay> ScheduleDays { get; set; } = new List<ScheduleDay>();
 }

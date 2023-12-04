@@ -21,5 +21,5 @@ public partial class Image : BaseEntity
     public string? Original { get; set; }
 
     [InverseProperty("Image")]
-    public virtual ICollection<ShowImage> ShowImages { get; set; } = new List<ShowImage>();
+    public virtual IList<ShowImage> ShowImages { get; set; } = new List<ShowImage>();
 }

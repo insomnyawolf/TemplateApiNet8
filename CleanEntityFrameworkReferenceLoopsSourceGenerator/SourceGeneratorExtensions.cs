@@ -1,5 +1,6 @@
 ﻿using CleanEntityFrameworkReferenceLoopsSourceGenerator;
 using Microsoft.CodeAnalysis;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SourceGenerator
@@ -200,6 +201,11 @@ namespace SourceGenerator
             filename = filename.Replace(".cs", ".generated.cs");
 
             return filename;
+        }
+
+        public static StringBuilder Indent(this StringBuilder sb, int ammount)
+        {
+            return sb.Append('\t', ammount);
         }
     }
 }

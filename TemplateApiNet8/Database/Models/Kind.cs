@@ -16,5 +16,5 @@ public partial class Kind : BaseEntity
     public string? Name { get; set; }
 
     [InverseProperty("Kind")]
-    public virtual ICollection<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
+    public virtual IList<ShowKind> ShowKinds { get; set; } = new List<ShowKind>();
 }
