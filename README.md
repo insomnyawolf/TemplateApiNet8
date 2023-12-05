@@ -4,9 +4,18 @@ Disclaimer, to following doccument is fulled with ideas trying to improve what i
 
 ## To do
 
-*Better ReferenceHandling For EntityFramework Objects
+*Cleanup of unrelated to current tree objects in ef selects
 
-*Finishing the sync logic
+*Finishing the sync logic (Honestly, it's just repeating what i have already done a bunch of times for each related entity)
+
+## Highlights
+
+* Simple Rest Api Client & Implementation Example
+* Source Generator Example (It's like reflection but on compile time and with all the type safety features)
+* EntityFramework Core scaffolding customization
+* ASP.NET Versioned API
+* Auto OpenApi documentation
+* Docker support
 
 ## Goals & Intentions
 
@@ -200,7 +209,3 @@ There's still a central endpoint where all the requests arrive (ASP.NET Core) an
 Clean Code/architecture is not about reading a book and blindly following everything it says, it's about making your own (and your coworkers too) future maintaining your code better and easier while also creating a strong and robust program.
 
 In the end, this is a template, feel free to modify it as you wish to make it fit your needs better.
-
-## External resources used
-
-* https://github.com/lerocha/chinook-database
