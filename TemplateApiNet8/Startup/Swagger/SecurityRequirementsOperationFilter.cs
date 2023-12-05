@@ -9,11 +9,11 @@ namespace TemplateApiNet8.Startup.Swagger;
 public class SecurityRequirementsOperationFilter : IOperationFilter
 {
     private readonly Generation SwaggerGen;
-    private readonly List<string>? Scopes;
+    private readonly List<SecurityConfig>? SecurityConfigs;
     public SecurityRequirementsOperationFilter(IConfiguration IConfiguration)
     {
         SwaggerGen = IConfiguration.GetCurrent<Generation>();
-        Scopes = SwaggerGen.ApiScopes?.Values?.ToList();
+        SecurityConfigs = SwaggerGen.SecurityConfigs;
     }
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -65,10 +65,14 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
 
         responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
         responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+        // Not requiered, in theory it should never happen
+        // responses.Add("500", new OpenApiResponse { Description = "Internal Server Error" });
 
         var requirement = new OpenApiSecurityRequirement();
 
         var policiesString = string.Join(", ", policyName);
+
+        var activeAuthId = AuthenticationAndAuthorization.SchemaId;
 
         var schema = new OpenApiSecurityScheme
         {
@@ -76,11 +80,19 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
             Reference = new OpenApiReference
             {
                 Type = ReferenceType.SecurityScheme,
-                Id = AuthenticationAndAuthorization.SchemaId,
+                Id = activeAuthId,
             }
         };
 
-        requirement.Add(schema, Scopes);
+#warning maybe rework this to
+        var active = SecurityConfigs?.SingleOrDefault(item => item.Name == activeAuthId);
+
+        if (active?.SecuritySchemeType == SecuritySchemeType.OAuth2)
+        {
+            var scopes = active.Oauth2!.ApiScopes!.Values.ToList();
+
+            requirement.Add(schema, scopes);
+        }
 
         var security = operation.Security;
         security.Add(requirement);

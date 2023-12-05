@@ -32,20 +32,75 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
     {
         options.EnableAnnotations();
 
-        if (SwaggerGen.SecuritySchemeType is not null && SwaggerGen.AuthorizationUrl is not null)
+        if (SwaggerGen.SecurityConfigs is not null)
         {
-            options.AddSecurityDefinition(AuthenticationAndAuthorization.SchemaId, new OpenApiSecurityScheme
+            foreach (var securityConfig in SwaggerGen.SecurityConfigs)
             {
-                Type = SwaggerGen.SecuritySchemeType.Value,
-                Flows = new OpenApiOAuthFlows
+                if (securityConfig.SecuritySchemeType is not SecuritySchemeType schemeType)
                 {
-                    Implicit = new OpenApiOAuthFlow
-                    {
-                        AuthorizationUrl = new Uri(SwaggerGen.AuthorizationUrl),
-                        Scopes = SwaggerGen.ApiScopes,
-                    }
+                    throw new InvalidDataException("SecurityConfig.SecuritySchemeType can not be null in config");
                 }
-            });
+
+                if (securityConfig.Name is null)
+                {
+                    throw new InvalidDataException("SecurityConfig.Name can not be null in config");
+                }
+
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Type = schemeType,
+                };
+
+                switch (schemeType)
+                {
+                    case SecuritySchemeType.Http:
+                        if (securityConfig.Http?.Scheme is not string scheme)
+                        {
+                            throw new InvalidDataException("SecurityConfig.Http.Scheme can not be null");
+                        }
+                        securityScheme.Scheme = scheme;
+                        break;
+                    case SecuritySchemeType.ApiKey:
+                        if (securityConfig.ApiKey?.ParameterLocation is not ParameterLocation parameterLocation)
+                        {
+                            throw new InvalidDataException("SecurityConfig.ApiKey.InLocation can not be null");
+                        }
+
+                        if (securityConfig.ApiKey?.ParameterName is not string keyName)
+                        {
+                            throw new InvalidDataException("SecurityConfig.ApiKey.KeyName can not be null");
+                        }
+
+                        securityScheme.In = parameterLocation;
+                        securityScheme.Name = keyName;
+                        break;
+                    case SecuritySchemeType.OAuth2:
+                        if (securityConfig.Oauth2?.AuthorizationUrl is not string authorizationUrl)
+                        {
+                            throw new InvalidDataException("SecurityConfig.Oauth2.AuthorizationUrl can not be null");
+                        }
+
+                        if (securityConfig.Oauth2?.ApiScopes is null)
+                        {
+                            throw new InvalidDataException("SecurityConfig.Oauth2.ApiScopes can not be null");
+                        }
+
+                        securityScheme.Flows = new OpenApiOAuthFlows
+                        {
+                            Implicit = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri(authorizationUrl),
+                                Scopes = securityConfig.Oauth2.ApiScopes,
+                            }
+                        };
+                        break;
+                    case SecuritySchemeType.OpenIdConnect:
+                    default:
+                        throw new NotImplementedException(schemeType.ToString());
+                }
+
+                options.AddSecurityDefinition(securityConfig.Name, securityScheme);
+            }
         }
 
         var serverAdresses = IServer.Features.Get<IServerAddressesFeature>();
@@ -67,7 +122,7 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
             }
         }
 
-        if (SwaggerGen?.ExtraServers is not null)
+        if (SwaggerGen.ExtraServers is not null)
         {
             foreach (var server in SwaggerGen.ExtraServers)
             {
@@ -81,8 +136,32 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
 
 public class Generation
 {
+    public List<SecurityConfig>? SecurityConfigs { get; set; }
+    public List<OpenApiServer>? ExtraServers { get; set; }
+}
+
+public class SecurityConfig
+{
+    public string? Name { get; set; }
     public SecuritySchemeType? SecuritySchemeType { get; set; }
+    public SecurityConfigHttp? Http { get; set; }
+    public SecurityConfigApiKey? ApiKey { get; set; }
+    public SecurityConfigOauth2? Oauth2 { get; set; }
+}
+
+public class SecurityConfigHttp
+{
+    public string? Scheme { get; set; }
+}
+
+public class SecurityConfigApiKey
+{
+    public ParameterLocation? ParameterLocation { get; set; }
+    public string? ParameterName { get; set; }
+}
+
+public class SecurityConfigOauth2
+{
     public string? AuthorizationUrl { get; set; }
     public Dictionary<string, string>? ApiScopes { get; set; }
-    public List<OpenApiServer>? ExtraServers { get; set; }
 }

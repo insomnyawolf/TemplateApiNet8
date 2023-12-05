@@ -108,7 +108,6 @@ To help with the versions, I created a custom attribute that I later used on the
 
 ```jsonc
 {
-  // Asp.Net Settings
   "Kestrel": {
     "Endpoints": {
       "Http": {
@@ -123,35 +122,65 @@ To help with the versions, I created a custom attribute that I later used on the
     }
   },
   "AllowedHosts": "*",
-  // Custom Settings
   "ConnectionStrings": {
-    "DatabaseContext": "Data Source=Chinook.sqlite;Cache=Shared"
+    "DatabaseContext": "Data Source=TvMazeCache.db;Cache=Shared"
   },
   "AuthenticationAndAuthorization": {
     "JwtOptions": {
-      "Authority": "https://authentication authority",
+      "Authority": "LegitAuthorityHere",
       "ValidAudiences": [
-        "Audience"
+        "VeryLegitAudienceHere"
       ]
     }
   },
   "Swagger": {
     "Generation": {
-      "SecuritySchemeType": "OAuth2",
-      "AuthorizationUrl": "https://oauth login url",
-      "ApiScopes": {
-        "ScopeName": "Scope"
-      },
+      // More info at https://swagger.io/docs/specification/authentication/
+      // Optional Pick as many as you need/want
+      "SecurityConfigs": [
+        {
+          "Name": "SampleHttpBasic",
+          "SecuritySchemeType": "Http",
+          "Http": {
+            "Scheme": "Basic"
+          }
+        },
+        {
+          "Name": "SampleHttpBearer",
+          "SecuritySchemeType": "Http",
+          "Http": {
+            "Scheme": "Bearer"
+          }
+        },
+        {
+          "Name": "SampleApiKey",
+          "SecuritySchemeType": "ApiKey",
+          "ApiKey": {
+            "ParameterLocation": "Header",
+            "ParameterName": "CustomAuth"
+          }
+        },
+        {
+          "Name": "SampleOAuth2",
+          "SecuritySchemeType": "OAuth2",
+          "Oauth2": {
+            "AuthorizationUrl": "https://AuthorizationUrlHere",
+            "ApiScopes": {
+              "ScopeName": "Scope"
+            }
+          }
+        }
+      ],
       // Optional
       "ExtraServers": [
         {
           "Description": "Dev",
-          "Url": "http://very legit development url"
+          "Url": "http://VeryLegitDevelopmentUrlHere"
         }
       ]
     },
     "Ui": {
-      "ClientId": "ClientIdentifier"
+      "ClientId": "VeryLegitClientIdHere"
     }
   }
 }
