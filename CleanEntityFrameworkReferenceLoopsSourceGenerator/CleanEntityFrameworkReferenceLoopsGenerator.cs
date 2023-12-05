@@ -1,17 +1,14 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis;
 using SourceGenerator;
-using System;
 using System.Collections.Immutable;
 using System.Text;
-using System.Reflection.Metadata;
-using System.Linq;
 
 namespace CleanEntityFrameworkReferenceLoopsSourceGenerator;
 
 // https://github.com/dotnet/roslyn-sdk/issues/850#issuecomment-1038725567
 [Generator(LanguageNames.CSharp)]
-public class Class1 : IIncrementalGenerator
+public class CleanEntityFrameworkReferenceLoopsGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -81,7 +78,7 @@ public class Class1 : IIncrementalGenerator
 
     public static INamedTypeSymbol PrepareDataForGeneration(GeneratorSyntaxContext context, CancellationToken cancellationToken)
     {
-        var temp = (INamedTypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node);
+        var temp = (INamedTypeSymbol)context.SemanticModel.GetDeclaredSymbol(context.Node, cancellationToken)!;
 
         return temp;
     }
@@ -94,11 +91,10 @@ public class Class1 : IIncrementalGenerator
     {
         // Add Unconditionally generated files 
         var @namespace = envInfo.ContainingNamespace.ToString();
-        var classType = envInfo.BaseType.GetFullyQualifiedName();
+        var classType = envInfo.BaseType!.GetFullyQualifiedName();
 
         context.AddTemplate("IEnumerableExtensions.cs", MethodName, new Dictionary<string, string>()
         {
-
             { "Namespace", @namespace },
             { "Class", MethodName+"Extensions" },
             { "MethodName", MethodName },
@@ -110,7 +106,7 @@ public class Class1 : IIncrementalGenerator
 
     public static void ExecuteMany(SourceProductionContext context, ImmutableArray<INamedTypeSymbol> namedTypeSymbols)
     {
-        INamedTypeSymbol item = null;
+        INamedTypeSymbol? item = null;
 
         for (int i = 0; i < namedTypeSymbols.Length; i++)
         {
@@ -118,7 +114,10 @@ public class Class1 : IIncrementalGenerator
             Execute(context, item, namedTypeSymbols);
         }
 
-        SharedCode(context, item);
+        if (item is not null)
+        {
+            SharedCode(context, item);
+        }
     }
 
     public static void Execute(SourceProductionContext context, INamedTypeSymbol current, ImmutableArray<INamedTypeSymbol> available)

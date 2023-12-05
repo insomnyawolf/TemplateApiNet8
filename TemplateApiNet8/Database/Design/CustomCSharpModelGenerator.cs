@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+
 using Microsoft.EntityFrameworkCore.Scaffolding;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -86,14 +87,12 @@ public class CustomCSharpModelGenerator : CSharpModelGenerator
             });
         }
 
-        var contextPath = defaultModel.ContextFile.Path;
-
-        contextPath = Path.GetDirectoryName(contextPath);
-
-        contextPath = Path.Combine(contextPath, $"{BaseClassName}.cs");
-
-        if (detectedNamespace is not null)
+        if (detectedNamespace is not null && defaultModel.ContextFile.Path is string contextPath)
         {
+            contextPath = Path.GetDirectoryName(contextPath)!;
+
+            contextPath = Path.Combine(contextPath, $"{BaseClassName}.cs");
+
             modelFiles.Add(new ScaffoldedFile()
             {
                 Code = detectedNamespace + BaseClass,

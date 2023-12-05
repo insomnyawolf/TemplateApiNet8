@@ -22,7 +22,7 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 public class ShowController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
-    public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider, IOptions<JsonOptions> test) : base(IServiceProvider)
+    public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
     }
@@ -62,10 +62,11 @@ public class ShowController : BaseController<ShowController>
 
         if (!string.IsNullOrEmpty(showName))
         {
-            dbShows = dbShows.Where(item => item.Name.Contains(showName));
+            // Name may be null but it doesn't matter since it will be converted into sql
+            dbShows = dbShows.Where(item => item.Name!.Contains(showName));
         }
 
-        var data = await dbShows.ToListAsync();
+        var data = await dbShows.ToListAsync(cancellationToken);
 
         return data.CleanEntityFrameworkReferenceLoops();
     }
@@ -74,6 +75,12 @@ public class ShowController : BaseController<ShowController>
     [SwaggerOperation(Summary = "UpdateAvailableShows", Description = "Sample Description")]
     public async Task Update(int startingIdInclusive = 1, int endingIdExclusive = 6, CancellationToken cancellationToken = default)
     {
+        // The contents of the following method can be moved into a background thread that does the update without making the client wait for it's result
+        
+        // It might be a great idea to implement a way to be sure that only one update task is running at any given time
+        // That way we reduce the risk of being rate limited
+
+        // This is here because we don't need to resolve tis service for any of the other endpoints in this controller
         var apiClient = IServiceProvider.GetRequiredService<TvMazeApiClient>();
 
         for (int showId = startingIdInclusive; showId < endingIdExclusive; showId++)
@@ -114,7 +121,7 @@ public class ShowController : BaseController<ShowController>
             // we can check them in further items and reuse them instead of having a lot of duplicates
             // This is useful for things like generes, networks days and so on
 
-            await DatabaseContext.SaveChangesAsync();
+            await DatabaseContext.SaveChangesAsync(cancellationToken);
         }
     }
 

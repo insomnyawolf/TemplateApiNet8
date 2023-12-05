@@ -7,18 +7,26 @@ namespace BaseRestClient;
 public abstract class BaseHttpClient
 {
     private readonly Uri BaseUrl;
-    private readonly HttpClient HttpClient;
-    private readonly IHttpClientFactory IHttpClientFactory;
+    private readonly HttpClient HttpClient = null!;
+    private readonly IHttpClientFactory IHttpClientFactory = null!;
 
     protected abstract int AuthRetryCount { get; set; }
 
     public BaseHttpClient(Uri BaseUrl, IHttpClientFactory IHttpClientFactory) : this(BaseUrl)
     {
+        if (IHttpClientFactory is null)
+        {
+            throw new NullReferenceException(nameof(IHttpClientFactory));
+        }
         this.IHttpClientFactory = IHttpClientFactory;
     }
 
     public BaseHttpClient(Uri BaseUrl, HttpClient HttpClient) : this(BaseUrl)
     {
+        if (HttpClient is null)
+        {
+            throw new NullReferenceException(nameof(HttpClient));
+        }
         this.HttpClient = HttpClient;
     }
 
@@ -70,12 +78,19 @@ public abstract class BaseHttpClient
         return response.Content;
     }
 
-    private Uri GetUri(string endpoint, List<KeyValuePair<string, dynamic>>? param = null)
+    private Uri GetUri(string? endpoint, List<KeyValuePair<string, dynamic>>? param = null)
     {
+        if (param is null && endpoint is null)
+        {
+            return BaseUrl;
+        }
+
         if (param is null)
         {
             return new Uri(BaseUrl, endpoint);
         }
+
+        endpoint ??= "";
 
         var query = new StringBuilder();
 

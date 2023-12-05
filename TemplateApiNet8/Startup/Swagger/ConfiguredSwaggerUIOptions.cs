@@ -45,5 +45,5 @@ public class ConfiguredSwaggerUIOptions : IConfigureNamedOptions<SwaggerUIOption
 
 public class Ui
 {
-    public string ClientId { get; set; }
+    public string? ClientId { get; set; }
 }

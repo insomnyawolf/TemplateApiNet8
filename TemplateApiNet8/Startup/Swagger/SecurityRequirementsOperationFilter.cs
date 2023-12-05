@@ -9,11 +9,11 @@ namespace TemplateApiNet8.Startup.Swagger;
 public class SecurityRequirementsOperationFilter : IOperationFilter
 {
     private readonly Generation SwaggerGen;
-    private readonly List<string> Scopes;
+    private readonly List<string>? Scopes;
     public SecurityRequirementsOperationFilter(IConfiguration IConfiguration)
     {
         SwaggerGen = IConfiguration.GetCurrent<Generation>();
-        Scopes = SwaggerGen.ApiScopes.Values.ToList();
+        Scopes = SwaggerGen.ApiScopes?.Values?.ToList();
     }
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -26,6 +26,10 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
         {
             if (item is AuthorizeAttribute auth)
             {
+                if (auth.Policy is null)
+                {
+                    continue;
+                }
                 policyName.Add(auth.Policy);
             }
         }
@@ -36,8 +40,17 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
         {
             if (item.Filter is AuthorizeFilter auth)
             {
+                if (auth.AuthorizeData is null)
+                {
+                    continue;
+                }
+
                 foreach (var data in auth.AuthorizeData)
                 {
+                    if (data.Policy is null)
+                    {
+                        continue;
+                    }
                     policyName.Add(data.Policy);
                 }
             }

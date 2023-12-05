@@ -32,18 +32,21 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
     {
         options.EnableAnnotations();
 
-        options.AddSecurityDefinition(AuthenticationAndAuthorization.SchemaId, new OpenApiSecurityScheme
+        if (SwaggerGen.SecuritySchemeType is not null && SwaggerGen.AuthorizationUrl is not null)
         {
-            Type = SecuritySchemeType.OAuth2,
-            Flows = new OpenApiOAuthFlows
+            options.AddSecurityDefinition(AuthenticationAndAuthorization.SchemaId, new OpenApiSecurityScheme
             {
-                Implicit = new OpenApiOAuthFlow
+                Type = SwaggerGen.SecuritySchemeType.Value,
+                Flows = new OpenApiOAuthFlows
                 {
-                    AuthorizationUrl = new Uri(SwaggerGen.AuthorizationUrl),
-                    Scopes = SwaggerGen.ApiScopes,
+                    Implicit = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri(SwaggerGen.AuthorizationUrl),
+                        Scopes = SwaggerGen.ApiScopes,
+                    }
                 }
-            }
-        });
+            });
+        }
 
         var serverAdresses = IServer.Features.Get<IServerAddressesFeature>();
 
@@ -78,7 +81,8 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
 
 public class Generation
 {
-    public string AuthorizationUrl { get; set; }
-    public Dictionary<string, string> ApiScopes { get; set; }
-    public List<OpenApiServer> ExtraServers { get; set; }
+    public SecuritySchemeType? SecuritySchemeType { get; set; }
+    public string? AuthorizationUrl { get; set; }
+    public Dictionary<string, string>? ApiScopes { get; set; }
+    public List<OpenApiServer>? ExtraServers { get; set; }
 }

@@ -7,19 +7,19 @@ namespace SourceGenerator
 {
     public static class SourceGeneratorExtensions
     {
-        private static readonly Type AssemblyType = typeof(Class1);
+        private static readonly Type AssemblyType = typeof(CleanEntityFrameworkReferenceLoopsGenerator);
 
         public static Stream GetEmbedFile(string filename)
         {
             const string folderName = "EmbedResources";
-#warning this may fail if reusing this extensions without updating the type in AssemblyType
+            // this may fail if the type in AssemblyType doesn't belong to the default namespace of the package
             var path = $"{AssemblyType.Namespace}.{folderName}.{filename}";
             var asm = AssemblyType.Assembly;
             var resource = asm.GetManifestResourceStream(path);
             return resource;
         }
 
-        private static readonly Dictionary<string, string> FileCache = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> FileCache = [];
 
         public static string GetEmbedFileAsString(string filename)
         {

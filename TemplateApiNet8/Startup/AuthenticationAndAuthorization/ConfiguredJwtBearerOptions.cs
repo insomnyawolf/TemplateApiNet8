@@ -27,6 +27,6 @@ public class ConfiguredJwtBearerOptions : IConfigureNamedOptions<JwtBearerOption
 
 public class JwtOptions
 {
-    public string Authority { get; set; }
-    public List<string> ValidAudiences { get; set; }
+    public string? Authority { get; set; }
+    public List<string>? ValidAudiences { get; set; }
 }

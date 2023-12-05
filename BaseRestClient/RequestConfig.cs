@@ -2,10 +2,8 @@
 
 public class RequestConfig<TContext> : RequestConfig
 {
-    public string Endpoint { get; set; }
-    public List<KeyValuePair<string, dynamic>>? QueryParams { get; set; }
     public TContext? Context { get; set; }
-    new public Func<TContext, HttpRequestMessage> MessageBuilder { get; set; }
+    new public Func<TContext?, HttpRequestMessage> MessageBuilder { get; set; } = null!;
 
     public override HttpRequestMessage BuildMessage()
     {
@@ -20,9 +18,9 @@ public class RequestConfig<TContext> : RequestConfig
 
 public class RequestConfig
 {
-    public string Endpoint { get; set; }
+    public string? Endpoint { get; set; }
     public List<KeyValuePair<string, dynamic>>? QueryParams { get; set; }
-    public Func<HttpRequestMessage> MessageBuilder { get; set; }
+    public Func<HttpRequestMessage> MessageBuilder { get; set; } = null!;
 
     public virtual HttpRequestMessage BuildMessage()
     {
