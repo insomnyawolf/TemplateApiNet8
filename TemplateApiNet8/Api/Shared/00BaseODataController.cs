@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using TemplateApiNet8.Database;
-using TemplateApiNet8.Database.Infraestructure;
 
 namespace TemplateApiNet8.Api.Shared;
 

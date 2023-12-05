@@ -28,4 +28,8 @@ public partial class ShowLink : BaseEntity
     [ForeignKey("SelfId")]
     [InverseProperty("ShowLinkSelves")]
     public virtual Episode? Self { get; set; }
+
+    [ForeignKey("ShowId")]
+    [InverseProperty("ShowLinks")]
+    public virtual Show Show { get; set; } = null!;
 }

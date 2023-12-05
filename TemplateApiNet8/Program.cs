@@ -1,15 +1,3 @@
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Design.Internal;
-using Microsoft.EntityFrameworkCore.Scaffolding;
-using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
-using Microsoft.EntityFrameworkCore.Sqlite.Design.Internal;
-using Microsoft.EntityFrameworkCore.Sqlite.Scaffolding.Internal;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Buffers;
-using System.Diagnostics;
-using System.Text.Json.Serialization;
-using TemplateApiNet8.Database.Design;
 using TemplateApiNet8.Startup;
 using TemplateApiNet8.Startup.ApiVersioning;
 using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;

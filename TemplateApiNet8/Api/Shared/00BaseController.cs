@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TemplateApiNet8.Database.Infraestructure;
 
 namespace TemplateApiNet8.Api.Shared;
 

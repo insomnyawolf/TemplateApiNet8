@@ -6,8 +6,8 @@ namespace TemplateApiNet8.Api.v0;
 public sealed class ApiV0Attribute : ApiVersionAttribute
 {
     public static readonly ApiVersion Version = new(majorVersion: 0, minorVersion: 0, status: "alpha");
-    public ApiV0Attribute() : base(version: Version) 
+    public ApiV0Attribute() : base(version: Version)
     {
-        
+
     }
 }

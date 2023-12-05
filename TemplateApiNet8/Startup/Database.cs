@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Diagnostics;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using TemplateApiNet8.Database;
-using TemplateApiNet8.Database.Infraestructure;
 
 namespace TemplateApiNet8.Startup;
 

@@ -1,18 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Text.Json;
-using System.Threading;
 using TemplateApiNet8.Api.Shared;
 using TemplateApiNet8.Database;
-using TemplateApiNet8.Database.Models;
-using TemplateApiNet8.Extensions;
-using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
-using TvMazeClient;
-using TvMazeClient.Models;
 
 namespace TemplateApiNet8.Api.v0.Controllers.Default;
 

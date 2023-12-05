@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
-using TemplateApiNet8.Startup.Swagger;
 
 namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 

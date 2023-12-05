@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using TemplateApiNet8.Startup.OData;
-using System.Runtime.CompilerServices;
-using TemplateApiNet8.Database.Models;
 
 namespace TemplateApiNet8.Startup;
 

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using TemplateApiNet8.Startup.Swagger;
-
-namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
+﻿namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public static class AuthenticationAndAuthorization
 {
@@ -11,12 +7,12 @@ public static class AuthenticationAndAuthorization
         services.ConfigureOptions<ConfiguredAuthenticationOptions>();
         services.ConfigureOptions<ConfiguredAuthorizationOptions>();
         services.ConfigureOptions<ConfigureDefaultAuthorizationFilterOptions>();
-        
+
         var authBuilder = services.AddAuthentication();
-        
+
         //services.ConfigureOptions<ConfiguredJwtBearerOptions>();
         //authBuilder.AddJwtBearer();
-        
+
         services.AddAuthorization();
     }
 

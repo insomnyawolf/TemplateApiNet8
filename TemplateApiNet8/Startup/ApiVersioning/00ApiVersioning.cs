@@ -1,8 +1,4 @@
 ﻿using Asp.Versioning;
-using Asp.Versioning.OData;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.OData.ModelBuilder;
 using TemplateApiNet8.Api.v0;
 
 namespace TemplateApiNet8.Startup.ApiVersioning;

@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace TemplateApiNet8.Startup.ApiVersioning;
 

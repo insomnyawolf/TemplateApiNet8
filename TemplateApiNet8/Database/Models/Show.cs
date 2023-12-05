@@ -49,6 +49,9 @@ public partial class Show : BaseEntity
     public virtual IList<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
 
     [InverseProperty("Show")]
+    public virtual IList<ShowLink> ShowLinks { get; set; } = new List<ShowLink>();
+
+    [InverseProperty("Show")]
     public virtual IList<ShowNetwork> ShowNetworks { get; set; } = new List<ShowNetwork>();
 
     [InverseProperty("Show")]

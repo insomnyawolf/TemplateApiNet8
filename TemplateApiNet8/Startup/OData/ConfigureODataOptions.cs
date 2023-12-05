@@ -1,15 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Mvc.Authorization;
+﻿using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.OData;
 
 namespace TemplateApiNet8.Startup.Swagger;
 
