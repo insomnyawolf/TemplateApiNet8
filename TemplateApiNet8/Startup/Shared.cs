@@ -4,7 +4,7 @@ namespace TemplateApiNet8.Startup;
 
 public static class Shared
 {
-    public static TSettings GetCurrent<TSettings>(this IConfiguration IConfiguration, string currentSection)
+    public static TSettings GetConfig<TSettings>(this IConfiguration IConfiguration, string currentSection)
     {
         var parentGroup = IConfiguration.GetRequiredSection(currentSection);
         

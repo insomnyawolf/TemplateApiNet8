@@ -1,20 +1,22 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TemplateApiNet8.Startup.Swagger;
 
 namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public static class AuthenticationAndAuthorization
 {
-    public const string SchemaId = JwtBearerDefaults.AuthenticationScheme;
     public static void AddAuthenticationAndAuthorization(this IServiceCollection services)
     {
-        services.ConfigureOptions<ConfigureDefaultAuthorizationFilterOptions>();
         services.ConfigureOptions<ConfiguredAuthenticationOptions>();
         services.ConfigureOptions<ConfiguredAuthorizationOptions>();
-        services.ConfigureOptions<ConfiguredJwtBearerOptions>();
+        services.ConfigureOptions<ConfigureDefaultAuthorizationFilterOptions>();
         
         var authBuilder = services.AddAuthentication();
-        authBuilder.AddJwtBearer();
+        
+        //services.ConfigureOptions<ConfiguredJwtBearerOptions>();
+        //authBuilder.AddJwtBearer();
+        
         services.AddAuthorization();
     }
 
@@ -24,8 +26,8 @@ public static class AuthenticationAndAuthorization
         appBuilder.UseAuthorization();
     }
 
-    public static TSettings GetCurrent<TSettings>(this IConfiguration IConfiguration)
+    public static TSettings GetConfig<TSettings>(this IConfiguration IConfiguration)
     {
-        return IConfiguration.GetCurrent<TSettings>(nameof(AuthenticationAndAuthorization));
+        return IConfiguration.GetConfig<TSettings>(nameof(AuthenticationAndAuthorization));
     }
 }

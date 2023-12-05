@@ -23,8 +23,8 @@ public static class Swagger
         appBuilder.UseSwaggerUI();
     }
 
-    public static TSettings GetCurrent<TSettings>(this IConfiguration IConfiguration)
+    public static TSettings GetConfig<TSettings>(this IConfiguration IConfiguration)
     {
-        return IConfiguration.GetCurrent<TSettings>(nameof(Swagger));
+        return IConfiguration.GetConfig<TSettings>(nameof(Swagger));
     }
 }

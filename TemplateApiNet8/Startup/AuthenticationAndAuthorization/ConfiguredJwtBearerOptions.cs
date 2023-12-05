@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
+using TemplateApiNet8.Startup.Swagger;
 
 namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public class ConfiguredJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly JwtOptions JwtOptions;
-
     public ConfiguredJwtBearerOptions(IConfiguration IConfiguration)
     {
-        JwtOptions = IConfiguration.GetCurrent<JwtOptions>();
+        JwtOptions = IConfiguration.GetConfig<JwtOptions>();
     }
 
     public void Configure(string? name, JwtBearerOptions options)

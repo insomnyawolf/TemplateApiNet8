@@ -6,6 +6,7 @@ namespace TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 public class ConfiguredAuthenticationOptions : IConfigureNamedOptions<AuthenticationOptions>
 {
+    public const string DefaultSchemaId = "SampleApiKey";
     public void Configure(string? name, AuthenticationOptions options)
     {
         Configure(options);
@@ -13,6 +14,7 @@ public class ConfiguredAuthenticationOptions : IConfigureNamedOptions<Authentica
 
     public void Configure(AuthenticationOptions options)
     {
-        options.DefaultScheme = AuthenticationAndAuthorization.SchemaId;
+        options.DefaultScheme = DefaultSchemaId;
+        options.AddScheme<CustomAuthSchemeApiKeyAuthenticationHandler>(DefaultSchemaId, DefaultSchemaId);
     }
 }

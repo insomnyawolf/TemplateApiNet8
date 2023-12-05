@@ -1,36 +1,44 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text;
 using TemplateApiNet8.Startup.AuthenticationAndAuthorizationOptions;
 
 namespace TemplateApiNet8.Startup.Swagger;
 
 public class SecurityRequirementsOperationFilter : IOperationFilter
 {
-    private readonly Generation SwaggerGen;
-    private readonly List<SecurityConfig>? SecurityConfigs;
-    public SecurityRequirementsOperationFilter(IConfiguration IConfiguration)
+    private readonly SwaggerGenOptions SwaggerGenOptions;
+    public SecurityRequirementsOperationFilter(IConfiguration IConfiguration, IOptions<SwaggerGenOptions> SwaggerGenOptions)
     {
-        SwaggerGen = IConfiguration.GetCurrent<Generation>();
-        SecurityConfigs = SwaggerGen.SecurityConfigs;
+        this.SwaggerGenOptions = SwaggerGenOptions.Value;
     }
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        var policyName = new List<string>();
+        var policyNames = new List<string>();
+        var roleNames = new List<string>();
 
         var metadata = context.ApiDescription.ActionDescriptor.EndpointMetadata;
+
+        var authRequired = false;
 
         foreach (var item in metadata)
         {
             if (item is AuthorizeAttribute auth)
             {
-                if (auth.Policy is null)
+                authRequired = true;
+                if (auth.Policy is not null)
                 {
-                    continue;
+                    policyNames.Add(auth.Policy);
                 }
-                policyName.Add(auth.Policy);
+                if (auth.Roles is not null)
+                {
+                    roleNames.Add(auth.Roles);
+                }
             }
         }
 
@@ -47,17 +55,18 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
 
                 foreach (var data in auth.AuthorizeData)
                 {
-                    if (data.Policy is null)
+                    authRequired = true;
+                    if (data.Policy is not null)
                     {
-                        continue;
+                        policyNames.Add(data.Policy);
                     }
-                    policyName.Add(data.Policy);
                 }
             }
         }
 
-        if (policyName.Count < 1)
+        if (!authRequired)
         {
+            // No AuthenticationRequieredWasFound
             return;
         }
 
@@ -70,28 +79,72 @@ public class SecurityRequirementsOperationFilter : IOperationFilter
 
         var requirement = new OpenApiSecurityRequirement();
 
-        var policiesString = string.Join(", ", policyName);
+        var descriptionStringBuilder = new StringBuilder();
 
-        var activeAuthId = AuthenticationAndAuthorization.SchemaId;
+        if (operation.Description is not null)
+        {
+            descriptionStringBuilder.AppendLine(operation.Description);
+        }
+
+        const string BaseText = "Requiered Autorizations =>";
+
+        descriptionStringBuilder.AppendLine(BaseText);
+
+        var securityStringBuilder = new StringBuilder();
+
+        if (policyNames.Count > 0)
+        {
+            securityStringBuilder.Append("Policies: ");
+            for (int i = 0; i < policyNames.Count; i++)
+            {
+                if (i > 0)
+                {
+                    securityStringBuilder.Append(", ");
+                }
+                securityStringBuilder.Append(policyNames[i]);
+            }
+            securityStringBuilder.AppendLine();
+        }
+
+        if (roleNames.Count > 0)
+        {
+            securityStringBuilder.Append("Roles: ");
+            for (int i = 0; i < roleNames.Count; i++)
+            {
+                if (i > 0)
+                {
+                    securityStringBuilder.Append(", ");
+                }
+                securityStringBuilder.Append(roleNames[i]);
+            }
+            securityStringBuilder.AppendLine();
+        }
+
+        if (securityStringBuilder.Length < 1)
+        {
+            securityStringBuilder.Append("Default Authorization");
+        }
+
+        descriptionStringBuilder.Append(securityStringBuilder);
+
+        operation.Description = descriptionStringBuilder.ToString();
+
+        var DefaultSchemaId = ConfiguredAuthenticationOptions.DefaultSchemaId;
 
         var schema = new OpenApiSecurityScheme
         {
-            Description = $"Requiered Autorizations => {policiesString}",
             Reference = new OpenApiReference
             {
                 Type = ReferenceType.SecurityScheme,
-                Id = activeAuthId,
+                Id = DefaultSchemaId,
             }
         };
 
-#warning maybe rework this to
-        var active = SecurityConfigs?.SingleOrDefault(item => item.Name == activeAuthId);
+        var securitySchemas = this.SwaggerGenOptions.SwaggerGeneratorOptions.SecuritySchemes;
 
-        if (active?.SecuritySchemeType == SecuritySchemeType.OAuth2)
+        foreach (var securityScheme in securitySchemas)
         {
-            var scopes = active.Oauth2!.ApiScopes!.Values.ToList();
-
-            requirement.Add(schema, scopes);
+            requirement.Add(schema, Array.Empty<string>());
         }
 
         var security = operation.Security;

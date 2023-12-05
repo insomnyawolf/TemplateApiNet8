@@ -11,7 +11,7 @@ public class ConfiguredSwaggerUIOptions : IConfigureNamedOptions<SwaggerUIOption
 
     public ConfiguredSwaggerUIOptions(IApiVersionDescriptionProvider IApiVersionDescriptionProvider, IConfiguration IConfiguration)
     {
-        SwaggerUI = IConfiguration.GetCurrent<Ui>();
+        SwaggerUI = IConfiguration.GetConfig<Ui>();
         this.IApiVersionDescriptionProvider = IApiVersionDescriptionProvider;
     }
 

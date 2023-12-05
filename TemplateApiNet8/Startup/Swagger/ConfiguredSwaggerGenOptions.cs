@@ -19,7 +19,7 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
 
     public ConfiguredSwaggerGenOptions(IConfiguration IConfiguration, IServer IServer)
     {
-        SwaggerGen = IConfiguration.GetCurrent<Generation>();
+        SwaggerGen = IConfiguration.GetConfig<Generation>();
         this.IServer = IServer;
     }
 
@@ -59,6 +59,7 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
                             throw new InvalidDataException("SecurityConfig.Http.Scheme can not be null");
                         }
                         securityScheme.Scheme = scheme;
+                        securityScheme.BearerFormat = securityConfig.Http?.Scheme;
                         break;
                     case SecuritySchemeType.ApiKey:
                         if (securityConfig.ApiKey?.ParameterLocation is not ParameterLocation parameterLocation)
@@ -152,6 +153,7 @@ public class SecurityConfig
 public class SecurityConfigHttp
 {
     public string? Scheme { get; set; }
+    public string? BearerFormat { get; set; }
 }
 
 public class SecurityConfigApiKey

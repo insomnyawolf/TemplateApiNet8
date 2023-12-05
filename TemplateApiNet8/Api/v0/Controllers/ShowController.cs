@@ -18,7 +18,6 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
 [ApiV0]
 [ApiController]
-[AllowAnonymous]
 public class ShowController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
@@ -71,12 +70,13 @@ public class ShowController : BaseController<ShowController>
         return data.CleanEntityFrameworkReferenceLoops();
     }
 
+    [Authorize]
     [HttpPost("update")]
     [SwaggerOperation(Summary = "UpdateAvailableShows", Description = "Sample Description")]
     public async Task Update(int startingIdInclusive = 1, int endingIdExclusive = 6, CancellationToken cancellationToken = default)
     {
         // The contents of the following method can be moved into a background thread that does the update without making the client wait for it's result
-        
+
         // It might be a great idea to implement a way to be sure that only one update task is running at any given time
         // That way we reduce the risk of being rate limited
 
