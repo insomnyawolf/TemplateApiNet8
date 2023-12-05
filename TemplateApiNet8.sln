@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseRestClient", "BaseRestC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvMazeClientTests", "TvMazeClientTests\TvMazeClientTests.csproj", "{CBBB5BEA-E959-4C51-A4B0-D8B67F241895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanEntityFrameworkReferenceLoopsSourceGenerator", "CleanEntityFrameworkReferenceLoopsSourceGenerator\CleanEntityFrameworkReferenceLoopsSourceGenerator.csproj", "{6626C6DF-5A3D-4719-9A08-740E2B0B4933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanEntityFrameworkReferenceLoopsSourceGenerator", "CleanEntityFrameworkReferenceLoopsSourceGenerator\CleanEntityFrameworkReferenceLoopsSourceGenerator.csproj", "{6626C6DF-5A3D-4719-9A08-740E2B0B4933}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
