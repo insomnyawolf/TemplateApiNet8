@@ -1,5 +1,4 @@
 ﻿using BaseRestClient;
-using System.Net.Http.Json;
 using TvMazeClient.Models;
 
 namespace TvMazeClient;
@@ -30,12 +29,11 @@ public class TvMazeApiClient : BaseHttpClient
         // Since on this endpoint the path changes we need an extra transformation
         var currentEndpoint = $"{Endpoint}/{showId}";
 
-        var config = new RequestConfig<object>
+        var config = new RequestConfig
         {
             Endpoint = currentEndpoint,
             QueryParams = null,
-            Context = null,
-            MessageBuilder = (object context) =>
+            MessageBuilder = () =>
             {
                 var message = new HttpRequestMessage()
                 {
@@ -46,7 +44,7 @@ public class TvMazeApiClient : BaseHttpClient
             },
         };
 
-        var result = await SendAsync<Show, object>(config, cancellationToken);
+        var result = await SendAsync<Show>(config, cancellationToken);
 
         return result!;
     }

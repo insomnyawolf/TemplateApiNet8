@@ -29,7 +29,7 @@ public abstract class BaseHttpClient
 
     protected abstract void SetupHttpClient(HttpClient httpClient);
 
-    protected async Task<TResponse?> SendAsync<TResponse, TContext>(RequestConfig<TContext> requestConfiguration, CancellationToken cancellationToken)
+    protected async Task<TResponse?> SendAsync<TResponse>(RequestConfig requestConfiguration, CancellationToken cancellationToken)
     {
         var response = await SendAsync(requestConfiguration, cancellationToken);
 
@@ -38,7 +38,7 @@ public abstract class BaseHttpClient
         return result;
     }
 
-    protected async Task<HttpContent> SendAsync<TContext>(RequestConfig<TContext> requestConfiguration, CancellationToken cancellationToken)
+    protected async Task<HttpContent> SendAsync(RequestConfig requestConfiguration, CancellationToken cancellationToken)
     {
         var localRetryCount = AuthRetryCount;
 
@@ -48,7 +48,7 @@ public abstract class BaseHttpClient
 
         SetupHttpClient(client);
 
-        var message = requestConfiguration.MessageBuilder(requestConfiguration.Context);
+        var message = requestConfiguration.BuildMessage();
 
         message.RequestUri ??= GetUri(requestConfiguration.Endpoint, requestConfiguration.QueryParams);
 
@@ -89,7 +89,7 @@ public abstract class BaseHttpClient
 
             if (query.Length > endpoint.Length)
             {
-                query.Append("&");
+                query.Append('&');
             }
 
             query.Append(pair.Key);
