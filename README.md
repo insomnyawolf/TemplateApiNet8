@@ -49,6 +49,13 @@ To achieve this I believe that the best way to do it is to keep the application 
 
 * Sample Health-Checks at ``/health``
 
+## How to run
+
+1. If needed instal [dotnet8 sdk](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+2. Download the source code
+3. Navigate to the source code
+4. Double Click either ``start-watch.bat`` or ``start.bat``
+
 ## How is the template made
 
 I wanted to keep the ``main`` simple, it does call everything that is used and configured in the app so you can go there to grasp an idea about what's going on, but the implementation of those calls is moved into the ``Startup`` subfolder, there you can find files or folders depending on the item itself and how simple or complex is the thing that it does.
@@ -130,6 +137,7 @@ To help with the versions, I created a custom attribute that I later used on the
   },
   "Swagger": {
     "Generation": {
+      "SecuritySchemeType": "OAuth2",
       "AuthorizationUrl": "https://oauth login url",
       "ApiScopes": {
         "ScopeName": "Scope"
@@ -209,3 +217,4 @@ There's still a central endpoint where all the requests arrive (ASP.NET Core) an
 Clean Code/architecture is not about reading a book and blindly following everything it says, it's about making your own (and your coworkers too) future maintaining your code better and easier while also creating a strong and robust program.
 
 In the end, this is a template, feel free to modify it as you wish to make it fit your needs better.
+
