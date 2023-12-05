@@ -48,6 +48,7 @@ public abstract class BaseHttpClient
 
         SetupHttpClient(client);
 
+        // HttpRequestMessage cannot be reused, without rebuilding it ourselves we can not handle retry logic automatically
         var message = requestConfiguration.BuildMessage();
 
         message.RequestUri ??= GetUri(requestConfiguration.Endpoint, requestConfiguration.QueryParams);

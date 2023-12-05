@@ -48,8 +48,7 @@ public class ShowController : BaseController<ShowController>
         dbShows = dbShows.Include(i => i.ShowExternals)
             .ThenInclude(i => i.External);
 
-        //dbShows = dbShows.Include(i => i.S)
-        //    .ThenInclude(i => i.External);
+        // etc etc
 
         return dbShows;
     }
@@ -63,29 +62,12 @@ public class ShowController : BaseController<ShowController>
 
         if (!string.IsNullOrEmpty(showName))
         {
-            dbShows = dbShows.Where(item => item.Name == showName);
+            dbShows = dbShows.Where(item => item.Name.Contains(showName));
         }
 
         var data = await dbShows.ToListAsync();
 
-        //var option = new JsonSerializerOptions()
-        //{
-        //    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
-        //};
-
-        //var str = JsonSerializer.Serialize(data, option);
-
         return data.CleanEntityFrameworkReferenceLoops();
-    }
-
-    [HttpGet("single")]
-    [AllowAnonymous]
-    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    public async Task<Database.Models.Show> GetSingle(string? showName = null, CancellationToken cancellationToken = default)
-    {
-        var data = await Get(showName, cancellationToken);
-        var f = data.First();
-        return f;
     }
 
     [HttpPost("update")]
@@ -126,8 +108,11 @@ public class ShowController : BaseController<ShowController>
 
             await UpdateSchedules(dbShow, apiShow, cancellationToken);
 
-            #region NewReg
-            #endregion NewReg
+            // I save on each iteration because each show update can be atomic and not deppend on the rest.
+            // That way if any of them fails for whatever reason i won't lose the progress i have done untill now
+            // It also gives us an extra thing, since we insert things into the database
+            // we can check them in further items and reuse them instead of having a lot of duplicates
+            // This is useful for things like generes, networks days and so on
 
             await DatabaseContext.SaveChangesAsync();
         }

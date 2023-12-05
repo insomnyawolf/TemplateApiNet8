@@ -12,6 +12,8 @@ public partial class DatabaseContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
     {
+        // Here i am creating general filters on models of the database that will be added to any query by default
+        // Using the program metadata to know whichones are relevant to what
         var models = modelBuilder.Model.GetEntityTypes();
 
         var thisInstance = Expression.Constant(this);

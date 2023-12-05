@@ -33,15 +33,12 @@ public class ConfiguredSwaggerUIOptions : IConfigureNamedOptions<SwaggerUIOption
 
         options.EnableFilter();
         options.EnableTryItOutByDefault();
-        //options.DisplayOperationId();
         options.DisplayRequestDuration();
         options.DocExpansion(DocExpansion.List);
         options.EnableDeepLinking();
         options.ShowCommonExtensions();
         options.ShowExtensions();
-
         options.DefaultModelRendering(ModelRendering.Example);
-        //options.DefaultModelExpandDepth(1);
         options.DefaultModelsExpandDepth(0);
     }
 }

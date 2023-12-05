@@ -28,10 +28,10 @@ public class Program
 
         // Add Configuration
         // This initializes the configuration abstractions
-        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0
         var configuration = builder.Configuration;
 
-        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0#default-application-configuration-sources
+        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0#default-application-configuration-sources
         configuration.AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false);
         configuration.AddJsonFile(path: "appsettings.Development.json", optional: true, reloadOnChange: true);
         configuration.AddEnvironmentVariables();

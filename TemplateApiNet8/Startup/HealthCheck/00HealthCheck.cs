@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace TemplateApiNet8.Startup.HealthCheck;
 
-// https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-6.0
+// https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-8.0
 public static class HealthCheck
 {
     public static void AddHealthCheckConfigured(this IServiceCollection services)
@@ -19,7 +19,7 @@ public static class HealthCheck
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         };
 
-        // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0#usehealthchecks-vs-maphealthchecks
+        // https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-8.0#usehealthchecks-vs-maphealthchecks
         app.UseHealthChecks(path: "/health", options: options);
     }
 }

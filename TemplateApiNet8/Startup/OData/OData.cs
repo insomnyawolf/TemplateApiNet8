@@ -9,9 +9,9 @@ namespace TemplateApiNet8.Startup.OData;
 
 public static class OData
 {
-    // OData by default breaks openapi,
-    // it creates dynamic copies of the models used that looks exactly the same but are different
-    // that by default creates an id colision in swagger
+    // OData can break openapi spec.
+    // it may create dynamic copies of the models used that looks exactly the same but are different
+    // that by default creates an id colision in swagger files
     public static void AddODataConfigured(this IServiceCollection services)
     {
         services.ConfigureOptions<ConfigureODataOptions>(); 

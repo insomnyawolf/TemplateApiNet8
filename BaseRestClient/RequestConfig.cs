@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BaseRestClient;
+﻿namespace BaseRestClient;
 
 public class RequestConfig<TContext> : RequestConfig
 {
@@ -15,6 +9,9 @@ public class RequestConfig<TContext> : RequestConfig
 
     public override HttpRequestMessage BuildMessage()
     {
+        // We build the messages that way to avoid creating "lambda instances"
+        // that would happen if you use external data
+        // that way we keep it static and prevent the performance hit that the other approach would have
         var message = MessageBuilder(Context);
 
         return message;

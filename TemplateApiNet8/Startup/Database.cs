@@ -25,29 +25,5 @@ public static class Database
             // Change this as needed
             dbContextOptionsBuilder.UseSqlite(connectionString);
         });
-
-        //services.ConfigureOptions<ConfigureEfCoreJsonOptions>();
     }
 }
-
-//public class ConfigureEfCoreJsonOptions : IConfigureNamedOptions<JsonOptions>
-//{
-//    public void Configure(string? name, JsonOptions options)
-//    {
-//        Configure(options);
-//    }
-
-//    public void Configure(JsonOptions options)
-//    {
-//        var so = options.JsonSerializerOptions;
-//        // This allows using includes and returning it's data in EntityFrameworkQueries
-//        so.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-//        so.TypeInfoResolver = new DefaultJsonTypeInfoResolver
-//        {
-//            Modifiers =
-//            {
-//                DatabaseModelsSerializationRemoveForeignKeyProperties.RemoveForeignKeyProperties
-//            }
-//        };
-//    }
-//}
