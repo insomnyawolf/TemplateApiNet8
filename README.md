@@ -2,20 +2,30 @@
 
 Disclaimer, to following doccument is fulled with ideas trying to improve what i found in my previous workplaces, there may be a bit of trauma causing it but i really thing that keeping things simple is the best way to go about solving a problem, if you don't need something just don't use it.
 
-## To do
-
-*Cleanup of unrelated to current tree objects in ef selects
-
-*Finishing the sync logic (Honestly, it's just repeating what i have already done a bunch of times for each related entity)
-
-## Highlights
+## Highlights & Features
 
 * Simple Rest Api Client & Implementation Example
-* Source Generator Example (It's like reflection but on compile time and with all the type safety features)
-* EntityFramework Core scaffolding customization
+
 * ASP.NET Versioned API
-* Auto OpenApi documentation
+  * Authentication & Authorization
+  * Classic Controllers
+  * OData Controllers
+  * Sample Health-Checks at ``/health``
+  * Automatic OpenApi Schema Generator (with version support)
+
+* EntityFramework
+  * Source Generator Example (It's like reflection but on compile time and with all the type safety features)
+  * Scaffolding customization
+  * Automatic Soft Deleted Filter
+
 * Docker support
+
+## What can be improved
+
+The following items are part of the examples, and as such they may be good enough but they could be further improved
+
+* Cleanup of unrelated to current tree objects in ef selects
+* Finishing the sync logic (Honestly, it's just repeating what i have already done a bunch of times for each related entity)
 
 ## Goals & Intentions
 
@@ -29,25 +39,8 @@ To achieve this I believe that the best way to do it is to keep the application 
 
 * opt-out basic security => By default every endpoint requires a call that is Authenticated to be used unless you specify that nothing is required via the ``[AllowAnonimous]`` attribute or if you specify certain roles via ``[Authorize(Roles = "Foo, Bar")]``.
 
-* automatic tenant filter based on user session
 * automatic soft-delete filter
 * JsonSerializer ReferenceHandler.IgnoreCycles 
-
-## Features
-
-* EntityFramework
-  * Automatic Tenant Filter based on token
-  * Automatic Soft Deleted Filter
-
-* OData Controllers
-* Classic Controllers
-
-* API Versioning
-* OpenApi Schema Generator (with version support)
-
-* Authentication based on JWT Bearer tokens
-
-* Sample Health-Checks at ``/health``
 
 ## How to run
 
