@@ -26,78 +26,15 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
     {
         options.EnableAnnotations();
 
-        if (SwaggerGen.SecurityConfigs is not null)
-        {
-            foreach (var securityConfig in SwaggerGen.SecurityConfigs)
-            {
-                if (securityConfig.SecuritySchemeType is not SecuritySchemeType schemeType)
-                {
-                    throw new InvalidDataException("SecurityConfig.SecuritySchemeType can not be null in config");
-                }
+        SetupSecurityDocumentation(options);
 
-                if (securityConfig.Name is null)
-                {
-                    throw new InvalidDataException("SecurityConfig.Name can not be null in config");
-                }
+        SetupAdresses(options);
 
-                var securityScheme = new OpenApiSecurityScheme
-                {
-                    Type = schemeType,
-                };
+        options.OperationFilter<SecurityRequirementsOperationFilter>();
+    }
 
-                switch (schemeType)
-                {
-                    case SecuritySchemeType.Http:
-                        if (securityConfig.Http?.Scheme is not string scheme)
-                        {
-                            throw new InvalidDataException("SecurityConfig.Http.Scheme can not be null");
-                        }
-                        securityScheme.Scheme = scheme;
-                        securityScheme.BearerFormat = securityConfig.Http?.Scheme;
-                        break;
-                    case SecuritySchemeType.ApiKey:
-                        if (securityConfig.ApiKey?.ParameterLocation is not ParameterLocation parameterLocation)
-                        {
-                            throw new InvalidDataException("SecurityConfig.ApiKey.InLocation can not be null");
-                        }
-
-                        if (securityConfig.ApiKey?.ParameterName is not string keyName)
-                        {
-                            throw new InvalidDataException("SecurityConfig.ApiKey.KeyName can not be null");
-                        }
-
-                        securityScheme.In = parameterLocation;
-                        securityScheme.Name = keyName;
-                        break;
-                    case SecuritySchemeType.OAuth2:
-                        if (securityConfig.Oauth2?.AuthorizationUrl is not string authorizationUrl)
-                        {
-                            throw new InvalidDataException("SecurityConfig.Oauth2.AuthorizationUrl can not be null");
-                        }
-
-                        if (securityConfig.Oauth2?.ApiScopes is null)
-                        {
-                            throw new InvalidDataException("SecurityConfig.Oauth2.ApiScopes can not be null");
-                        }
-
-                        securityScheme.Flows = new OpenApiOAuthFlows
-                        {
-                            Implicit = new OpenApiOAuthFlow
-                            {
-                                AuthorizationUrl = new Uri(authorizationUrl),
-                                Scopes = securityConfig.Oauth2.ApiScopes,
-                            }
-                        };
-                        break;
-                    case SecuritySchemeType.OpenIdConnect:
-                    default:
-                        throw new NotImplementedException(schemeType.ToString());
-                }
-
-                options.AddSecurityDefinition(securityConfig.Name, securityScheme);
-            }
-        }
-
+    private void SetupAdresses(SwaggerGenOptions options)
+    {
         var serverAdresses = IServer.Features.Get<IServerAddressesFeature>();
 
         if (serverAdresses is not null)
@@ -124,8 +61,84 @@ public class ConfiguredSwaggerGenOptions : IConfigureNamedOptions<SwaggerGenOpti
                 options.AddServer(server);
             }
         }
+    }
 
-        options.OperationFilter<SecurityRequirementsOperationFilter>();
+    private void SetupSecurityDocumentation(SwaggerGenOptions options)
+    {
+        if (SwaggerGen.SecurityConfigs is null)
+        {
+            return;
+        }
+
+        foreach (var securityConfig in SwaggerGen.SecurityConfigs)
+        {
+            if (securityConfig.SecuritySchemeType is not SecuritySchemeType schemeType)
+            {
+                throw new InvalidDataException("SecurityConfig.SecuritySchemeType can not be null in config");
+            }
+
+            if (securityConfig.Name is null)
+            {
+                throw new InvalidDataException("SecurityConfig.Name can not be null in config");
+            }
+
+            var securityScheme = new OpenApiSecurityScheme
+            {
+                Type = schemeType,
+            };
+
+            switch (schemeType)
+            {
+                case SecuritySchemeType.Http:
+                    if (securityConfig.Http?.Scheme is not string scheme)
+                    {
+                        throw new InvalidDataException("SecurityConfig.Http.Scheme can not be null");
+                    }
+                    securityScheme.Scheme = scheme;
+                    securityScheme.BearerFormat = securityConfig.Http?.Scheme;
+                    break;
+                case SecuritySchemeType.ApiKey:
+                    if (securityConfig.ApiKey?.ParameterLocation is not ParameterLocation parameterLocation)
+                    {
+                        throw new InvalidDataException("SecurityConfig.ApiKey.InLocation can not be null");
+                    }
+
+                    if (securityConfig.ApiKey?.ParameterName is not string keyName)
+                    {
+                        throw new InvalidDataException("SecurityConfig.ApiKey.KeyName can not be null");
+                    }
+
+                    securityScheme.In = parameterLocation;
+                    securityScheme.Name = keyName;
+                    break;
+                case SecuritySchemeType.OAuth2:
+                    if (securityConfig.Oauth2?.AuthorizationUrl is not string authorizationUrl)
+                    {
+                        throw new InvalidDataException("SecurityConfig.Oauth2.AuthorizationUrl can not be null");
+                    }
+
+                    if (securityConfig.Oauth2?.ApiScopes is null)
+                    {
+                        throw new InvalidDataException("SecurityConfig.Oauth2.ApiScopes can not be null");
+                    }
+
+                    securityScheme.Flows = new OpenApiOAuthFlows
+                    {
+                        Implicit = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri(authorizationUrl),
+                            Scopes = securityConfig.Oauth2.ApiScopes,
+                        }
+                    };
+                    break;
+                case SecuritySchemeType.OpenIdConnect:
+                default:
+                    throw new NotImplementedException(schemeType.ToString());
+            }
+
+            options.AddSecurityDefinition(securityConfig.Name, securityScheme);
+        }
+
     }
 }
 
