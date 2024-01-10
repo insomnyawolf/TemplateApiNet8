@@ -37,6 +37,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\CleanEntityFrameworkReferenceLoopsSourceGenerator\CleanEntityFrameworkReferenceLoopsSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\AutomaticApiGetSourceGenerator\AutomaticApiGetSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>
