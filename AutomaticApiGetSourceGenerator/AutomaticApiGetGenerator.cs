@@ -157,7 +157,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
 
             var propertyType = (INamedTypeSymbol)property.GetMethod.ReturnType;
 
-            if (propertyType.IsEnumerable())
+            if (!propertyType.IsString() && propertyType.IsEnumerable())
             {
                 continue;
             }
@@ -173,7 +173,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
                 getMethodSb.Indent(3).AppendLine($"set = set.Where(i => i.{property.Name}.Contains({queryParamName}.{property.Name}));");
                 getMethodSb.Indent(2).AppendLine("}");
             }
-            else if (propertyType.IsIComparable())
+            else if (propertyType.IsIComparable() && !propertyType.IsBoolean())
             {
                 var name = $"{property.Name}Max";
                 queryModelSb.Indent(1).AppendLine($"public {typeName}? {name} {{ get; set; }}");

@@ -8,7 +8,17 @@ public static class SymbolHelpers
 {
     public static string GetFullyQualifiedName(this ISymbol symbol)
     {
-        return $"{symbol.ContainingNamespace}.{symbol.Name}";
+        string name;
+        if (symbol is INamedTypeSymbol namedSymbol)
+        {
+            name = namedSymbol.GetUnderlyingNullableName();
+        }
+        else
+        {
+            name = symbol.Name;
+        }
+
+        return $"{symbol.ContainingNamespace}.{name}";
     }
 
     public static string GetFullyQualifiedGenericsString(this INamedTypeSymbol symbol)
@@ -123,6 +133,11 @@ public static class SymbolHelpers
     public static bool IsEnumerable(this ITypeSymbol symbol)
     {
         return symbol.HasInterface(typeof(IEnumerable<>).Name);
+    }
+    
+    public static bool IsBoolean(this ITypeSymbol symbol)
+    {
+        return symbol.GetFullyQualifiedName() == "System.Boolean";
     }
 
     public static bool IsString(this ITypeSymbol symbol)

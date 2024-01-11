@@ -65,11 +65,11 @@ public partial class ShowController : BaseController<ShowController>
         return data.CleanEntityFrameworkReferenceLoops();
     }
 
-    [HttpGet("Alt")]
+    [HttpGet("AltGet")]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     [GenerateGetAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
-    public partial IEnumerable<Database.Models.Show> AutoGet([FromQuery]ShowQuery? query = null);
+    public partial IEnumerable<Database.Models.ShowTemp> AutoGet([FromQuery]ShowQuery? query = null);
 
     [Authorize]
     [HttpPost("update")]
