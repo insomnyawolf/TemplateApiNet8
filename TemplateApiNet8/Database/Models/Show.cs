@@ -6,24 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-[System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-sealed class GenerateGetAttribute : Attribute
-{
-    // This is a named argument
-    public string InyectedDatabaseContextName { get; set; }
-}
-
-public partial class ShowTempQuery
-{
-    public Guid? Id { get; set; }
-    public bool? OnEmision { get; set; }
-    public string? Name { get; set; }
-    public int? MinRuntime { get; set; }
-    public int? MaxRuntime { get; set; }
-    public DateTimeOffset? MinPremiered { get; set; }
-    public DateTimeOffset? MaxPremiered { get; set; }
-}
-
 public partial class ShowTemp : BaseEntity
 {
     public override Guid Id { get; set; }

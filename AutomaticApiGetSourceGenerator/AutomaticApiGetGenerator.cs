@@ -3,7 +3,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SourceGenerator;
 using System.Text;
-using System.Xml.Linq;
 
 namespace AutomaticApiGetSourceGenerator;
 
@@ -204,8 +203,6 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
             }
         }
 
-        //var content = sb.ToString();
-
         var replacements = new Dictionary<string, string>
         {
             { "Namespace", method.ContainingNamespace.ToString() },
@@ -220,120 +217,5 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
         };
 
         context.AddTemplate("BasePartialControllerTemplate.cs", method.GetFullyQualifiedName(), replacements);
-
-
-        //if (rawReturn.TypeArguments.Length != 1)
-        //{
-        //    context.ReportDiagnostic(helperClass.GetDiagnostic(InvalidReturnType, "The enumerable must have a single generic argument"));
-        //    return;
-        //}
-
-        //rawReturn
-
-        //if ()
-        //{
-        //    context.ReportDiagnostic(Diagnostic.Create(InvalidReturnType, Location.None));
-        //    return;
-        //}
-
-        //if ()
-        //var @namespace = method.ContainingNamespace.ToString();
-        //var @class = method.Name;
-        //var generatedNameBase = $"{@namespace}.{@class}.{MethodName}";
-
-        //var members = method.GetMembers();
-
-        //var sb = new StringBuilder();
-
-        //sb.AppendLine();
-        //sb.Indent(2).AppendLine($"if ({ParameterName} is null)");
-        //sb.Indent(3).AppendLine($"{ParameterName} = new {ParameterType}();");
-        //sb.Indent(2).AppendLine($"else");
-        //sb.Indent(3).AppendLine($"{ParameterName} = new {ParameterType}({ParameterName});");
-
-        //sb.Indent(2).AppendLine($"{ParameterName}.Add(this.Id);");
-
-        //foreach (var member in members)
-        //{
-        //    if (member is not IPropertySymbol property)
-        //    {
-        //        continue;
-        //    }
-
-        //    if (property.SetMethod is null)
-        //    {
-        //        continue;
-        //    }
-
-        //    if (property.GetMethod is null)
-        //    {
-        //        continue;
-        //    }
-
-        //    var type = property.GetMethod.ReturnType;
-
-        //    if (available.Contains(type))
-        //    {
-        //        sb.Indent(2).AppendLine($"if ({property.Name} is not null)");
-        //        sb.Indent(3).AppendLine($"if ({ParameterName}.Add({property.Name}.Id)){{{property.Name}.{MethodName}({ParameterName});}}else{{{property.Name} = null;}}");
-        //    }
-        //    else if (type is INamedTypeSymbol named && type.IsEnumerable() && type.GetFullyQualifiedName() != "System.String")
-        //    {
-        //        var args = named.TypeArguments;
-        //        if (args.Length != 1)
-        //        {
-        //            continue;
-        //        }
-
-        //        if (!available.Contains(args[0]))
-        //        {
-        //            continue;
-        //        }
-        //        sb.Indent(2).AppendLine($"if ({property.Name} is not null)");
-        //        sb.Indent(3).AppendLine($"for (int i = {property.Name}.Count - 1; i > 0; i--)");
-        //        sb.Indent(3).AppendLine($"{{");
-        //        sb.Indent(4).AppendLine($"var current = {property.Name}[i];");
-        //        sb.Indent(4).AppendLine($"if(!existing.Add(current.Id)){{{property.Name}.RemoveAt(i);}}");
-        //        sb.Indent(3).AppendLine($"}}");
-        //        sb.Indent(3).AppendLine($"for (int i = {property.Name}.Count - 1; i > 0; i--)");
-        //        sb.Indent(3).AppendLine($"{{");
-        //        sb.Indent(4).AppendLine($"var current = {property.Name}[i];");
-        //        sb.Indent(4).AppendLine($"current.CleanEntityFrameworkReferenceLoops(existing);");
-        //        sb.Indent(3).AppendLine($"}}");
-        //        //;
-        //    }
-        //}
-
-        //var content = sb.ToString();
-
-        //var replacements = new Dictionary<string, string>
-        //{
-        //    { "Namespace", @namespace },
-        //    { "Class", method.Name },
-        //    { "Content", content },
-        //    { "MethodName", MethodName },
-        //    { "ParameterType", ParameterType },
-        //    { "ParameterName", ParameterName },
-        //};
-
-        //context.AddTemplate("PartialClassTemplate.cs", generatedNameBase, replacements);
     }
-
-    //public static void BaseDefinition(SourceProductionContext context, INamedTypeSymbol current)
-    //{
-    //    var @namespace = current.ContainingNamespace.ToString();
-    //    var @class = current.Name;
-    //    var generatedNameBase = $"{@namespace}.{@class}.{MethodName}";
-
-    //    var replacements = new Dictionary<string, string>
-    //    {
-    //        { "Namespace", @namespace },
-    //        { "Class", current.Name },
-    //        { "MethodName", MethodName },
-    //        { "ParameterType", ParameterType },
-    //        { "ParameterName", ParameterName },
-    //    };
-
-    //    context.AddTemplate("BasePartialClassTemplate.cs", generatedNameBase, replacements);
-    //}
 }
