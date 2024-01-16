@@ -19,7 +19,7 @@ namespace SourceGenerator
             return resource;
         }
 
-        private static readonly Dictionary<string, string> FileCache = [];
+        private static readonly Dictionary<string, string> FileCache = new ();
 
         public static string GetEmbedFileAsString(string filename)
         {

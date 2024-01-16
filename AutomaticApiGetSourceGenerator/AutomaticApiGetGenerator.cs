@@ -4,6 +4,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SourceGenerator;
 using System.Text;
 
+// To do
+// AutoPaginado
+// Extensibilidad mediante clase parcial
+//  Joins
+//  Filtros complejos
+
 namespace AutomaticApiGetSourceGenerator;
 
 // https://github.com/dotnet/roslyn-sdk/issues/850#issuecomment-1038725567
