@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SourceGenerator;
+namespace SourceGeneratorHelpers;
 
 public static class TemplateHelpers
 {
@@ -77,7 +77,7 @@ public static class TemplateHelpers
         context.AddSource(filename, source);
     }
 
-    public static void AddTemplate(this SourceProductionContext context, string filename, string discriminator, Dictionary<string, string> replacements)
+    public static void AddTemplate(this SourceProductionContext context, string filename, string? discriminator, Dictionary<string, string> replacements)
     {
         var source = FillTemplateFromFile(filename, replacements);
 
