@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SourceGenerator;
+using SourceGeneratorHelpers;
 using System.Text;
 
 // To do

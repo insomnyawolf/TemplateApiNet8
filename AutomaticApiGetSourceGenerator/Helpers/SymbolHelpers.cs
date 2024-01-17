@@ -1,8 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Runtime.InteropServices.ComTypes;
-using System.Xml.Linq;
 
-namespace SourceGenerator;
+namespace SourceGeneratorHelpers;
 
 public static class SymbolHelpers
 {
