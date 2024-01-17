@@ -13,6 +13,7 @@ public partial class ShowTemp : BaseEntity
     public string? Name { get; set; }
     public int? Runtime { get; set; }
     public DateTimeOffset? Premiered { get; set; }
+    public IList<ScheduleDay>? Schedules { get; set; }
 }
 
 [Table("Show")]

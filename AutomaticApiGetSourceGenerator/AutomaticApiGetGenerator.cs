@@ -1,5 +1,4 @@
-﻿using ApiGetGenerator;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SourceGenerator;
 using System.Text;
@@ -45,7 +44,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
             return false;
         }
 
-        if (!methodNode.TryGetAttribute(nameof(GenerateGetAttribute), out var attributeSyntax))
+        if (!methodNode.TryGetAttribute("GenerateGetAttribute", out var attributeSyntax))
         {
             return false;
         }
@@ -96,15 +95,21 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
             rawReturn = (INamedTypeSymbol)rawReturn.TypeArguments[0];
         }
 
-        if (!rawReturn.IsEnumerable())
+        if (!rawReturn.GetFullyQualifiedName().StartsWith("ApiGetGenerator.Page"))
         {
-            context.ReportDiagnostic(helperClass.GetDiagnostic(InvalidReturnType, "The provided type is not an enumerable"));
+            context.ReportDiagnostic(helperClass.GetDiagnostic(InvalidReturnType, "The type returned must be a Page<T>"));
             return;
         }
 
+        //if (!rawReturn.IsEnumerable())
+        //{
+        //    context.ReportDiagnostic(helperClass.GetDiagnostic(InvalidReturnType, "The provided type is not an enumerable"));
+        //    return;
+        //}
+
         if (rawReturn.TypeArguments.Length != 1)
         {
-            context.ReportDiagnostic(helperClass.GetDiagnostic(InvalidReturnType, "The enumerable must have a single generic argument"));
+            context.ReportDiagnostic(helperClass.GetDiagnostic(InvalidReturnType, "The return type must have a single generic argument and it must be the database type"));
             return;
         }
 
@@ -142,6 +147,19 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
 
         var getMethodSb = new StringBuilder();
 
+        var columnsSb = new StringBuilder();
+        var columnsEnumName = dbType.Name + "Columns";
+
+        var orderBySb = new StringBuilder();
+        var orderByDescendingSb = new StringBuilder();
+        var thenBySb = new StringBuilder();
+        var thenByDescendingSb = new StringBuilder();
+
+        var includesSb = new StringBuilder();
+        var includesEnumName = dbType.Name + "Includes";
+
+        var includeContent = new StringBuilder();
+
         var members = dbType.GetMembers();
 
         foreach (var member in members)
@@ -165,8 +183,17 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
 
             if (!propertyType.IsString() && propertyType.IsEnumerable())
             {
+                includesSb.Indent(1).AppendLine($"{property.Name},");
+                includeContent.Indent(6).AppendLine($"{includesEnumName}.{property.Name} => set.Include(x => x.{property.Name}),");
                 continue;
             }
+
+            columnsSb.Indent(1).AppendLine($"{property.Name},");
+
+            orderBySb.Indent(6).AppendLine($"{columnsEnumName}.{property.Name} => set.OrderBy(x => x.{property.Name}),");
+            orderByDescendingSb.Indent(6).AppendLine($"{columnsEnumName}.{property.Name} => set.OrderByDescending(x => x.{property.Name}),");
+            thenBySb.Indent(7).AppendLine($"{columnsEnumName}.{property.Name} => orderedQueryable.ThenBy(x => x.{property.Name}),");
+            thenByDescendingSb.Indent(7).AppendLine($"{columnsEnumName}.{property.Name} => orderedQueryable.ThenByDescending(x => x.{property.Name}),");
 
             string typeName = propertyType.GetUnderlyingNullableName();
 
@@ -174,38 +201,48 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
             {
                 queryModelSb.Indent(1).AppendLine($"public {typeName}? {property.Name} {{ get; set; }}");
 
-                getMethodSb.Indent(2).AppendLine($"if ({queryParamName}.{property.Name} is not null)");
-                getMethodSb.Indent(2).AppendLine("{");
-                getMethodSb.Indent(3).AppendLine($"set = set.Where(i => i.{property.Name}.Contains({queryParamName}.{property.Name}));");
-                getMethodSb.Indent(2).AppendLine("}");
+                var comparationTypePeopName = $"{property.Name}ComparationType";
+                queryModelSb.Indent(1).AppendLine($"public StringComparationType? {comparationTypePeopName} {{ get; set; }}");
+
+                getMethodSb.Indent(3).AppendLine($"if ({queryParamName}.{property.Name} is not null)");
+                getMethodSb.Indent(4).AppendLine("{");
+                getMethodSb.Indent(4).AppendLine($"set = query.{comparationTypePeopName} switch");
+                getMethodSb.Indent(4).AppendLine("{");
+                getMethodSb.Indent(5).AppendLine($"StringComparationType.StartsWith => set.Where(i => i.Name.StartsWith(query.Name)),");
+                getMethodSb.Indent(5).AppendLine($"StringComparationType.EndsWith => set.Where(i => i.Name.EndsWith(query.Name)),");
+                getMethodSb.Indent(5).AppendLine($"StringComparationType.Contains => set.Where(i => i.Name.Contains(query.Name)),");
+                getMethodSb.Indent(5).AppendLine($"StringComparationType.Equals => set.Where(i => i.Name == query.Name),");
+                getMethodSb.Indent(5).AppendLine($"_ => set.Where(i => i.Name == query.Name),");
+                getMethodSb.Indent(4).AppendLine("};");
+                getMethodSb.Indent(3).AppendLine("}");
             }
             else if (propertyType.IsIComparable() && !propertyType.IsBoolean())
             {
                 var name = $"{property.Name}Max";
                 queryModelSb.Indent(1).AppendLine($"public {typeName}? {name} {{ get; set; }}");
 
-                getMethodSb.Indent(2).AppendLine($"if ({queryParamName}.{name} is not null)");
-                getMethodSb.Indent(2).AppendLine("{");
-                getMethodSb.Indent(3).AppendLine($"set = set.Where(i => i.{property.Name} <= {queryParamName}.{name});");
-                getMethodSb.Indent(2).AppendLine("}");
+                getMethodSb.Indent(3).AppendLine($"if ({queryParamName}.{name} is not null)");
+                getMethodSb.Indent(3).AppendLine("{");
+                getMethodSb.Indent(4).AppendLine($"set = set.Where(i => i.{property.Name} <= {queryParamName}.{name});");
+                getMethodSb.Indent(3).AppendLine("}");
 
 
                 name = $"{property.Name}Min";
                 queryModelSb.Indent(1).AppendLine($"public {typeName}? {name} {{ get; set; }}");
 
-                getMethodSb.Indent(2).AppendLine($"if ({queryParamName}.{name} is not null)");
-                getMethodSb.Indent(2).AppendLine("{");
-                getMethodSb.Indent(3).AppendLine($"set = set.Where(i => i.{property.Name} >= {queryParamName}.{name});");
-                getMethodSb.Indent(2).AppendLine("}");
+                getMethodSb.Indent(3).AppendLine($"if ({queryParamName}.{name} is not null)");
+                getMethodSb.Indent(3).AppendLine("{");
+                getMethodSb.Indent(4).AppendLine($"set = set.Where(i => i.{property.Name} >= {queryParamName}.{name});");
+                getMethodSb.Indent(3).AppendLine("}");
             }
             else
             {
                 queryModelSb.Indent(1).AppendLine($"public {typeName}? {property.Name} {{ get; set; }}");
 
-                getMethodSb.Indent(2).AppendLine($"if ({queryParamName}.{property.Name} is not null)");
-                getMethodSb.Indent(2).AppendLine("{");
-                getMethodSb.Indent(3).AppendLine($"set = set.Where(i => i.{property.Name} == {queryParamName}.{property.Name});");
-                getMethodSb.Indent(2).AppendLine("}");
+                getMethodSb.Indent(3).AppendLine($"if ({queryParamName}.{property.Name} is not null)");
+                getMethodSb.Indent(3).AppendLine("{");
+                getMethodSb.Indent(4).AppendLine($"set = set.Where(i => i.{property.Name} == {queryParamName}.{property.Name});");
+                getMethodSb.Indent(3).AppendLine("}");
             }
         }
 
@@ -220,6 +257,16 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
             { "Params", paramsSb.ToString() },
             { "DatabaseClassName", dbType.GetFullyQualifiedName() },
             { "GetEndpointContent", getMethodSb.ToString() },
+            { "QueryParamName", queryParamName },
+            { "DatabaseClassColumns", columnsEnumName },
+            { "DatabaseClassColumnsContent", columnsSb.ToString() },
+            { "DatabaseClassIncludes", includesEnumName },
+            { "DatabaseClassIncludesContent", includesSb.ToString() },
+            { "OrderBy", orderBySb.ToString() },
+            { "OrderByDescending", orderByDescendingSb.ToString() },
+            { "ThenOrderBy", thenBySb.ToString() },
+            { "ThenOrderByDescending", thenByDescendingSb.ToString() },
+            { "Include", includeContent.ToString() },
         };
 
         context.AddTemplate("BasePartialControllerTemplate.cs", method.GetFullyQualifiedName(), replacements);
