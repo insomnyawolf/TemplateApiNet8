@@ -205,7 +205,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
                 queryModelSb.Indent(1).AppendLine($"public StringComparationType? {comparationTypePeopName} {{ get; set; }}");
 
                 getMethodSb.Indent(3).AppendLine($"if ({queryParamName}.{property.Name} is not null)");
-                getMethodSb.Indent(4).AppendLine("{");
+                getMethodSb.Indent(3).AppendLine("{");
                 getMethodSb.Indent(4).AppendLine($"set = query.{comparationTypePeopName} switch");
                 getMethodSb.Indent(4).AppendLine("{");
                 getMethodSb.Indent(5).AppendLine($"StringComparationType.StartsWith => set.Where(i => i.Name.StartsWith(query.Name)),");
