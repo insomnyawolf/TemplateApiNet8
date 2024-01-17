@@ -192,6 +192,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
 
             orderBySb.Indent(6).AppendLine($"{columnsEnumName}.{property.Name} => set.OrderBy(x => x.{property.Name}),");
             orderByDescendingSb.Indent(6).AppendLine($"{columnsEnumName}.{property.Name} => set.OrderByDescending(x => x.{property.Name}),");
+
             thenBySb.Indent(7).AppendLine($"{columnsEnumName}.{property.Name} => orderedQueryable.ThenBy(x => x.{property.Name}),");
             thenByDescendingSb.Indent(7).AppendLine($"{columnsEnumName}.{property.Name} => orderedQueryable.ThenByDescending(x => x.{property.Name}),");
 
