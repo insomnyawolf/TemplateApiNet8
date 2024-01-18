@@ -11,24 +11,16 @@ namespace TemplateNamespaceTemplate;
 
 public partial class TemplateQueryModelClassNameTemplate
 {
-    public List<OrderBy<TemplateDatabaseClassColumnsTemplate>> OrderBy { get; set; }
-    public List<TemplateDatabaseClassIncludesTemplate> Includes { get; set; }
+    public List<OrderBy<TemplateDatabaseClassColumnsNameTemplate>> OrderBy { get; set; }
+    public List<TemplateDatabaseClassIncludesNameTemplate> Includes { get; set; }
     public int? PageSize { get; set; }
     public int? PageIndex { get; set; }
-TemplateQueryModelContentTemplate
+    TemplateQueryModelContentTemplate
 }
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum TemplateDatabaseClassColumnsTemplate
-{
-TemplateDatabaseClassColumnsContentTemplate
-}
+TemplateDatabaseClassColumnsTemplate
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum TemplateDatabaseClassIncludesTemplate
-{
-TemplateDatabaseClassIncludesContentTemplate
-}
+TemplateDatabaseClassIncludesTemplate
 
 public partial class TemplateControllerNameTemplate
 {
@@ -54,7 +46,7 @@ public partial class TemplateControllerNameTemplate
 
                     set = current switch
                     {
-TemplateIncludeTemplate
+                        TemplateIncludeTemplate
                     };
                 }
             }
@@ -72,14 +64,14 @@ TemplateIncludeTemplate
                 {
                     orderedQueryable = first.Column switch
                     {
-TemplateOrderByTemplate
+                        TemplateOrderByTemplate
                     };
                 }
                 else
                 {
                     orderedQueryable = first.Column switch
                     {
-TemplateOrderByDescendingTemplate
+                        TemplateOrderByDescendingTemplate
                     };
                 }
 
@@ -91,14 +83,14 @@ TemplateOrderByDescendingTemplate
                     {
                         orderedQueryable = current.Column switch
                         {
-TemplateThenOrderByTemplate
+                            TemplateThenOrderByTemplate
                         };
                     }
                     else
                     {
                         orderedQueryable = current.Column switch
                         {
-TemplateThenOrderByDescendingTemplate
+                            TemplateThenOrderByDescendingTemplate
                         };
                     }
                 }
@@ -106,11 +98,11 @@ TemplateThenOrderByDescendingTemplate
                 set = orderedQueryable;
             }
 
-TemplateGetEndpointContentTemplate
+            TemplateGetEndpointContentTemplate
         }
 
         var count = await set.CountAsync();
 
-        return new (set, count, pageSize, pageIndex);
+        return new(set, count, pageSize, pageIndex);
     }
 }
