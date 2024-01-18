@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using ApiGetGenerator;
 using ApiGetGenerator.Models;
-using SolrNet;
-using SolrNet.Commands.Parameters;
 
 namespace TemplateNamespaceTemplate;
 
 public partial class TemplateControllerNameTemplate
 {
-    public async partial TemplateDatabaseClassNameReturnEnumerableTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
+    public async partial TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
     {
         var set = DatabaseContext.Set<TemplateDatabaseClassNameTemplate>().AsQueryable();
 
@@ -86,7 +86,7 @@ public partial class TemplateControllerNameTemplate
                 set = orderedQueryable;
             }
 
-            TemplateGetEndpointContentTemplate
+            TemplateGetFiltersTemplate
         }
 
         var count = await set.CountAsync();

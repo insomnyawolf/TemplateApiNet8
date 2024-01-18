@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using SourceGeneratorHelpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -27,14 +25,14 @@ public class HelperClass
         isEnabledByDefault: true,
         description: "Method must have at least 1 param and the first param should be the query model which will be automatically created as partial class.{0}");
 
-    public SyntaxReference SyntaxReference { get; }
-    public IMethodSymbol ISymbol { get; }
-    public AttributeData AttributeData { get; }
     public List<Diagnostic> Diagnostics { get; } = new();
     public bool SkipGenerator { get; }
 
-    public string Namespace { get; }
+    public SyntaxReference SyntaxReference { get; }
+    public IMethodSymbol MethodSymbol { get; }
+    public AttributeData AttributeData { get; }
 
+    public string Namespace { get; }
 
     // This type is the one that we will use for the query model and for the query.
     public string ReturnTypeString { get; }
@@ -43,6 +41,7 @@ public class HelperClass
     public ImmutableArray<ISymbol> ReturnTypeMembers { get; }
 
 
+    public ImmutableArray<IParameterSymbol> Params { get; }
     public string QueryParamName { get; }
     public INamedTypeSymbol QueryParamType { get; }
     public string QueryParamTypeName { get; }
@@ -52,10 +51,9 @@ public class HelperClass
     public string IncludesEnumName { get; }
 
 
-
     public HelperClass(SyntaxReference SyntaxReference, IMethodSymbol ISymbol, AttributeData AttributeData)
     {
-        this.ISymbol = ISymbol;
+        this.MethodSymbol = ISymbol;
         this.AttributeData = AttributeData;
         this.SyntaxReference = SyntaxReference;
 
@@ -100,9 +98,9 @@ public class HelperClass
 
         TargetTypeName = TargetType.Name;
 
-        var @params = method.Parameters;
+        Params = method.Parameters;
 
-        if (@params.Length < 1)
+        if (Params.Length < 1)
         {
             var diagnostic = GetDiagnostic(InvalidParams, "You didn't provide any params");
             Diagnostics.Add(diagnostic);
@@ -110,19 +108,7 @@ public class HelperClass
             return;
         }
 
-        var paramsSb = new StringBuilder();
-
-        foreach (var item in @params)
-        {
-            if (paramsSb.Length > 0)
-            {
-                paramsSb.Append(", ");
-            }
-
-            paramsSb.Append(item.ToString());
-        }
-
-        var queryParam = @params.FirstOrDefault();
+        var queryParam = Params.FirstOrDefault();
 
         QueryParamName = queryParam.Name;
 
@@ -135,6 +121,25 @@ public class HelperClass
         IncludesEnumName = TargetTypeName + "Includes";
 
         ReturnTypeMembers = TargetType.GetMembers();
+    }
+
+    public string GetParamsString()
+    {
+        var paramsSb = new StringBuilder();
+
+        foreach (var item in Params)
+        {
+            if (paramsSb.Length > 0)
+            {
+                paramsSb.Append(", ");
+            }
+
+            paramsSb.Append(item.ToString());
+        }
+
+        var str = paramsSb.ToString();
+
+        return str;
     }
 
     public bool IsValidState(SourceProductionContext SourceProductionContext)

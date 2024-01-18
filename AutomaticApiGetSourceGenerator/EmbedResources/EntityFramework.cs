@@ -12,7 +12,7 @@ namespace TemplateNamespaceTemplate;
 
 public partial class TemplateControllerNameTemplate
 {
-    public async partial TemplateDatabaseClassNameReturnEnumerableTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
+    public async partial TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
     {
         var set = DatabaseContext.Set<TemplateDatabaseClassNameTemplate>().AsQueryable();
 
@@ -34,7 +34,7 @@ public partial class TemplateControllerNameTemplate
 
                     set = current switch
                     {
-                        TemplateIncludeTemplate
+TemplateIncludeTemplate
                     };
                 }
             }
@@ -52,14 +52,14 @@ public partial class TemplateControllerNameTemplate
                 {
                     orderedQueryable = first.Column switch
                     {
-                        TemplateOrderByTemplate
+TemplateOrderByTemplate
                     };
                 }
                 else
                 {
                     orderedQueryable = first.Column switch
                     {
-                        TemplateOrderByDescendingTemplate
+TemplateOrderByDescendingTemplate
                     };
                 }
 
@@ -71,14 +71,14 @@ public partial class TemplateControllerNameTemplate
                     {
                         orderedQueryable = current.Column switch
                         {
-                            TemplateThenOrderByTemplate
+TemplateThenOrderByTemplate
                         };
                     }
                     else
                     {
                         orderedQueryable = current.Column switch
                         {
-                            TemplateThenOrderByDescendingTemplate
+TemplateThenOrderByDescendingTemplate
                         };
                     }
                 }
@@ -86,7 +86,7 @@ public partial class TemplateControllerNameTemplate
                 set = orderedQueryable;
             }
 
-            TemplateGetEndpointContentTemplate
+TemplateGetFiltersTemplate
         }
 
         var count = await set.CountAsync();
