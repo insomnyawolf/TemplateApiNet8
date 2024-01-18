@@ -57,11 +57,11 @@ public partial class GenerateFilterEndpointGenerator : IIncrementalGenerator
 
         var attr = symbol.GetAttributes();
 
-        AttributeData targetAttribute = null;
+        AttributeData? targetAttribute = null;
 
         foreach (AttributeData attribute in attr)
         {
-            if (attribute.AttributeClass.InheritFrom(typeof(GenerateFilterAttribute).FullName))
+            if (attribute.AttributeClass!.InheritFrom(typeof(GenerateFilterAttribute).FullName))
             {
                 targetAttribute = attribute;
                 break;
@@ -70,7 +70,7 @@ public partial class GenerateFilterEndpointGenerator : IIncrementalGenerator
 
         if (targetAttribute is null)
         {
-            return null;
+            return null!;
         }
 
         return new HelperClass(reference, symbol, targetAttribute);

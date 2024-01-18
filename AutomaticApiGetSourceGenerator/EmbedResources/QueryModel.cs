@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using ApiGetGenerator;
+using ApiGetGenerator.Models;
 
-namespace ApiGetGenerator.Models;
+namespace TemplateNamespaceTemplate;
 
 public partial class TemplateQueryModelClassNameTemplate
 {

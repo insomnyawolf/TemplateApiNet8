@@ -8,7 +8,6 @@ using TemplateApiNet8.Database.Models;
 using TemplateApiNet8.Extensions;
 using TvMazeClient;
 using ApiGetGenerator;
-using TemplateApiNet8.Api.v0.Controllers.Default2;
 
 namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
@@ -88,7 +87,7 @@ public partial class ShowController : BaseController<ShowController>
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
-    public partial Task<Page<Database.Models.Show>> AutoGet232([FromQuery] ShowQuery2? query = null);
+    public partial Task<Page<Database.Models.Show>> AutoGet232([FromQuery] ShowQuery22? query = null);
 
     [Authorize]
     [HttpPost("update")]

@@ -70,6 +70,7 @@ public class QueryModelGenerator
 
         var replacements = new Dictionary<string, string>
         {
+            { "Namespace", helperClass.Namespace },
             { "QueryModelClassName", helperClass.QueryParamTypeName },
             { "DatabaseClassColumnsName", helperClass.ColumnsEnumName },
             { "DatabaseClassIncludesName", helperClass.IncludesEnumName },

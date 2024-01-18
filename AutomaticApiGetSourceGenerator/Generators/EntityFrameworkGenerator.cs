@@ -9,8 +9,7 @@ public class EntityFrameworkGenerator
 {
     public static void Generate(SourceProductionContext context, ImmutableArray<HelperClass> items)
     {
-        var distinct = items.Distinct(i => i.QueryParamTypeName);
-        foreach (var item in distinct)
+        foreach (var item in items)
         {
             GenerateInternal(context, item);
         }
@@ -103,7 +102,7 @@ public class EntityFrameworkGenerator
             { "ReturnString", helperClass.ReturnTypeString },
             { "GetEndpointMethodName", helperClass.MethodSymbol.Name },
             { "Params", helperClass.GetParamsString() },
-            { "DatabaseClassName", helperClass.TargetTypeName },
+            { "DatabaseClassName", helperClass.TargetType.GetFullyQualifiedName() },
             { "QueryParamName", helperClass.QueryParamName },
             { "Include", includesSb.ToString() },
             { "OrderBy", orderBySb.ToString() },
