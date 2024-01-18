@@ -4,7 +4,7 @@ namespace SourceGeneratorHelpers;
 
 public static class SymbolHelpers
 {
-    public static string GetFullyQualifiedNameSimple(this ISymbol symbol)
+    public static string GetFullyQualifiedName(this ISymbol symbol)
     {
         string name;
         if (symbol is INamedTypeSymbol namedSymbol)
@@ -19,9 +19,9 @@ public static class SymbolHelpers
         return $"{symbol.ContainingNamespace}.{name}";
     }
 
-    public static string GetFullyQualifiedName(this INamedTypeSymbol symbol)
+    public static string GetFullyQualifiedGenericsString(this INamedTypeSymbol symbol)
     {
-        var @base = symbol.GetFullyQualifiedNameSimple();
+        var @base = symbol.GetFullyQualifiedName();
 
         var typeArguments = symbol.TypeArguments;
 
@@ -31,7 +31,7 @@ public static class SymbolHelpers
         {
             if (type is INamedTypeSymbol subSymbol)
             {
-                var subgenerics = subSymbol.GetFullyQualifiedName();
+                var subgenerics = subSymbol.GetFullyQualifiedGenericsString();
 
                 if (subgenerics.Length > 0)
                 {
@@ -135,12 +135,12 @@ public static class SymbolHelpers
 
     public static bool IsBoolean(this ITypeSymbol symbol)
     {
-        return symbol.GetFullyQualifiedNameSimple() == "System.Boolean";
+        return symbol.GetFullyQualifiedName() == "System.Boolean";
     }
 
     public static bool IsString(this ITypeSymbol symbol)
     {
-        return symbol.GetFullyQualifiedNameSimple() == "System.String";
+        return symbol.GetFullyQualifiedName() == "System.String";
     }
 
     public static bool IsPartiallyUdaptableClass(this ITypeSymbol symbol)
