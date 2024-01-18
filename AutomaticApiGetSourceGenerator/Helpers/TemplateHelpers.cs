@@ -7,7 +7,7 @@ namespace SourceGeneratorHelpers;
 
 public static class TemplateHelpers
 {
-    private static readonly Type AssemblyType = typeof(AutomaticApiGetGenerator);
+    private static readonly Type AssemblyType = typeof(GenerateFilterEndpointGenerator);
 
     public static Stream GetEmbedFile(string filename)
     {
@@ -15,6 +15,7 @@ public static class TemplateHelpers
         // this may fail if the type in AssemblyType doesn't belong to the default namespace of the package
         var path = $"{AssemblyType.Namespace}.{folderName}.{filename}";
         var asm = AssemblyType.Assembly;
+        // AutomaticApiGetSourceGenerator.EmbedResources.00Model.cs
         var resource = asm.GetManifestResourceStream(path);
         return resource;
     }

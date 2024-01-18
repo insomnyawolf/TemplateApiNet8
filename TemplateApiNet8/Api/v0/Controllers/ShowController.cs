@@ -8,6 +8,7 @@ using TemplateApiNet8.Database.Models;
 using TemplateApiNet8.Extensions;
 using TvMazeClient;
 using ApiGetGenerator;
+using TemplateApiNet8.Api.v0.Controllers.Default2;
 
 namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
@@ -68,8 +69,26 @@ public partial class ShowController : BaseController<ShowController>
     [HttpGet("AltGet")]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    [GenerateGetAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
+    [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
     public partial Task<Page<Database.Models.ShowTemp>> AutoGet([FromQuery]ShowQuery? query = null);
+
+    [HttpGet("AltGetd")]
+    [AllowAnonymous]
+    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
+    [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
+    public partial Task<Page<Database.Models.ShowTemp>> AutoGet2([FromQuery] ShowQuery2? query = null);
+
+    [HttpGet("AltGetd3")]
+    [AllowAnonymous]
+    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
+    [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
+    public partial Task<Page<Database.Models.ShowTemp>> AutoGet23([FromQuery] ShowQuery? query = null);
+
+    [HttpGet("AltGetd32")]
+    [AllowAnonymous]
+    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
+    [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
+    public partial Task<Page<Database.Models.Show>> AutoGet232([FromQuery] ShowQuery2? query = null);
 
     [Authorize]
     [HttpPost("update")]

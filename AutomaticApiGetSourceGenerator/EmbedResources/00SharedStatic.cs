@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ApiGetGenerator;
 
 [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-public sealed class GenerateGetAttribute : Attribute
+public abstract class GenerateFilterAttribute : Attribute { }
+
+public sealed class GenerateEntityFrameworkFilterAttribute : GenerateFilterAttribute
 {
     // This is a named argument
     public string InyectedDatabaseContextName { get; set; }
+}
+
+public sealed class GenerateSolrFilterAttribute : GenerateFilterAttribute
+{
+    // This is a named argument
+    public string InyectedSolrClientName { get; set; }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -19,7 +24,7 @@ public enum OrderDirection
     Descending,
 }
 
-public class OrderBy<TEntityColumns>
+public class OrderBy<TEntityColumns> where TEntityColumns : notnull, Enum
 {
     public OrderDirection Direction { get; set; }
     public TEntityColumns Column { get; set; }
