@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Text;
 using SourceGeneratorHelpers;
+using ApiGetGenerator;
 
 namespace AutomaticApiGetSourceGenerator.Generators;
 
@@ -17,6 +18,10 @@ public class EntityFrameworkGenerator
 
     public static void GenerateInternal(SourceProductionContext context, HelperClass helperClass)
     {
+        object arg = helperClass.AttributeData.NamedArguments.GetByName(nameof(GenerateEntityFrameworkFilterAttribute.InyectedDatabaseContextName));
+
+        var dbContextVariableName = (string)arg;
+
         var filtersSb = new StringBuilder();
         
         var orderBySb = new StringBuilder();
@@ -99,6 +104,7 @@ public class EntityFrameworkGenerator
         {
             { "Namespace", helperClass.Namespace },
             { "ControllerName", helperClass.MethodSymbol.ContainingType.Name },
+            { "DbContextVariableName", dbContextVariableName },
             { "ReturnString", helperClass.ReturnTypeString },
             { "GetEndpointMethodName", helperClass.MethodSymbol.Name },
             { "Params", helperClass.GetParamsString() },

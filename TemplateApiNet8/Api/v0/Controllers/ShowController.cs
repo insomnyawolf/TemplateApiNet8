@@ -69,6 +69,7 @@ public partial class ShowController : BaseController<ShowController>
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
+    //[GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = "asdasdasd")]
     public partial Task<Page<Database.Models.ShowTemp>> AutoGet([FromQuery]ShowQuery? query = null);
 
     [HttpGet("AltGetd")]

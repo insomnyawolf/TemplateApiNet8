@@ -14,7 +14,7 @@ public partial class TemplateControllerNameTemplate
 {
     public async partial TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
     {
-        var set = DatabaseContext.Set<TemplateDatabaseClassNameTemplate>().AsQueryable();
+        var set = TemplateDbContextVariableNameTemplate.Set<TemplateDatabaseClassNameTemplate>().AsQueryable();
 
         var pageSize = TemplateQueryParamNameTemplate?.PageSize ?? 10;
         var pageIndex = TemplateQueryParamNameTemplate?.PageIndex ?? 0;

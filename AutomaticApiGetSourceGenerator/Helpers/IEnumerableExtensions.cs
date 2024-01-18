@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
 
 namespace SourceGeneratorHelpers;
@@ -35,6 +37,13 @@ public static class IEnumerableExtensions
     public static IEnumerable<TEntity> Distinct<TEntity, TSelector>(this IEnumerable<TEntity> enumerable, Func<TEntity, TSelector> selector)
     {
         return enumerable.Distinct(new LambdaSelectorComparison<TEntity, TSelector>(selector));
+    }
+
+    public static object GetByName(this ImmutableArray<KeyValuePair<string, TypedConstant>> array, string argument)
+    {
+        var filtered = array.Where(a => a.Key == argument);
+        var arg = filtered.FirstOrDefault();
+        return arg.Value.Value!;
     }
 
     internal class LambdaSelectorComparison<TEntity, TSelector> : IEqualityComparer<TEntity>
