@@ -31,6 +31,7 @@ public partial class GenerateFilterEndpointGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(targets, EnumsGenerator.Generate);
         context.RegisterSourceOutput(targets, QueryModelGenerator.Generate);
         context.RegisterSourceOutput(targets, EntityFrameworkGenerator.Generate);
+        context.RegisterSourceOutput(targets, SolrGenerator.Generate);
     }
 
     public static void ThingsThatDoesNotDeppendOnUserCode(IncrementalGeneratorPostInitializationContext context)

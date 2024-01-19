@@ -5,18 +5,6 @@ namespace ApiGetGenerator;
 [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
 public abstract class GenerateFilterAttribute : Attribute { }
 
-public sealed class GenerateEntityFrameworkFilterAttribute : GenerateFilterAttribute
-{
-    // This is a named argument
-    public string InyectedDatabaseContextName { get; set; }
-}
-
-public sealed class GenerateSolrFilterAttribute : GenerateFilterAttribute
-{
-    // This is a named argument
-    public string InyectedSolrClientName { get; set; }
-}
-
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OrderDirection
 {
@@ -61,5 +49,30 @@ public class Page<T>
         PageIndex = pageIndex;
         TotalPages = Quotient;
         Data = data;
+    }
+}
+
+public sealed class GenerateEntityFrameworkFilterAttribute : GenerateFilterAttribute
+{
+    // This is a named argument
+    public string InyectedDatabaseContextName { get; set; }
+}
+
+public sealed class GenerateSolrFilterAttribute : GenerateFilterAttribute
+{
+    // This is a named argument
+    public string InyectedSolrClientName { get; set; }
+}
+
+public static class GenerateSolrExtensions
+{
+    public static string GetValueOrAsterisk<TItem>(this TItem? item) where TItem : struct
+    {
+        if (item is null)
+        {
+            return "*";
+        }
+
+        return item.ToString();
     }
 }

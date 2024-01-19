@@ -2,95 +2,70 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Linq;
-using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using ApiGetGenerator;
 using ApiGetGenerator.Models;
+using SolrNet;
+using SolrNet.Commands.Parameters;
 
 namespace TemplateNamespaceTemplate;
 
 public partial class TemplateControllerNameTemplate
 {
-    public async partial TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
+    public partial async TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
     {
-        var set = DatabaseContext.Set<TemplateDatabaseClassNameTemplate>().AsQueryable();
-
         var pageSize = TemplateQueryParamNameTemplate?.PageSize ?? 10;
         var pageIndex = TemplateQueryParamNameTemplate?.PageIndex ?? 0;
 
-        set = set.Skip(pageSize * pageIndex);
-        set = set.Take(pageSize);
+        // Pagination settings
+        var options = new QueryOptions()
+        {
+            Fields = new List<string>() { "*", "[child]" },
+            Rows = pageSize,
+            StartOrCursor = new StartOrCursor.Start(pageSize * pageIndex),
+        };
 
         if (TemplateQueryParamNameTemplate is not null)
         {
-            var includes = TemplateQueryParamNameTemplate.Includes;
-
-            if (includes?.Count > 0 == true)
-            {
-                for (int includesIndex = 1; includesIndex < includes.Count; includesIndex++)
-                {
-                    var current = includes[includesIndex];
-
-                    set = current switch
-                    {
-                        TemplateIncludeTemplate
-                    };
-                }
-            }
-
             var orderBy = TemplateQueryParamNameTemplate.OrderBy;
-            var orderByCount = orderBy?.Count;
 
-            if (orderByCount > 0 == true)
+            if (orderBy is not null)
             {
-                IOrderedQueryable<TemplateDatabaseClassNameTemplate> orderedQueryable;
+                var srt = new List<SortOrder>();
 
-                var first = orderBy[0];
-
-                if (first.Direction == OrderDirection.Descending)
+                for (int i = 0; i < orderBy.Count; i++)
                 {
-                    orderedQueryable = first.Column switch
+                    var current = orderBy[i];
+
+                    var direction = current.Direction switch
                     {
-                        TemplateOrderByTemplate
+                        OrderDirection.Ascending => Order.ASC,
+                        OrderDirection.Descending => Order.DESC,
                     };
-                }
-                else
-                {
-                    orderedQueryable = first.Column switch
-                    {
-                        TemplateOrderByDescendingTemplate
-                    };
+
+                    var fieldName = current.Column.ToString();
+
+                    srt.Add(new SortOrder(fieldName, direction));
                 }
 
-                for (int OrderByIndex = 1; OrderByIndex < orderByCount; OrderByIndex++)
-                {
-                    var current = orderBy[OrderByIndex];
-
-                    if (current.Direction == OrderDirection.Descending)
-                    {
-                        orderedQueryable = current.Column switch
-                        {
-                            TemplateThenOrderByTemplate
-                        };
-                    }
-                    else
-                    {
-                        orderedQueryable = current.Column switch
-                        {
-                            TemplateThenOrderByDescendingTemplate
-                        };
-                    }
-                }
-
-                set = orderedQueryable;
+                options.OrderBy = srt;
             }
 
-            TemplateGetFiltersTemplate
+            var fqs = new List<ISolrQuery>();
+
+TemplateGetFiltersTemplate
+
+            options.FilterQueries = fqs;
         }
 
-        var count = await set.CountAsync();
+        // By default if the query is empty it doesn't return anything
+        // That's not a bad behaviour but i personally prefer having some data directly so i know if things are working properly
+        //var defaultQuery = "*";
+        //This should be faster since it needs less string checks
+        var defaultQuery = "-_nest_path_:*";
 
-        return new(set, count, pageSize, pageIndex);
+        var q = await TemplateSolrClientVariableNameTemplate.QueryAsync(defaultQuery, options);
+
+        // We use a custom class to return the pagination data because the SolrQueryResults doesn't serialize any extra fields, just the data
+        return new(q, (int)q.NumFound, pageSize, pageIndex);
     }
 }

@@ -12,6 +12,10 @@ public class EntityFrameworkGenerator
     {
         foreach (var item in items)
         {
+            if (item.AttributeData.AttributeClass!.Name != nameof(GenerateEntityFrameworkFilterAttribute))
+            {
+                continue;
+            }
             GenerateInternal(context, item);
         }
     }

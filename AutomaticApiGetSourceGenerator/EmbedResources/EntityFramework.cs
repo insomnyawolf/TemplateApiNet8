@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Linq;
-using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using ApiGetGenerator;
 using ApiGetGenerator.Models;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace TemplateNamespaceTemplate;
 
 public partial class TemplateControllerNameTemplate
 {
-    public async partial TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
+    public partial async TemplateReturnStringTemplate TemplateGetEndpointMethodNameTemplate(TemplateParamsTemplate)
     {
         var set = TemplateDbContextVariableNameTemplate.Set<TemplateDatabaseClassNameTemplate>().AsQueryable();
 
