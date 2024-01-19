@@ -17,71 +17,59 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 public partial class ShowController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
-    public ISolrOperations<Database.Models.ShowTemp> SolrClient { get; set; }
+    public ISolrOperations<ShowTemp> SolrClient { get; set; }
     public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
     }
 
-    private IQueryable<Database.Models.Show> GetQueryableWithIncludes()
-    {
-        var dbShows = DatabaseContext.Shows.AsQueryable();
-
-        dbShows = dbShows.Include(i => i.ShowGeneres)
-            .ThenInclude(i => i.Genere);
-
-        dbShows = dbShows.Include(i => i.ShowSchedules)
-            .ThenInclude(i => i.ScheduleDays)
-            .ThenInclude(i => i.Day);
-
-        dbShows = dbShows.Include(i => i.ShowRatings);
-
-        dbShows = dbShows.Include(i => i.ShowNetworks)
-            .ThenInclude(i => i.Network)
-            .ThenInclude(i => i.CountryNetworks)
-            .ThenInclude(i => i.Country);
-
-        dbShows = dbShows.Include(i => i.ShowExternals)
-            .ThenInclude(i => i.External);
-
-        // etc etc
-
-        return dbShows;
-    }
+    
 
     [HttpGet("AltGet")]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     [GenerateSolrFilterAttribute(InyectedSolrClientName = nameof(ShowController.SolrClient))]
     //[GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = "asdasdasd")]
-    public partial Task<Page<Database.Models.ShowTemp>> AutoGet([FromQuery]ShowQuery3? query = null);
+    public partial Task<Page<ShowTemp>> AutoGet([FromQuery]ShowQuery3? query = null);
 
     [HttpGet("AltGet2")]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
-    public partial Task<Page<Database.Models.ShowTemp>> AutoGet2([FromQuery] ShowQuery2? query = null);
+    public partial Task<Page<ShowTemp>> AutoGet2([FromQuery] ShowQuery2? query = null);
 
     [HttpGet("AltGet3")]
     [AllowAnonymous]
     [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
     [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
-    public partial Task<Page<Database.Models.ShowTemp>> AutoGet3([FromQuery] ShowQuery? query = null);
+    public partial Task<Page<ShowTemp>> AutoGet3([FromQuery] ShowQuery? query = null);
 
 
+    //private IQueryable<Database.Models.Show> GetQueryableWithIncludes()
+    //{
+    //    var dbShows = DatabaseContext.Shows.AsQueryable();
 
+    //    dbShows = dbShows.Include(i => i.ShowGeneres)
+    //        .ThenInclude(i => i.Genere);
 
+    //    dbShows = dbShows.Include(i => i.ShowSchedules)
+    //        .ThenInclude(i => i.ScheduleDays)
+    //        .ThenInclude(i => i.Day);
 
+    //    dbShows = dbShows.Include(i => i.ShowRatings);
 
+    //    dbShows = dbShows.Include(i => i.ShowNetworks)
+    //        .ThenInclude(i => i.Network)
+    //        .ThenInclude(i => i.CountryNetworks)
+    //        .ThenInclude(i => i.Country);
 
+    //    dbShows = dbShows.Include(i => i.ShowExternals)
+    //        .ThenInclude(i => i.External);
 
+    //    // etc etc
 
-
-
-
-
-
-
+    //    return dbShows;
+    //}
 
     //[HttpGet]
     //[AllowAnonymous]
@@ -258,4 +246,14 @@ public partial class ShowController : BaseController<ShowController>
     //        });
     //    }
     //}
+}
+
+public partial class ShowTemp : BaseEntity
+{
+    public override Guid Id { get; set; }
+    public bool? OnEmision { get; set; }
+    public string? Name { get; set; }
+    public int? Runtime { get; set; }
+    public DateTimeOffset? Premiered { get; set; }
+    public IList<ScheduleDay>? Schedules { get; set; }
 }

@@ -6,16 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateApiNet8.Database.Models;
 
-public partial class ShowTemp : BaseEntity
-{
-    public override Guid Id { get; set; }
-    public bool? OnEmision { get; set; }
-    public string? Name { get; set; }
-    public int? Runtime { get; set; }
-    public DateTimeOffset? Premiered { get; set; }
-    public IList<ScheduleDay>? Schedules { get; set; }
-}
-
 [Table("Show")]
 public partial class Show : BaseEntity
 {

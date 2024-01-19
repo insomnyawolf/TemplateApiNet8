@@ -32,6 +32,8 @@ public partial class DatabaseContext : DbContext
 
     public virtual DbSet<Network> Networks { get; set; }
 
+    public virtual DbSet<RegistryToken> RegistryTokens { get; set; }
+
     public virtual DbSet<ScheduleDay> ScheduleDays { get; set; }
 
     public virtual DbSet<Show> Shows { get; set; }
@@ -106,6 +108,11 @@ public partial class DatabaseContext : DbContext
         });
 
         modelBuilder.Entity<Network>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<RegistryToken>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
