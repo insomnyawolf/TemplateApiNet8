@@ -39,12 +39,15 @@ public class EnumsGenerator
                 continue;
             }
 
-            var propertyType = (INamedTypeSymbol)property.GetMethod.ReturnType;
+            var propertyType = property.GetMethod.ReturnType;
 
-            if (!propertyType.IsString() && propertyType.IsEnumerable())
+            if (!propertyType.IsString())
             {
-                includesSb.Indent(1).AppendLine($"{property.Name},");
-                continue;
+                if (propertyType.IsEnumerable() || !propertyType.IsDefaultClass())
+                {
+                    includesSb.Indent(1).AppendLine($"{property.Name},");
+                    continue;
+                }
             }
 
             columnsSb.Indent(1).AppendLine($"{property.Name},");

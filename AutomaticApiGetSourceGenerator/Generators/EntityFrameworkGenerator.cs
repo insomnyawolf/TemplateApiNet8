@@ -53,12 +53,15 @@ public class EntityFrameworkGenerator
                 continue;
             }
 
-            var propertyType = (INamedTypeSymbol)property.GetMethod.ReturnType;
+            var propertyType = property.GetMethod.ReturnType;
 
-            if (!propertyType.IsString() && propertyType.IsEnumerable())
+            if (!propertyType.IsString())
             {
-                includesSb.Indent(6).AppendLine($"{helperClass.IncludesEnumName}.{property.Name} => set.Include(x => x.{property.Name}),");
-                continue;
+                if (propertyType.IsEnumerable() || !propertyType.IsDefaultClass())
+                {
+                    includesSb.Indent(6).AppendLine($"{helperClass.IncludesEnumName}.{property.Name} => set.Include(x => x.{property.Name}),");
+                    continue;
+                }
             }
 
             orderBySb.Indent(6).AppendLine($"{helperClass.ColumnsEnumName}.{property.Name} => set.OrderBy(x => x.{property.Name}),");

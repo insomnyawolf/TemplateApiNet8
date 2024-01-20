@@ -45,11 +45,14 @@ public class SolrGenerator
                 continue;
             }
 
-            var propertyType = (INamedTypeSymbol)property.GetMethod.ReturnType;
+            var propertyType = property.GetMethod.ReturnType;
 
-            if (!propertyType.IsString() && propertyType.IsEnumerable())
+            if (!propertyType.IsString())
             {
-                continue;
+                if (propertyType.IsEnumerable() || !propertyType.IsDefaultClass())
+                {
+                    continue;
+                }
             }
 
             if (propertyType.IsString())

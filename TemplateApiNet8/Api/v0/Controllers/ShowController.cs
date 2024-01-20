@@ -7,8 +7,8 @@ using TemplateApiNet8.Database;
 using TemplateApiNet8.Database.Models;
 using TemplateApiNet8.Extensions;
 using TvMazeClient;
-using ApiGetGenerator;
 using SolrNet;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
@@ -17,33 +17,11 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 public partial class ShowController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
-    public ISolrOperations<ShowTemp> SolrClient { get; set; }
+    public ISolrOperations<TestClass> SolrClient { get; set; }
     public ShowController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
     }
-
-    
-
-    [HttpGet("AltGet")]
-    [AllowAnonymous]
-    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    [GenerateSolrFilterAttribute(InyectedSolrClientName = nameof(ShowController.SolrClient))]
-    //[GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = "asdasdasd")]
-    public partial Task<Page<ShowTemp>> AutoGet([FromQuery]ShowQuery3? query = null);
-
-    [HttpGet("AltGet2")]
-    [AllowAnonymous]
-    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
-    public partial Task<Page<ShowTemp>> AutoGet2([FromQuery] ShowQuery2? query = null);
-
-    [HttpGet("AltGet3")]
-    [AllowAnonymous]
-    [SwaggerOperation(Summary = "GetShowList", Description = "Sample Description")]
-    [GenerateEntityFrameworkFilterAttribute(InyectedDatabaseContextName = nameof(ShowController.DatabaseContext))]
-    public partial Task<Page<ShowTemp>> AutoGet3([FromQuery] ShowQuery? query = null);
-
 
     //private IQueryable<Database.Models.Show> GetQueryableWithIncludes()
     //{
@@ -246,14 +224,4 @@ public partial class ShowController : BaseController<ShowController>
     //        });
     //    }
     //}
-}
-
-public partial class ShowTemp : BaseEntity
-{
-    public override Guid Id { get; set; }
-    public bool? OnEmision { get; set; }
-    public string? Name { get; set; }
-    public int? Runtime { get; set; }
-    public DateTimeOffset? Premiered { get; set; }
-    public IList<ScheduleDay>? Schedules { get; set; }
 }

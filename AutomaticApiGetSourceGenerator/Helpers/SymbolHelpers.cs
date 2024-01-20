@@ -50,14 +50,19 @@ public static class SymbolHelpers
         return $"{@base}<{joined}>";
     }
 
-    public static string GetUnderlyingNullableName(this INamedTypeSymbol symbol)
+    public static string GetUnderlyingNullableName(this ITypeSymbol symbol)
     {
         if (!symbol.IsNullable())
         {
             return symbol.Name;
         }
 
-        return symbol.TypeArguments[0].Name;
+        if (symbol is INamedTypeSymbol named)
+        {
+            return named.TypeArguments[0].Name;
+        }
+
+        return "";
     }
 
     public static bool InheritFrom(this ITypeSymbol symbol, string fullyQualifiedName)
@@ -148,6 +153,30 @@ public static class SymbolHelpers
         return symbol.TypeKind == TypeKind.Class
             && !symbol.IsString()
             && !symbol.IsEnumerable();
+    }
+
+    public static bool IsInSystemNamespace(this ITypeSymbol symbol)
+    {
+        return symbol.IsInNamespace("System");
+    }
+
+    public static bool IsInNamespace(this ITypeSymbol symbol, string @namespace)
+    {
+        return symbol.ContainingNamespace.Name.StartsWith(@namespace);
+    }
+
+    public static bool IsClass(this ITypeSymbol symbol)
+    {
+        return symbol.TypeKind == TypeKind.Class;
+    }
+
+    public static bool IsDefaultClass(this ITypeSymbol symbol)
+    {
+        if (symbol.IsClass() && symbol.IsInSystemNamespace())
+        {
+            return true;
+        }
+        return false;
     }
 
     public static bool HasAttribute(this ITypeSymbol typeSymbol, string name)

@@ -8,10 +8,10 @@ namespace TemplateApiNet8.Api.v0.Controllers.Default;
 
 [ApiV0]
 [ApiController]
-public class SampleController : BaseController<ShowController>
+public class AuthSampleController : BaseController<ShowController>
 {
     public DatabaseContext DatabaseContext { get; set; }
-    public SampleController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
+    public AuthSampleController(DatabaseContext DatabaseContext, IServiceProvider IServiceProvider) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
     }

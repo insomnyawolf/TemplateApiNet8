@@ -6,6 +6,21 @@ using SourceGeneratorHelpers;
 
 namespace AutomaticApiGetSourceGenerator;
 
+//public partial class TestClass
+//{
+//    // weirdness that needs further investigation
+//    // byte[]? type 
+//    // TestClass? type
+//
+//    public byte[]? Datetime { get; set; }
+//    public override Guid Id { get; set; }
+//    public bool? OnEmision { get; set; }
+//    public string? Name { get; set; }
+//    public int? Runtime { get; set; }
+//    public DateTimeOffset? Premiered { get; set; }
+//    public IList<ScheduleDay>? Schedules { get; set; }
+//}
+
 // https://github.com/dotnet/roslyn-sdk/issues/850#issuecomment-1038725567
 [Generator(LanguageNames.CSharp)]
 public partial class GenerateFilterEndpointGenerator : IIncrementalGenerator
