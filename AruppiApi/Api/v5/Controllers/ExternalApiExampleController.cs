@@ -13,11 +13,11 @@ namespace AruppiApi.Api.v5.Controllers.Default;
 
 [ApiV5]
 [ApiController]
-public partial class SchedulesController : BaseController<SchedulesController>
+public partial class ExternalApiExampleController : BaseController<ExternalApiExampleController>
 {
     public DatabaseContext DatabaseContext { get; set; }
     public JikanApi JikanApi { get; set; }
-    public SchedulesController(DatabaseContext DatabaseContext, JikanApi JikanApi, IServiceProvider IServiceProvider) : base(IServiceProvider)
+    public ExternalApiExampleController(DatabaseContext DatabaseContext, JikanApi JikanApi, IServiceProvider IServiceProvider) : base(IServiceProvider)
     {
         this.DatabaseContext = DatabaseContext;
         this.JikanApi = JikanApi;

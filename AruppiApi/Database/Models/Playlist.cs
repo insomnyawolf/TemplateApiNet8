@@ -6,15 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AruppiApi.Database.Models;
 
-[Table("Language")]
-public partial class Language : BaseEntity
+[Table("Playlist")]
+public partial class Playlist
 {
     [Key]
-    [Column(TypeName = "GUID")]
-    public override Guid Id { get; set; }
+    public int PlaylistId { get; set; }
 
+    [Column(TypeName = "NVARCHAR(120)")]
     public string? Name { get; set; }
 
-    [InverseProperty("Language")]
-    public virtual IList<ShowLanguage> ShowLanguages { get; set; } = new List<ShowLanguage>();
+    [ForeignKey("PlaylistId")]
+    [InverseProperty("Playlists")]
+    public virtual ICollection<Track> Tracks { get; set; } = new List<Track>();
 }

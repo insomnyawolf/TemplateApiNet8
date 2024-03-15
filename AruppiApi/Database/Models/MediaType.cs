@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AruppiApi.Database.Models;
 
-[Table("Status")]
-public partial class Status : BaseEntity
+[Table("MediaType")]
+public partial class MediaType
 {
     [Key]
-    [Column(TypeName = "GUID")]
-    public override Guid Id { get; set; }
+    public int MediaTypeId { get; set; }
 
+    [Column(TypeName = "NVARCHAR(120)")]
     public string? Name { get; set; }
 
-    [InverseProperty("Status")]
-    public virtual IList<ShowStatus> ShowStatuses { get; set; } = new List<ShowStatus>();
+    [InverseProperty("MediaType")]
+    public virtual ICollection<Track> Tracks { get; set; } = new List<Track>();
 }
