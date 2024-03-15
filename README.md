@@ -1,5 +1,7 @@
 # Templeate API ASP.NET core using dotnet 8
 
+Based on https://github.com/insomnyawolf/TemplateApiNet8
+
 Disclaimer, to following doccument is fulled with ideas trying to improve what i found in my previous workplaces, there may be a bit of trauma causing it but i really thing that keeping things simple is the best way to go about solving a problem, if you don't need something just don't use it.
 
 ## Highlights & Features
@@ -116,7 +118,7 @@ To help with the versions, I created a custom attribute that I later used on the
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DatabaseContext": "Data Source=TvMazeCache.db;Cache=Shared"
+    "DatabaseContext": "Data Source=Chinook_Sqlite.sqlite;Cache=Shared"
   },
   "AuthenticationAndAuthorization": {
     "JwtOptions": {
@@ -240,3 +242,6 @@ Clean Code/architecture is not about reading a book and blindly following everyt
 
 In the end, this is a template, feel free to modify it as you wish to make it fit your needs better.
 
+## External resources uses
+
+* [chinook-database](https://github.com/lerocha/chinook-database)

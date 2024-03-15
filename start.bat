@@ -1,2 +1,2 @@
 if not defined in_subprocess (cmd /k set in_subprocess=y ^& %0 %*) & exit
-dotnet run --configuration Release --project TemplateApiNet8
+dotnet run --configuration Release --project AruppiApi
