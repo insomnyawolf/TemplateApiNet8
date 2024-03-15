@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="FuzzySharp" Version="2.0.2" />
-    <PackageReference Include="insomnyawolf.Extensions" Version="0.0.230224.11256" />
   </ItemGroup>
 
 </Project>
