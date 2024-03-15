@@ -54,9 +54,9 @@ public class Program
             var httpClient = IServiceProvider.GetRequiredService<HttpClient>();
 
             var authProvider = new AnonymousAuthenticationProvider();
-            
+
             var adapter = new HttpClientRequestAdapter(authenticationProvider: authProvider, httpClient: httpClient);
-            
+
             var client = new JikanApi(adapter);
 
             return client;

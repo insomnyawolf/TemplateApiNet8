@@ -1,13 +1,11 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using AruppiApi.Api.Shared;
 using AruppiApi.Database;
-using Riok.Mapperly.Abstractions;
-using JikanRest.Models;
 using JikanRest;
+using JikanRest.Models;
+using Microsoft.AspNetCore.Mvc;
+using Riok.Mapperly.Abstractions;
+using Swashbuckle.AspNetCore.Annotations;
 using static JikanRest.Schedules.SchedulesRequestBuilder;
-using JikanRest.Schedules;
 
 namespace AruppiApi.Api.v5.Controllers.Default;
 

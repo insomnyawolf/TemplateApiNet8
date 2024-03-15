@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AruppiApi.Database;
+﻿using AruppiApi.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace AruppiApi.Startup;
 

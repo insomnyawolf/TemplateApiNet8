@@ -1,19 +1,15 @@
 ﻿using AruppiDataComparer;
-using System.Text.Json;
-using System.Linq;
 using FuzzySharp;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography.X509Certificates;
-using System;
+using System.Text.Json;
 
 internal class Program
 {
-    private static JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions()
     {
         NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
     };
 
-    private static string currentDirectory = Directory.GetCurrentDirectory();
+    private static readonly string currentDirectory = Directory.GetCurrentDirectory();
     //var monos = LoadFromFile<List<MonoDataItem>>(Path.Combine(currentDirectory, "monos_data.json"));
     public static List<TioDataItem> TioList = LoadFromFile<List<TioDataItem>>(Path.Combine(currentDirectory, "tio_data.json"));
     public static MyAnimeListDatabase MyAnimeListDatabase = LoadFromFile<MyAnimeListDatabase>(Path.Combine(currentDirectory, "anime.json"));
@@ -201,6 +197,6 @@ Match percentage => {item.Key}
             next2:;
             }
         }
-        
+
     }
 }

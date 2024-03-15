@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AruppiApi.Startup.Swagger;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using AruppiApi.Startup.Swagger;
 
 namespace AruppiApi.Startup.AuthenticationAndAuthorizationOptions;
 

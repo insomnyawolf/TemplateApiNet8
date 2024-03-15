@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AruppiApi.Database.Infraestructure;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using AruppiApi.Database.Infraestructure;
 
 namespace AruppiApi.Database;
 

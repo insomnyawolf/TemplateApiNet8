@@ -1,6 +1,6 @@
-﻿using System.Text;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using ScrapperShared;
+using System.Text;
 
 namespace MonosScrapper;
 
@@ -30,7 +30,7 @@ public class Monos
 
             var sourceUrl = Encoding.UTF8.GetString(bytes);
 
-            var source = new Source() 
+            var source = new Source()
             {
                 Server = child.InnerText,
                 Url = sourceUrl,

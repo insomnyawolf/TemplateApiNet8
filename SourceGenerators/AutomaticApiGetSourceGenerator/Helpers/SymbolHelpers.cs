@@ -132,7 +132,7 @@ public static class SymbolHelpers
     {
         return symbol.HasInterface(typeof(IEnumerable<>).Name);
     }
-    
+
     public static bool IsBoolean(this ITypeSymbol symbol)
     {
         return symbol.GetFullyQualifiedName() == "System.Boolean";

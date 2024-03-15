@@ -76,7 +76,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
         };
     }
 
-    private static Dictionary<string, HashSet<string>> ExistingItemsPerNamespace = new Dictionary<string, HashSet<string>>();
+    private static readonly Dictionary<string, HashSet<string>> ExistingItemsPerNamespace = new Dictionary<string, HashSet<string>>();
 
     public static void Execute(SourceProductionContext context, HelperClass helperClass)
     {
@@ -181,7 +181,7 @@ public partial class AutomaticApiGetGenerator : IIncrementalGenerator
         includesSb.Indent(0).AppendLine("[JsonConverter(typeof(JsonStringEnumConverter))]");
         includesSb.Indent(0).AppendLine($"public enum {includesEnumName}");
         includesSb.Indent(0).AppendLine("{");
-        
+
 
         foreach (var member in members)
         {

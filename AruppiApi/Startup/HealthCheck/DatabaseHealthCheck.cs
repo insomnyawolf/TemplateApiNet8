@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using AruppiApi.Database;
+﻿using AruppiApi.Database;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace AruppiApi.Startup.HealthCheck;
 

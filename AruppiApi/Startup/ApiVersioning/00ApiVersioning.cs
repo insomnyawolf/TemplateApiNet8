@@ -1,5 +1,5 @@
-﻿using Asp.Versioning;
-using AruppiApi.Api.v5;
+﻿using AruppiApi.Api.v5;
+using Asp.Versioning;
 
 namespace AruppiApi.Startup.ApiVersioning;
 

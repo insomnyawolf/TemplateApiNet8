@@ -1,9 +1,7 @@
-﻿using JikanClient.Models.Response;
-using JikanRest;
+﻿using JikanRest;
 using JikanRest.Models;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
-using Riok.Mapperly.Abstractions;
 
 namespace TestBed;
 
@@ -44,7 +42,7 @@ internal class Program
         var result = await client.Seasons[year][season].GetAsync(b =>
         {
         });
-        
+
         Pagination_plus? data = await client.Schedules.GetAsync((requestBuilder) =>
         {
             requestBuilder.QueryParameters.Filter = JikanRest.Schedules.GetFilterQueryParameterType.Monday;
